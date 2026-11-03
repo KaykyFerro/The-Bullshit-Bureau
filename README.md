@@ -119,7 +119,7 @@ O Pages CMS autentica com GitHub e grava alterações no repositório. O app mob
 
 ## 4. Estrutura atual do repositório
 
-O repositório mantém o site público, a configuração do CMS e o aplicativo mobile:
+O repositório mantém o portal público, o editor Pages CMS e o aplicativo mobile:
 
 ```text
 The-Bullshit-Bureau/
@@ -182,24 +182,24 @@ The-Bullshit-Bureau/
 
 | Caminho | Finalidade |
 | --- | --- |
-| `.pages.yml` | Campos do editor Pages CMS, coleções e uploads |
+| `.pages.yml` | Campos, coleções e uploads do Pages CMS |
 | `index.html` | Entrada pública do portal no GitHub Pages |
 | `docs/assets/css/newspaper.css` | Identidade visual e responsividade do jornal web |
 | `docs/assets/js/newspaper.js` | Navegação, busca e renderização do portal |
 | `docs/data/posts.json` | Notícias, artigos, editoriais e opiniões |
 | `docs/data/site.json` | Nome, slogan e descrição do jornal |
-| `mobile/package.json` | Capacitor, plugins nativos e scripts do app |
-| `mobile/src/main.js` | Interface mobile, leitura, favoritos, offline e notificações |
-| `mobile/scripts/sync-content.mjs` | Copia o conteúdo atual do CMS para o bundle mobile |
-| `mobile/push/worker.js` | API de registro e envio de notificações FCM |
-| `mobile/push/schema.sql` | Tabela técnica D1 para tokens de dispositivos |
-| `.github/workflows/build-mobile-android.yml` | Gera APK debug para testes |
-| `.github/workflows/build-mobile-ios-simulator.yml` | Gera app para iOS Simulator, sem assinatura |
-| `.github/workflows/notify-mobile-push.yml` | Detecta novas matérias e chama o Worker push |
+| `mobile/package.json` | Capacitor, plugins nativos e scripts do aplicativo |
+| `mobile/src/main.js` | Interface mobile, leitura, favoritos, offline e push |
+| `mobile/scripts/sync-content.mjs` | Copia o conteúdo do CMS para o bundle do app |
+| `mobile/push/worker.js` | Registro de tokens e entrega de notificações FCM |
+| `mobile/push/schema.sql` | Tabela técnica D1 para tokens de instalação |
+| `.github/workflows/build-mobile-android.yml` | Gera APK debug de testes |
+| `.github/workflows/build-mobile-ios-simulator.yml` | Gera app para simulador iOS, sem assinatura |
+| `.github/workflows/notify-mobile-push.yml` | Detecta matérias novas e solicita o envio FCM |
 
-As plataformas nativas `mobile/android/` e `mobile/ios/`, os arquivos compilados `mobile/www/` e as dependências `node_modules/` são gerados durante o build e não são versionados.
+As plataformas nativas `mobile/android/` e `mobile/ios/`, o bundle compilado `mobile/www/` e as dependências `node_modules/` são gerados durante os builds e não são versionados.
 
-O site publicado continua estático e não depende do build mobile. O aplicativo usa Capacitor/Vite dentro da pasta `mobile/`; não há mais protótipo Astro.
+O site público continua estático e independente do build mobile. A pasta `mobile/` usa Capacitor e Vite para criar os aplicativos nativos.
 
 ## 5. Como o conteúdo funciona
 
