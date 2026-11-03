@@ -34,7 +34,7 @@
   function assetUrl(value) {
     const path = String(value ?? '').trim();
     if (!path) return fallbackCover;
-    if (/^(https?:|data:image\\/)/i.test(path)) return path;
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:image/')) return path;
 
     const repositoryPrefix = '/The-Bullshit-Bureau/';
     if (path.startsWith(repositoryPrefix)) {
