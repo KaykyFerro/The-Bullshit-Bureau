@@ -121,6 +121,11 @@ The-Bullshit-Bureau/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml
+├── .nojekyll                # Entrada raiz sem processamento Jekyll
+├── 404.html                 # Fallback da raiz publicada
+├── index.html               # Entrada raiz, carrega a aplicação de docs/
+├── robots.txt
+├── sitemap.xml
 ├── .pages.yml
 ├── README.md
 └── docs/
@@ -150,7 +155,8 @@ The-Bullshit-Bureau/
 | --- | --- |
 | `.pages.yml` | Define as coleções, campos do CMS e diretório de mídia |
 | `.github/workflows/deploy.yml` | Valida e publica o site |
-| `docs/index.html` | Documento principal e estrutura fixa do portal |
+| `index.html` | Entrada pública na raiz do projeto; carrega CSS, JS e conteúdo a partir de `docs/` |
+| `docs/index.html` | Estrutura completa alternativa do portal, usada quando a origem do Pages é a pasta `/docs` |
 | `docs/assets/css/newspaper.css` | Layout, tipografia, cores e regras responsivas |
 | `docs/assets/js/newspaper.js` | Carrega os JSON e monta as telas |
 | `docs/data/posts.json` | Lista de notícias, artigos, editoriais e opiniões |
@@ -310,7 +316,8 @@ Os links específicos da fonte e da licença ficam gravados em cada objeto do JS
 A configuração de mídia do Pages CMS utiliza:
 
 - Pasta no repositório: `docs/assets/images/uploads/`
-- Caminho público: `/The-Bullshit-Bureau/assets/images/uploads/`
+- Caminho salvo pelo CMS: `/The-Bullshit-Bureau/docs/assets/images/uploads/`
+- O JavaScript normaliza esse caminho para a origem efetiva do Pages, seja a raiz do repositório ou a pasta `/docs`.
 - Extensões aceitas: JPG, JPEG, PNG, WebP e AVIF.
 
 O campo de imagem de capa e as imagens inseridas no rich-text utilizam essa coleção de mídia. Para imagens com licença que exija atribuição, preencha os campos de crédito, fonte e licença.
@@ -321,44 +328,62 @@ O campo de imagem de capa e as imagens inseridas no rich-text utilizam essa cole
 
 ## 8. Publicação e hospedagem
 
-O site é hospedado no **GitHub Pages**.
+O jornal é hospedado no **GitHub Pages**:
 
 - Repositório: `KaykyFerro/The-Bullshit-Bureau`
 - Branch: `main`
-- Fonte do GitHub Pages: GitHub Actions
-- Diretório enviado para publicação: `docs/`
 - Endereço: https://kaykyferro.github.io/The-Bullshit-Bureau/
 
-### Workflow
+### Entradas e compatibilidade com a origem do Pages
 
-O arquivo responsável é:
+O repositório possui duas entradas que apontam para o mesmo conteúdo:
+
+- `index.html` na raiz: carrega o portal usando os arquivos e dados de `docs/`. É a entrada utilizada quando a fonte do Pages publica a raiz da branch.
+- `docs/index.html`: contém a estrutura do portal e utiliza os dados da própria pasta `docs/`. É a entrada para a configuração de branch `main /docs`.
+
+O JavaScript detecta a base de conteúdo e resolve os caminhos de imagens e dados para os dois cenários. Assim, o endereço principal não deve exibir o README como página inicial.
+
+Os arquivos `.nojekyll`, `404.html`, `robots.txt` e `sitemap.xml` também existem na raiz para a configuração que publica a raiz do repositório.
+
+### Workflow de publicação
+
+O workflow fica em:
 
 `.github/workflows/deploy.yml`
 
-Ele é acionado quando há um push na branch `main` que altera arquivos em `docs/**` ou o próprio workflow. Também pode ser executado manualmente pela opção `workflow_dispatch`.
+Ele é acionado por alterações em `docs/**`, na entrada raiz `index.html`, no marcador `.nojekyll` ou no próprio workflow. Também pode ser executado manualmente.
 
 Etapas executadas:
 
 1. Baixa o repositório.
-2. Configura o ambiente do GitHub Pages.
-3. Confere a existência dos arquivos HTML, CSS, JavaScript e do marcador `.nojekyll`.
-4. Valida a sintaxe de `posts.json` e `site.json`.
-5. Empacota a pasta `docs/`, incluindo arquivos ocultos.
-6. Publica o artefato no GitHub Pages.
+2. Configura o GitHub Pages.
+3. Valida HTML, CSS, JavaScript, o marcador `.nojekyll` e os JSON.
+4. Monta um pacote com `index.html` na raiz e os arquivos do site em `docs/`.
+5. Envia o pacote como artefato do GitHub Pages.
+6. Publica o artefato.
 
-Não há instalação de dependências nem compilação. O conteúdo publicado é o próprio site pronto que está em `docs/`.
+Não há instalação de Node.js, npm, Astro ou compilação.
+
+### Qual fonte selecionar em Settings → Pages
+
+A configuração recomendada para o workflow é **GitHub Actions**.
+
+Se optar pela publicação direta por branch, use `main / (root)` para que a entrada raiz `index.html` seja utilizada. A configuração alternativa `main /docs` usa `docs/index.html`.
+
+Evite misturar fontes diferentes sem entender a diferença: uma publicação por branch pode substituir o resultado de um deploy por Actions, e vice-versa. Use uma única fonte de publicação como configuração principal.
 
 ### Acompanhar uma publicação
 
 - Histórico das execuções: https://github.com/KaykyFerro/The-Bullshit-Bureau/actions
 - Configuração do Pages: https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages
 
-Se uma matéria for salva pelo CMS e não aparecer:
+Se uma alteração não aparecer:
 
-1. Confirme se o item está com `status: "published"`.
-2. Confira se o CMS gravou o commit na branch `main`.
-3. Abra a aba Actions e verifique se o workflow terminou com sucesso.
-4. Atualize a página do jornal. Se necessário, faça recarga forçada com `Ctrl + F5`.
+1. Confirme se o CMS gravou o commit na branch `main`.
+2. Abra Actions e verifique se o workflow terminou com sucesso.
+3. Confirme a fonte de publicação em Settings → Pages.
+4. Atualize o jornal. Se necessário, faça recarga forçada com `Ctrl + F5`.
+
 
 ## 9. Endereços e navegação
 
