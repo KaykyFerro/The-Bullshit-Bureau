@@ -14,7 +14,7 @@ Jornal digital independente com estética de jornal impresso, feito em HTML, CSS
 
 O site público está em `docs/` e é composto por HTML, CSS e JavaScript puros. Não depende de Astro, Node.js, npm, banco de dados ou compilação.
 
-O GitHub Pages deve publicar diretamente a pasta `docs/` da branch `main`. Cada commit feito nessa pasta será publicado automaticamente.
+O GitHub Pages publica a pasta `docs/` por meio de um workflow GitHub Actions leve. O workflow não compila nada: apenas valida os arquivos prontos, empacota a pasta `docs/` e a publica.
 
 ### O que é publicado
 
@@ -47,8 +47,8 @@ Endereço público esperado **depois de selecionar `main /docs` em Settings → 
 - [x] Conteúdo em JSON versionado no GitHub.
 - [x] Quatro matérias explicativas adicionadas com capas SVG próprias.
 - [x] Configuração do Pages CMS criada com editor visual, campos editoriais e upload de imagens.
-- [ ] Em Settings → Pages, selecionar **Deploy from a branch**, branch `main`, pasta `/docs`, e salvar.
-- [ ] Confirmar que o endereço público está acessível após a publicação.
+- [x] Workflow de publicação HTML configurado para GitHub Actions, sem Node.js ou compilação.
+- [ ] Confirmar que a primeira execução concluiu com sucesso e que o endereço público está acessível.
 
 ## Como funciona a atualização do jornal
 
@@ -65,13 +65,13 @@ Hugo entra no Pages CMS com GitHub
      Atualiza docs/data/posts.json
                 |
                 v
-     GitHub Pages lê main /docs
+     GitHub Actions empacota docs/
                 |
                 v
-       Site é atualizado
+       GitHub Pages publica
 ```
 
-O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório. O GitHub Pages publica diretamente a pasta `docs/` da branch `main`; para isso, a opção `Settings → Pages → Deploy from a branch → main → /docs` precisa estar salva.
+O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório. O GitHub Pages recebe a pasta `docs/` pelo workflow GitHub Actions. Em Settings → Pages, a fonte deve estar selecionada como **GitHub Actions**.
 
 ## Painel editorial
 
@@ -159,22 +159,18 @@ Valores aceitos para `section`:
 
 O valor de `slug` deve ser único e usar letras minúsculas, números e hífens.
 
-## Hospedagem direta pelo GitHub Pages
+## Publicação pelo GitHub Pages
 
-A publicação é feita diretamente dos arquivos versionados, sem workflow próprio e sem etapa de compilação.
+A publicação usa **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
-### Ativação necessária no GitHub
+O workflow `.github/workflows/deploy.yml`:
 
-1. Abra [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages).
-2. Em **Build and deployment → Source**, escolha **Deploy from a branch**.
-3. Em **Branch**, selecione `main`.
-4. Na pasta, selecione `/docs`.
-5. Clique em **Save**.
-6. Aguarde o primeiro deploy e abra o endereço público.
+1. Baixa o repositório.
+2. Verifica se HTML, CSS, JavaScript, JSON e `.nojekyll` existem e estão válidos.
+3. Envia a pasta `docs/` como artefato, incluindo arquivos ocultos.
+4. Publica o artefato no GitHub Pages.
 
-O GitHub Pages procura `index.html` na raiz da pasta escolhida. Neste repositório, ele está em `docs/index.html`, exatamente na raiz da fonte `main /docs`. O arquivo `.nojekyll` nessa pasta desativa o processamento Jekyll. A cada commit em `docs/`, o GitHub publica as alterações automaticamente.
-
-Não escolha **GitHub Actions**, Jekyll ou outro fluxo de build para este modo direto. O site já está pronto dentro de `docs/`.
+Não há instalação de Node.js, npm, Astro ou compilação. O site já está pronto dentro de `docs/`. Cada alteração em `docs/` ou no workflow dispara uma publicação. Mantenha **GitHub Actions** selecionado como fonte em Settings → Pages.
 
 ## Endereços do portal
 
@@ -235,7 +231,7 @@ Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contra
 - Inclusão de quatro matérias explicativas curtas e quatro capas editoriais SVG originais.
 - Configurado o Pages CMS para editar a lista JSON com rich-text HTML e mídia.
 - Removido o workflow Astro que impedia a publicação por incompatibilidade de Node.
-- Preparado para publicação direta pelo GitHub Pages usando a branch `main` e pasta `/docs`, sem Node, npm ou compilação. A seleção dessa fonte ainda precisa ser salva em Settings → Pages.
+- Workflow GitHub Actions restaurado para publicar o HTML pronto de `docs/`, sem Node, npm ou compilação.
 - Criadas páginas de fallback 404, robots.txt e sitemap.xml.
 - Mantido o protótipo Astro em `src/` apenas como referência, fora do caminho de publicação.
 
