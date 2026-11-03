@@ -200,3 +200,9 @@ a{color:inherit}
 .editor-form-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
 .editor-form-actions button{flex:1 1 auto}
 @media(max-width:380px){.masthead-mark{width:30px;height:30px}.masthead-name{font-size:23px}.masthead-the{font-size:14px}.editor-two-col{grid-template-columns:1fr;gap:0}.permission-item{grid-template-columns:24px 1fr}.permission-tag{grid-column:2;justify-self:start}}
+
+.editor-row-actions{display:flex;flex:0 0 auto;align-items:center;gap:6px}
+.editor-row-actions .paper-button{padding:8px 9px;font-size:8px}
+.editor-delete-button{border:1px solid #8c211e;background:transparent;color:#8c211e}
+.editor-delete-button:active{background:#8c211e;color:#fff}
+@media(max-width:420px){.editor-story{align-items:flex-start}.editor-row-actions{flex-direction:column}.editor-row-actions .paper-button{width:100%;min-width:64px}}

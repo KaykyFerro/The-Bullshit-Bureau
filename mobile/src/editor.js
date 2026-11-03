@@ -88,8 +88,8 @@ export function createNewsroom({root,onPublished,toast}) {
   }
   function list() {
     const filtered=remotePosts.filter(p=>tab==='drafts'?p.status!=='published':p.status==='published');
-    const rows=filtered.map(p=>'<article class="editor-story"><div><span class="editor-status '+(p.status==='published'?'published':'draft')+'">'+(p.status==='published'?'Publicada':'Rascunho')+'</span><h3>'+esc(p.title)+'</h3><p>'+esc(p.author||'Redação')+' · '+esc(p.publishedAt||'Sem data')+'</p></div><button class="paper-button secondary" data-editor="edit" data-slug="'+esc(p.slug)+'">Editar</button></article>').join('');
-    const local=tab==='drafts'?localDrafts.map((p,i)=>'<article class="editor-story"><div><span class="editor-status local">Neste aparelho</span><h3>'+esc(p.title||'Sem título')+'</h3><p>Rascunho local</p></div><button class="paper-button secondary" data-editor="edit-local" data-index="'+i+'">Abrir</button></article>').join(''):'';
+    const rows=filtered.map(p=>'<article class="editor-story"><div><span class="editor-status '+(p.status==='published'?'published':'draft')+'">'+(p.status==='published'?'Publicada':'Rascunho')+'</span><h3>'+esc(p.title)+'</h3><p>'+esc(p.author||'Redação')+' · '+esc(p.publishedAt||'Sem data')+'</p></div><div class="editor-row-actions"><button class="paper-button secondary" data-editor="edit" data-slug="'+esc(p.slug)+'">Editar</button><button class="paper-button editor-delete-button" data-editor="delete" data-slug="'+esc(p.slug)+'">Excluir</button></div></article>').join('');
+    const local=tab==='drafts'?localDrafts.map((p,i)=>'<article class="editor-story"><div><span class="editor-status local">Neste aparelho</span><h3>'+esc(p.title||'Sem título')+'</h3><p>Rascunho local</p></div><div class="editor-row-actions"><button class="paper-button secondary" data-editor="edit-local" data-index="'+i+'">Abrir</button><button class="paper-button editor-delete-button" data-editor="delete-local" data-index="'+i+'">Excluir</button></div></article>').join(''):'';
     root.innerHTML='<section class="screen-heading"><p class="section-kicker">Painel editorial</p><h1>Redação</h1><p>Publicações sincronizadas com o portal e o Pages CMS.</p></section>'+
       '<div class="editor-toolbar-top"><button class="editor-primary" data-editor="new">＋ Nova matéria</button><button class="paper-button secondary" data-editor="reload">Sincronizar</button></div>'+
       '<div class="editor-tabs"><button class="'+(tab==='new'?'active':'')+'" data-editor="tab" data-tab="new">Painel</button><button class="'+(tab==='drafts'?'active':'')+'" data-editor="tab" data-tab="drafts">Rascunhos ('+(remotePosts.filter(p=>p.status!=='published').length+localDrafts.length)+')</button><button class="'+(tab==='published'?'active':'')+'" data-editor="tab" data-tab="published">Publicadas ('+remotePosts.filter(p=>p.status==='published').length+')</button></div>'+
@@ -164,6 +164,16 @@ export function createNewsroom({root,onPublished,toast}) {
     try{await savePosts(remotePosts.filter(p=>p.slug!==slug),'editor(mobile): remove '+slug);toast('Matéria removida.');list();}
     catch(e){toast('Falha ao excluir: '+e.message);}
   }
+  async function deleteLocalDraft(index) {
+    const post=localDrafts[index];
+    if(!post) return;
+    if(!confirm('Excluir este rascunho salvo apenas neste aparelho? Esta ação não altera o portal.')) return;
+    localDrafts.splice(index,1);
+    await Preferences.set({key:'newsroom-local-drafts',value:JSON.stringify(localDrafts)});
+    toast('Rascunho local removido.');
+    tab='drafts';
+    list();
+  }
   async function connect() {
     if(!Capacitor.isNativePlatform())return login('Configure a chave somente no app instalado.');
     const candidate=root.querySelector('#github-token')?.value.trim()||'';
@@ -192,6 +202,7 @@ export function createNewsroom({root,onPublished,toast}) {
     if(action==='save-local')return saveLocal();
     if(action==='format'){const f=b.dataset.format;if(f==='createLink'){const url=prompt('Cole o endereço HTTPS da fonte:');if(url&&/^https:\/\//i.test(url))document.execCommand('createLink',false,url);}else if(f==='formatBlock')document.execCommand('formatBlock',false,b.dataset.value);else document.execCommand(f,false,null);return;}
     if(action==='delete')return deletePost(b.dataset.slug);
+    if(action==='delete-local')return deleteLocalDraft(Number(b.dataset.index));
   });
   root.addEventListener('submit',event=>{if(event.target.id==='newsroom-form'){event.preventDefault();publish();}});
   return {render:async()=>{if(!loaded&&!token)return load();if(token&&!loaded)return refresh();list();}};

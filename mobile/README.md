@@ -248,3 +248,10 @@ Depois, na aba Redação do app, toque em **Trocar token de acesso** e conecte c
 A permissão `Contents: Read and write` é usada tanto para gravar `docs/data/posts.json` quanto para enviar capas a `docs/assets/images/uploads/`. O app exibe o cabeçalho `X-Accepted-GitHub-Permissions` retornado pela API quando houver bloqueio, junto da operação que falhou.
 
 Documentação oficial: [GitHub REST API troubleshooting](https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api) e [permissões exigidas por fine-grained tokens](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens).
+
+
+### Excluir matérias e rascunhos na Redação
+
+Nas listas **Publicadas** e **Rascunhos**, cada matéria remota tem botões **Editar** e **Excluir**. A exclusão pede confirmação e grava um commit que remove a matéria de `docs/data/posts.json`, atualizando o portal quando o GitHub Pages publicar a alteração. Rascunhos locais também podem ser removidos, mas essa ação só apaga a cópia no aparelho.
+
+A imagem de capa enviada anteriormente não é apagada automaticamente ao excluir uma matéria, pois ela pode estar sendo usada por outra publicação. Remova arquivos de mídia manualmente somente depois de verificar que não são compartilhados.

@@ -639,3 +639,8 @@ O D1 armazena apenas tokens de instalação e metadados técnicos, não matéria
 ### Solução de erro de autorização da Redação mobile
 
 Se a API do GitHub retornar `Resource not accessible by personal access token`, gere um novo fine-grained token com **Repository access → Only select repositories → The-Bullshit-Bureau**, **Contents → Read and write** e Metadata Read-only. No aplicativo, use **Trocar token de acesso**. A tela de erro informa a operação bloqueada e a permissão reportada pelo cabeçalho `X-Accepted-GitHub-Permissions`.
+
+
+### Excluir matérias pelo aplicativo
+
+As listas **Publicadas** e **Rascunhos** na Redação mobile oferecem **Editar** e **Excluir**. A exclusão de matérias remotas exige um token GitHub com `Contents: Read and write`, pede confirmação e grava a remoção em `docs/data/posts.json`. Rascunhos locais podem ser excluídos separadamente. Capas antigas permanecem em uploads para não remover imagens compartilhadas por outras matérias.
