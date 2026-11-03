@@ -254,6 +254,7 @@ Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, co
 - Inclusão de conteúdos de apresentação e de metadados SEO.
 - Inclusão do workflow de CI e documentação de implantação.
 - Ajustes de compatibilidade do Astro, URLs canônicas, ordenação do conteúdo e configuração do CMS.
+- Padronização do upload de imagens para a raiz `public/images/uploads/`, servida em `/images/uploads/`.
 
 ## Licença e responsabilidade
 
