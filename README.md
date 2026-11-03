@@ -29,7 +29,7 @@ O GitHub Pages publica a pasta `docs/` por meio de um workflow GitHub Actions le
 | `docs/404.html` | Página de endereço não encontrado |
 | `docs/.nojekyll` | Evita processamento Jekyll |
 
-Endereço público esperado **depois de selecionar `main /docs` em Settings → Pages**:
+Endereço público publicado:
 
 `https://kaykyferro.github.io/The-Bullshit-Bureau/`
 
@@ -48,7 +48,8 @@ Endereço público esperado **depois de selecionar `main /docs` em Settings → 
 - [x] Quatro matérias explicativas adicionadas com capas SVG próprias.
 - [x] Configuração do Pages CMS criada com editor visual, campos editoriais e upload de imagens.
 - [x] Workflow de publicação HTML configurado para GitHub Actions, sem Node.js ou compilação.
-- [ ] Confirmar que a primeira execução concluiu com sucesso e que o endereço público está acessível.
+- [x] Primeira execução do workflow concluída com sucesso.
+- [x] GitHub Pages confirmou a implantação do endereço público.
 
 ## Como funciona a atualização do jornal
 
@@ -71,7 +72,7 @@ Hugo entra no Pages CMS com GitHub
        GitHub Pages publica
 ```
 
-O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório. O GitHub Pages recebe a pasta `docs/` pelo workflow GitHub Actions. Em Settings → Pages, a fonte deve estar selecionada como **GitHub Actions**.
+O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório. O GitHub Pages recebe a pasta `docs/` pelo workflow GitHub Actions. A execução de publicação de 03/11/2026 terminou com sucesso: validação dos arquivos, upload do artefato e etapa `Deploy website` concluídos. O GitHub retornou `Reported success` e confirmou o endereço do ambiente.
 
 ## Painel editorial
 
@@ -223,6 +224,13 @@ Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contra
 4. Preencha título, slug, editoria, categoria, autor, data, capa e corpo no editor visual.
 5. Use `draft` para rascunho ou `published` para colocar no jornal.
 6. Salve. O CMS grava no `docs/data/posts.json`; o GitHub Pages publica quando a origem `main /docs` está ativa.
+
+### 03/11/2026 — Publicação confirmada no GitHub Pages
+
+- Restaurado o workflow de publicação do HTML estático para compatibilidade com a fonte GitHub Actions.
+- Corrigido o teste do arquivo `.nojekyll`, que é intencionalmente vazio e deve ser verificado com `test -f`.
+- Execução de publicação concluída com sucesso: validação, artefato e deploy.
+- GitHub Pages confirmou o endereço `https://kaykyferro.github.io/The-Bullshit-Bureau/`.
 
 ### 03/11/2026 — Migração para HTML estático e publicação direta pela branch
 
