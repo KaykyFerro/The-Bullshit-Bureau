@@ -3,8 +3,8 @@
 
   const contentRoot = document.getElementById('main-content');
   const baseUrl = new URL('./', document.baseURI);
-  const basePath = baseUrl.pathname;
-  const fallbackCover = new URL('./assets/images/press-engraving.svg', baseUrl).href;
+  const contentBaseUrl = new URL(document.documentElement.dataset.contentBase || './', baseUrl);
+  const fallbackCover = new URL('assets/images/press-engraving.svg', contentBaseUrl).href;
   const editorUrl = 'https://app.pagescms.org/';
   const params = new URLSearchParams(window.location.search);
 
@@ -34,16 +34,29 @@
   function assetUrl(value) {
     const path = String(value ?? '').trim();
     if (!path) return fallbackCover;
-    if (/^(https?:|data:image\/)/i.test(path)) return path;
-    if (path.startsWith(basePath)) return new URL(path, window.location.origin).href;
-    if (path.startsWith('/')) return new URL(path.slice(1), baseUrl).href;
-    return new URL(path, baseUrl).href;
+    if (/^(https?:|data:image\\/)/i.test(path)) return path;
+
+    const repositoryPrefix = '/The-Bullshit-Bureau/';
+    if (path.startsWith(repositoryPrefix)) {
+      let relativePath = path.slice(repositoryPrefix.length);
+      if (relativePath.startsWith('docs/')) {
+        relativePath = relativePath.slice('docs/'.length);
+      }
+      return new URL(relativePath, contentBaseUrl).href;
+    }
+
+    if (path.startsWith('/')) return new URL(path.slice(1), contentBaseUrl).href;
+    return new URL(path, contentBaseUrl).href;
   }
 
   function safeHref(value) {
     const href = String(value ?? '').trim();
     if (!href) return '';
-    if (/^(https?:|mailto:|tel:|#|\/|\.\/|\.\.\/)/i.test(href)) return href;
+    if (/^(https?:|mailto:|tel:|#)/i.test(href)) return href;
+    if (href.startsWith('/')) return assetUrl(href);
+    if (href.startsWith('./') || href.startsWith('../')) {
+      return new URL(href, contentBaseUrl).href;
+    }
     return '';
   }
 
@@ -303,7 +316,7 @@
 
   function renderAbout() {
     updatePageTitle('Sobre o Bureau', 'Conheça a proposta editorial do The Bullshit Bureau.');
-    const baseArt = assetUrl('./assets/images/press-engraving.svg');
+    const baseArt = assetUrl('assets/images/press-engraving.svg');
     contentRoot.innerHTML = `
       <header class="listing-header">
         <p class="section-kicker">Quem somos</p>
@@ -341,8 +354,8 @@
   async function init() {
     try {
       const [siteResponse, postsResponse] = await Promise.all([
-        fetch('./data/site.json', { cache: 'no-cache' }),
-        fetch('./data/posts.json', { cache: 'no-cache' })
+        fetch(new URL('data/site.json', contentBaseUrl), { cache: 'no-cache' }),
+        fetch(new URL('data/posts.json', contentBaseUrl), { cache: 'no-cache' })
       ]);
 
       if (!postsResponse.ok) throw new Error('Não foi possível carregar as publicações.');
