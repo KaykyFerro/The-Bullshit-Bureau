@@ -2,276 +2,224 @@
 
 > **A verdade acima da ideologia.**
 
-Jornal digital independente com identidade visual de jornal impresso, portal estático e edição visual de conteúdo por GitHub.
+Jornal digital independente com estética de jornal impresso, feito em HTML, CSS e JavaScript puros. O portal é publicado diretamente a partir dos arquivos versionados no GitHub.
 
-**Repositório:** [github.com/KaykyFerro/The-Bullshit-Bureau](https://github.com/KaykyFerro/The-Bullshit-Bureau)  
-**Última atualização da documentação:** 03/11/2026
+**Repositório:** https://github.com/KaykyFerro/The-Bullshit-Bureau  
+**Site:** https://kaykyferro.github.io/The-Bullshit-Bureau/  
+**Última atualização:** 03/11/2026
 
 ---
 
-## Estado do projeto
+## Como o projeto está hospedado
 
-### Implementado no repositório
+O site público está em `docs/` e não depende de Astro, Node.js, npm, banco de dados ou compilação.
 
-- [x] Projeto Astro + TypeScript com saída estática.
-- [x] Identidade visual editorial: papel off-white, tipografia serifada, masthead grande, filetes e colunas.
-- [x] Layout responsivo para desktop, tablet e celular.
-- [x] Página inicial com manchete, chamadas e últimas publicações.
-- [x] Editorias: Notícias, Artigos, Editorial e Opinião.
-- [x] Página individual de cada publicação.
-- [x] Arquivo por categoria e busca no conteúdo publicado.
-- [x] Página Sobre e página 404 personalizada.
-- [x] Metadados SEO, canonical, Open Graph, `robots.txt` e `sitemap.xml`.
-- [x] Conteúdo em arquivos Markdown com frontmatter YAML.
-- [x] Filtro de publicação: somente `status: published` entra no build público.
-- [x] Pages CMS configurado com editor visual rich-text, campos editoriais e upload de imagens.
-- [x] Entrada `/admin/` para acessar o CMS hospedado.
-- [x] Workflow GitHub Actions para verificar tipos e gerar build em pushes e pull requests.
-- [x] Documentação de desenvolvimento, publicação e hospedagem.
+O workflow `.github/workflows/deploy.yml` apenas envia os arquivos prontos de `docs/` para o GitHub Pages. Não existe etapa de build.
 
-### Configurações externas pendentes
+O GitHub Pages está configurado para **GitHub Actions** como fonte de publicação. Mantenha essa opção selecionada em Settings → Pages.
 
-- [ ] Instalar/autorizar o GitHub App do Pages CMS para este repositório.
-- [ ] Entrar no Pages CMS com GitHub e confirmar que a coleção **Publicações** aparece.
-- [ ] Confirmar em Settings → Pages que **GitHub Actions** continua selecionado como Source. A captura enviada já mostrava essa opção selecionada.
-- [ ] Confirmar a execução verde do workflow após a correção do Node.js e validar o endereço público.
+### O que é publicado
 
-> O código e as configurações estão no GitHub. O CMS e a hospedagem exigem autorização inicial nas respectivas plataformas. Não há senha, token ou segredo hardcoded no projeto.
-
-## Visão do produto
-
-O projeto tem duas áreas:
-
-1. **Portal público:** manchetes, notícias, artigos, editoriais, opinião, categorias, busca e página institucional.
-2. **Edição privada:** Pages CMS, acessado por GitHub. O CMS edita arquivos Markdown e imagens diretamente no repositório.
-
-O GitHub é a fonte oficial do conteúdo e do histórico. O projeto não mantém banco de dados próprio nem API editorial. O Pages CMS hospedado pode manter cache interno gerenciado pelo serviço, mas os arquivos e commits do repositório continuam sendo a fonte de verdade.
-
-## Stack
-
-| Camada | Tecnologia | Responsabilidade |
-| --- | --- | --- |
-| Site | Astro 7 + TypeScript | Páginas estáticas, rotas e SEO |
-| Estilos | CSS próprio | Identidade visual editorial responsiva |
-| Conteúdo | Markdown + frontmatter YAML | Publicações versionadas |
-| CMS | [Pages CMS](https://pagescms.org/) | Editor visual e mídia |
-| Login do CMS | GitHub OAuth via Pages CMS | Identificação e acesso ao repositório |
-| Versionamento | GitHub | Arquivos, histórico e permissões |
-| Hospedagem | GitHub Pages | Build e publicação automática via Actions |
-| CI | GitHub Actions | Verificação Astro/TypeScript e build |
-
-## Começar localmente
-
-Requisitos: Node.js 26 LTS (mínimo compatível: 22.23.4) ou superior e npm.
-
-```bash
-git clone https://github.com/KaykyFerro/The-Bullshit-Bureau.git
-cd The-Bullshit-Bureau
-npm install
-npm run dev
-```
-
-Abra `http://localhost:4321`.
-
-| Comando | Descrição |
+| Arquivo | Função |
 | --- | --- |
-| `npm run dev` | Servidor local |
-| `npm run build` | Gera o site estático em `dist/` |
-| `npm run preview` | Visualiza a build local |
-| `npm run check` | Verificação Astro e TypeScript |
+| `docs/index.html` | Página inicial do jornal |
+| `docs/assets/css/newspaper.css` | Identidade visual e responsividade |
+| `docs/assets/js/newspaper.js` | Navegação, busca e renderização das matérias |
+| `docs/data/posts.json` | Conteúdo editorial |
+| `docs/data/site.json` | Nome, slogan e descrição |
+| `docs/assets/images/` | Identidade visual e imagens |
+| `docs/404.html` | Página de endereço não encontrado |
+| `docs/.nojekyll` | Evita processamento Jekyll |
 
-## Como publicar uma matéria pelo editor visual
+Endereço público:
 
-### Primeira configuração do CMS
+`https://kaykyferro.github.io/The-Bullshit-Bureau/`
 
-1. Acesse [Pages CMS](https://app.pagescms.org/).
-2. Entre com a conta GitHub que é proprietária ou tem permissão de escrita no repositório.
-3. Instale/autorize o GitHub App do Pages CMS para **somente** `KaykyFerro/The-Bullshit-Bureau`.
-4. Abra o repositório `KaykyFerro/The-Bullshit-Bureau` na branch `main`.
-5. A coleção **Publicações** será carregada a partir de `.pages.yml`.
+## Estado da publicação
 
-### Criar ou editar
+- [x] Site público em HTML/CSS/JavaScript sem framework ou compilador.
+- [x] Estética de jornal impresso responsiva.
+- [x] Manchete principal e chamadas secundárias.
+- [x] Seções: Notícias, Artigos, Editorial e Opinião.
+- [x] Página individual de matéria por parâmetro `?post=slug`.
+- [x] Filtro por seção e categoria.
+- [x] Busca por título, resumo, categoria, autoria e conteúdo.
+- [x] Página Sobre e página 404.
+- [x] SEO básico, canonical, Open Graph, robots e sitemap.
+- [x] Conteúdo em JSON versionado no GitHub.
+- [x] Pages CMS configurado com editor visual, campos editoriais e upload de imagens.
+- [x] Workflow de publicação sem etapa de build.
+- [ ] Confirmar no GitHub Actions a primeira execução verde do workflow HTML.
+- [ ] Confirmar que o endereço público está acessível após a publicação.
 
-1. Abra **Publicações**.
-2. Clique em criar ou escolha uma publicação existente.
-3. Preencha título, linha fina, resumo, editoria, categoria, autor e data.
-4. Escolha a imagem de capa e escreva o texto usando o editor visual.
-5. Defina **Rascunho** para guardar sem publicar ou **Publicado** para liberar no portal.
-6. Salve. O Pages CMS grava as alterações no GitHub como commit.
-7. Com GitHub Pages habilitado para **GitHub Actions**, cada commit em `main` dispara build e publicação automáticos.
+## Como funciona a atualização do jornal
 
-O editor usa rich-text em Markdown e esconde o alternador de código para manter a edição visual simples. É possível formatar texto e enviar imagens pelo próprio editor.
-
-### Acesso de um único administrador
-
-O controle de escrita é feito pelas permissões do GitHub, não por uma senha embutida no site:
-
-- `KaykyFerro` deve ser a única conta com permissão de escrita no repositório.
-- Não adicione outros colaboradores com permissão de escrita.
-- Não convide colaboradores extras no Pages CMS.
-- Não compartilhe tokens pessoais.
-- Ative autenticação em dois fatores na conta GitHub.
-
-O repositório é público para leitura. Isso não concede permissão para editar diretamente o conteúdo. A página `/admin/` apenas direciona ao Pages CMS; a autenticação acontece no serviço do CMS por GitHub.
-
-## Modelo dos arquivos de publicação
-
-Cada matéria é um arquivo Markdown em `src/content/noticias/`:
-
-```yaml
----
-title: "Título da publicação"
-slug: "titulo-da-publicacao"
-subtitle: "Linha fina"
-excerpt: "Resumo para cards e mecanismos de busca."
-section: "noticias"
-category: "Política"
-author: "Redação The Bullshit Bureau"
-publishedAt: "2026-11-03"
-status: "draft"
-featured: false
-cover: "/images/uploads/capa.webp"
-coverAlt: "Descrição objetiva da imagem"
----
-
-Texto da matéria em Markdown...
+```text
+Hugo entra no Pages CMS com GitHub
+                |
+                v
+       Edita a publicação
+                |
+                v
+     Salva no repositório GitHub
+                |
+                v
+     Atualiza docs/data/posts.json
+                |
+                v
+ GitHub Actions envia os arquivos HTML
+                |
+                v
+       GitHub Pages publica
 ```
 
-Valores permitidos para `section`:
+O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório.
+
+## Painel editorial
+
+Acesse **[Pages CMS](https://app.pagescms.org/)** e entre com a conta GitHub que possui permissão de escrita neste repositório.
+
+Na primeira entrada:
+
+1. Entre com GitHub.
+2. Autorize/instale o GitHub App do Pages CMS no repositório `KaykyFerro/The-Bullshit-Bureau`.
+3. Abra a branch `main`.
+4. Acesse **Publicações**.
+5. Edite uma matéria existente ou crie uma nova.
+
+A página `/admin/` não é necessária para a administração: o link de edição fica no menu do próprio jornal, em **Redação**.
+
+**Para manter apenas um editor:** mantenha `KaykyFerro` como única conta com permissão de escrita no repositório e não convide outros colaboradores para editar.
+
+### Editor visual
+
+O Pages CMS está configurado para editar o arquivo `docs/data/posts.json` como uma lista de publicações. O campo **Texto da matéria** usa rich-text em HTML. O editor permite formatação de texto e upload de imagens.
+
+Campos da publicação:
+
+| Campo | Uso |
+| --- | --- |
+| Título | Manchete da matéria |
+| URL amigável | Identificador único, sem espaços |
+| Linha fina | Subtítulo |
+| Resumo | Texto dos cards e da busca |
+| Editoria | Notícias, Artigos, Editorial ou Opinião |
+| Categoria | Assunto da matéria |
+| Autor | Responsável pelo texto |
+| Data de publicação | Data exibida no jornal |
+| Status | Rascunho ou Publicado |
+| Manchete principal | Marca o destaque da página inicial |
+| Imagem de capa | Foto ou ilustração da matéria |
+| Texto alternativo | Descrição para acessibilidade |
+| Texto da matéria | Editor visual rich-text |
+
+### Rascunho e publicação
+
+- `draft`: não aparece na página pública.
+- `published`: aparece no jornal após a atualização do site.
+
+O JavaScript filtra as publicações por `status` antes de renderizar o conteúdo. O rascunho continua no JSON, mas não é exibido aos visitantes.
+
+### Uploads
+
+- Pasta no GitHub: `docs/assets/images/uploads/`
+- Caminho público: `/The-Bullshit-Bureau/assets/images/uploads/`
+- Formatos aceitos: JPG, JPEG, PNG, WebP e AVIF.
+
+O Pages CMS grava o caminho público nas informações da publicação. O portal reconhece esse caminho e o carrega sob o endereço do projeto.
+
+## Editar conteúdo sem CMS
+
+Também é possível editar diretamente `docs/data/posts.json`, mas o caminho recomendado é o editor visual.
+
+Exemplo de publicação:
+
+```json
+{
+  "title": "Título da matéria",
+  "slug": "titulo-da-materia",
+  "subtitle": "Linha fina",
+  "excerpt": "Resumo da matéria.",
+  "section": "noticias",
+  "category": "Política",
+  "author": "Redação The Bullshit Bureau",
+  "publishedAt": "2026-11-03",
+  "status": "draft",
+  "featured": false,
+  "cover": "/The-Bullshit-Bureau/assets/images/uploads/capa.webp",
+  "coverAlt": "Descrição da imagem",
+  "body": "<p>Texto da matéria...</p>"
+}
+```
+
+Valores aceitos para `section`:
 
 - `noticias`
 - `artigos`
 - `editoriais`
 - `opiniao`
 
-Valores permitidos para `status`: `draft` e `published`.
+O valor de `slug` deve ser único e usar letras minúsculas, números e hífens.
 
-**Importante:** apenas itens com `status: published` são gerados nas páginas públicas. Um rascunho não é apenas escondido por CSS: ele é excluído durante a geração estática.
+## Hospedagem no GitHub Pages
 
-### Imagens
+A configuração atual utiliza a tela **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
-- Uploads do CMS: `public/images/uploads/`
-- Caminho público: `/images/uploads/`
-- Formatos aceitos: JPG, JPEG, PNG, WebP e AVIF.
-- Imagens e textos alternativos devem ser escolhidos/preenchidos pelo editor.
+O arquivo `.github/workflows/deploy.yml`:
 
-## Rotas
+1. Baixa o repositório.
+2. Configura o GitHub Pages.
+3. Envia a pasta `docs/` como artefato.
+4. Publica esse conteúdo no GitHub Pages.
 
-| Rota | Conteúdo |
+Não executa `npm install`, `astro build` ou qualquer compilador. O que está em `docs/` é o que será publicado.
+
+O workflow roda automaticamente quando há commits na branch `main`, inclusive quando uma matéria é salva pelo Pages CMS.
+
+Acompanhe as execuções em:
+
+https://github.com/KaykyFerro/The-Bullshit-Bureau/actions
+
+## Endereços do portal
+
+| Página | Endereço |
 | --- | --- |
-| `/` | Página inicial |
-| `/noticias/` | Notícias |
-| `/artigos/` | Artigos e análises |
-| `/editoriais/` | Editorial |
-| `/opiniao/` | Opinião |
-| `/:section/:slug/` | Publicação individual |
-| `/categoria/:categoria/` | Arquivo por categoria |
-| `/busca/` | Busca no conteúdo publicado |
-| `/sobre/` | Apresentação e compromisso editorial |
-| `/admin/` | Acesso externo ao Pages CMS |
+| Início | `/` |
+| Notícias | `?section=noticias` |
+| Artigos | `?section=artigos` |
+| Editorial | `?section=editoriais` |
+| Opinião | `?section=opiniao` |
+| Busca | `?view=search` |
+| Sobre | `?view=about` |
+| Matéria | `?post=slug-da-materia` |
 
-## Hospedar no GitHub Pages
+Todas as rotas são atendidas por `docs/index.html`. Não há dependência de roteamento no servidor.
 
-O projeto está configurado para o endereço de projeto:
+## Arquivos antigos do protótipo Astro
 
-`https://kaykyferro.github.io/The-Bullshit-Bureau/`
-
-A configuração do Astro usa:
-
-- `site: 'https://kaykyferro.github.io'`
-- `base: '/The-Bullshit-Bureau'`
-
-O workflow `.github/workflows/deploy.yml` executa validação, build Astro, upload do artefato `dist/` e deploy no GitHub Pages.
-
-### Ativação inicial
-
-1. Abra [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages) e confirme que **Source** está como **GitHub Actions**. A captura recebida já mostrava essa opção selecionada.
-2. Não escolha os modelos Jekyll ou HTML estático: o workflow próprio do Astro já está no repositório em `.github/workflows/deploy.yml`.
-3. Abra a aba [Actions](https://github.com/KaykyFerro/The-Bullshit-Bureau/actions) e acompanhe **Deploy to GitHub Pages**.
-4. Quando os jobs `build` e `deploy` terminarem com sucesso, abra o endereço público acima.
-
-O workflow chama `actions/configure-pages@v5`, compila o Astro, envia `dist/` e publica o artefato. Se a configuração Source não tiver sido salva ainda, selecione **GitHub Actions** em Settings → Pages.
-
-Não são necessárias variáveis de ambiente para gerar o portal. O workflow é disparado em pushes para `main` e pode ser iniciado manualmente pela aba Actions.
-
-## CI e validação
-
-O workflow `.github/workflows/ci.yml` executa:
-
-1. Checkout do repositório.
-2. Instalação do Node.js 26 LTS (mínimo compatível: 22.23.4).
-3. Instalação das dependências.
-4. `npm run check`.
-5. `npm run build`.
-
-O workflow está configurado para push e pull request em `main`. Consulte a aba **Actions** do GitHub para confirmar o resultado de cada execução. A presença do workflow não substitui a confirmação de um build concluído com sucesso.
-
-## Estrutura principal
-
-```text
-.
-├── .github/workflows/ci.yml
-├── .github/workflows/deploy.yml
-├── .pages.yml
-├── public/
-│   ├── _headers
-│   ├── favicon.svg
-│   └── images/
-│       ├── bureau-engraving.svg
-│       └── uploads/
-├── src/
-│   ├── components/
-│   ├── content/noticias/
-│   ├── env.d.ts
-│   ├── layouts/
-│   ├── lib/articles.ts
-│   ├── pages/
-│   └── styles/global.css
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
-
-## Conteúdo inicial
-
-Foram adicionados três textos de apresentação, identificados como conteúdo editorial/educativo:
-
-- **A verdade acima da ideologia: o compromisso do Bureau** — editorial de apresentação e manchete inicial.
-- **Fato, análise e opinião não são a mesma coisa** — texto explicativo sobre gêneros editoriais.
-- **Três perguntas antes de compartilhar uma informação** — guia de leitura crítica.
-
-Eles não são reportagens sobre acontecimentos externos. Revise, adapte ou substitua esses textos antes de considerar a primeira edição oficial.
+Os arquivos `src/`, `package.json`, `astro.config.mjs` e `tsconfig.json` pertencem à primeira implementação experimental em Astro. Eles foram preservados no repositório como referência, mas **não participam da hospedagem atual**. O workflow publica somente `docs/`.
 
 ## Identidade editorial
 
 **Nome:** The Bullshit Bureau  
 **Slogan:** A verdade acima da ideologia.
 
-A proposta é questionar narrativas de todos os lados, distinguir fato, análise e opinião, apresentar contexto e deixar explícita a natureza de cada publicação. O slogan representa um compromisso editorial, não uma alegação de infalibilidade.
+A proposta é questionar narrativas de todos os lados, distinguir fato, análise e opinião, apresentar contexto e deixar clara a natureza de cada publicação. O slogan representa um compromisso editorial, não uma alegação de infalibilidade.
 
-Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, contrapontos relevantes e correções transparentes.
+Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contrapontos relevantes e correções transparentes. Textos demonstrativos devem ser revisados antes de serem tratados como notícia.
 
 ## Registro de atualizações
 
-### 03/11/2026 — Configuração de hospedagem no GitHub Pages
+### 03/11/2026 — Migração para HTML estático e publicação sem build
 
-- Astro configurado com `site` e `base` para o domínio de projeto `kaykyferro.github.io/The-Bullshit-Bureau`.
-- Links internos, imagens de capa nos cards e nas matérias, imagens/links incluídos no corpo dos textos, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
-- Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
-- Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
-- Node.js dos workflows e requisito local ajustados para 26 LTS, mínimo da versão Astro 7.4.5 usada no projeto.
-- A captura da configuração do Pages mostrava Source = GitHub Actions; falta confirmar que o workflow terminou com sucesso e que o primeiro deploy está acessível.
-
-### 03/11/2026 — Primeira implementação
-
-- Criação da estrutura do portal e do design inspirado em jornal impresso.
-- Implementação das rotas públicas e páginas institucionais.
-- Configuração do Pages CMS para edição visual e upload de imagens.
-- Inclusão de conteúdos de apresentação e de metadados SEO.
-- Inclusão do workflow de CI e documentação de implantação.
-- Ajustes de compatibilidade do Astro, URLs canônicas, ordenação do conteúdo e configuração do CMS.
-- Padronização do upload de imagens para a raiz `public/images/uploads/`, servida em `/images/uploads/`.
+- Criado portal público em HTML, CSS e JavaScript puros dentro de `docs/`.
+- Migração do conteúdo editorial para `docs/data/posts.json`.
+- Configurado o Pages CMS para editar a lista JSON com rich-text HTML e mídia.
+- Criado workflow de publicação que envia `docs/` diretamente ao GitHub Pages, sem Node, npm ou compilação.
+- Criadas páginas de fallback 404, robots.txt e sitemap.xml.
+- Documentado o motivo da falha anterior: o workflow Astro parava na validação por incompatibilidade entre a versão do Node usada e o requisito do Astro; o deploy era ignorado.
+- Mantido o protótipo Astro em `src/` apenas como referência, fora do caminho de publicação.
 
 ## Licença e responsabilidade
 
-Este repositório ainda está em fase de configuração inicial. O responsável editorial deve revisar textos, imagens, direitos de uso, fontes e correções antes de cada publicação.
+O conteúdo inicial é editorial e educativo, não reportagem sobre acontecimentos externos. O responsável editorial deve revisar textos, imagens, direitos de uso, fontes e correções antes de cada publicação.
