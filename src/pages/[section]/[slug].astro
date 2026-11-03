@@ -34,6 +34,19 @@ const description = data.excerpt || data.subtitle || data.title;
     <div class="article-body">
       <Content />
     </div>
+    <script>
+      const base = import.meta.env.BASE_URL;
+      const articleBody = document.querySelector('.article-body');
+
+      articleBody?.querySelectorAll<HTMLElement>('[src], [href]').forEach((element) => {
+        const attribute = element.hasAttribute('src') ? 'src' : 'href';
+        const value = element.getAttribute(attribute);
+
+        if (value?.startsWith('/') && !value.startsWith('//')) {
+          element.setAttribute(attribute, `${base}${value.slice(1)}`);
+        }
+      });
+    </script>
     <p class="article-source-note">The Bullshit Bureau · A verdade acima da ideologia. Compartilhe esta publicação citando o jornal e o autor.</p>
   </article>
 </BaseLayout>
