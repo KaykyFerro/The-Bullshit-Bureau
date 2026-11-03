@@ -33,9 +33,9 @@ Jornal digital independente com identidade visual de jornal impresso, portal est
 
 - [ ] Instalar/autorizar o GitHub App do Pages CMS para este repositório.
 - [ ] Entrar no Pages CMS com GitHub e confirmar que a coleção **Publicações** aparece.
-- [ ] Criar a aplicação Cloudflare Pages conectada ao repositório.
+- [ ] Em Settings → Pages, selecionar **GitHub Actions** como Source (ou confirmar se a action `configure-pages` ativou automaticamente).
 - [ ] Confirmar o primeiro resultado verde do workflow e o primeiro deploy público.
-- [ ] Ajustar o domínio em `astro.config.mjs` caso seja utilizado um domínio próprio ou um endereço Pages diferente do padrão documentado.
+- [ ] Confirmar o primeiro resultado verde do workflow e o endereço público do site.
 
 > O código e as configurações estão no GitHub. O CMS e a hospedagem exigem autorização inicial nas respectivas plataformas. Não há senha, token ou segredo hardcoded no projeto.
 
@@ -58,7 +58,7 @@ O GitHub é a fonte oficial do conteúdo e do histórico. O projeto não mantém
 | CMS | [Pages CMS](https://pagescms.org/) | Editor visual e mídia |
 | Login do CMS | GitHub OAuth via Pages CMS | Identificação e acesso ao repositório |
 | Versionamento | GitHub | Arquivos, histórico e permissões |
-| Hospedagem | Cloudflare Pages | Build e publicação automática |
+| Hospedagem | GitHub Pages | Build e publicação automática via Actions |
 | CI | GitHub Actions | Verificação Astro/TypeScript e build |
 
 ## Começar localmente
@@ -99,7 +99,7 @@ Abra `http://localhost:4321`.
 4. Escolha a imagem de capa e escreva o texto usando o editor visual.
 5. Defina **Rascunho** para guardar sem publicar ou **Publicado** para liberar no portal.
 6. Salve. O Pages CMS grava as alterações no GitHub como commit.
-7. Com o Cloudflare Pages conectado, o commit em `main` dispara uma nova publicação do site.
+7. Com GitHub Pages habilitado para **GitHub Actions**, cada commit em `main` dispara build e publicação automáticos.
 
 O editor usa rich-text em Markdown e esconde o alternador de código para manter a edição visual simples. É possível formatar texto e enviar imagens pelo próprio editor.
 
@@ -171,22 +171,30 @@ Valores permitidos para `status`: `draft` e `published`.
 | `/sobre/` | Apresentação e compromisso editorial |
 | `/admin/` | Acesso externo ao Pages CMS |
 
-## Hospedar no Cloudflare Pages
+## Hospedar no GitHub Pages
 
-1. Abra **Workers & Pages** no painel Cloudflare.
-2. Crie um projeto conectado ao GitHub.
-3. Selecione `KaykyFerro/The-Bullshit-Bureau`.
-4. Configure:
-   - **Production branch:** `main`
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node.js:** `22.12+`
-5. Salve e execute o primeiro deploy.
-6. Cada commit em `main` passa a acionar build e deploy automático.
+O projeto está configurado para o endereço de projeto:
 
-Não são necessárias variáveis de ambiente para gerar o portal.
+`https://kaykyferro.github.io/The-Bullshit-Bureau/`
 
-O endereço padrão configurado no projeto é `https://the-bullshit-bureau.pages.dev`. Caso o Cloudflare atribua outro subdomínio ou seja configurado um domínio próprio, atualize a propriedade `site` de `astro.config.mjs` para que canonical e sitemap apontem para o endereço correto.
+A configuração do Astro usa:
+
+- `site: 'https://kaykyferro.github.io'`
+- `base: '/The-Bullshit-Bureau'`
+
+O workflow `.github/workflows/deploy.yml` executa validação, build Astro, upload do artefato `dist/` e deploy no GitHub Pages.
+
+### Ativação inicial
+
+1. Abra [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages).
+2. Em **Build and deployment → Source**, selecione **GitHub Actions**.
+3. Salve, se o GitHub solicitar.
+4. Abra a aba [Actions](https://github.com/KaykyFerro/The-Bullshit-Bureau/actions) e acompanhe **Deploy to GitHub Pages**.
+5. Quando os jobs `build` e `deploy` terminarem com sucesso, abra o endereço público acima.
+
+O workflow também chama `actions/configure-pages@v5` para configurar/consultar os metadados do Pages. A configuração de Source em Settings deve ser conferida caso o primeiro deploy solicite essa ativação.
+
+Não são necessárias variáveis de ambiente para gerar o portal. O workflow é disparado em pushes para `main` e pode ser iniciado manualmente pela aba Actions.
 
 ## CI e validação
 
@@ -205,6 +213,7 @@ O workflow está configurado para push e pull request em `main`. Consulte a aba 
 ```text
 .
 ├── .github/workflows/ci.yml
+├── .github/workflows/deploy.yml
 ├── .pages.yml
 ├── public/
 │   ├── _headers
@@ -245,6 +254,14 @@ A proposta é questionar narrativas de todos os lados, distinguir fato, análise
 Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, contrapontos relevantes e correções transparentes.
 
 ## Registro de atualizações
+
+### 03/11/2026 — Configuração de hospedagem no GitHub Pages
+
+- Astro configurado com `site` e `base` para o domínio de projeto `kaykyferro.github.io/The-Bullshit-Bureau`.
+- Links internos, imagens, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
+- Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
+- Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
+- Ativação do Source como GitHub Actions e confirmação do primeiro deploy ainda precisam ser verificadas no GitHub.
 
 ### 03/11/2026 — Primeira implementação
 
