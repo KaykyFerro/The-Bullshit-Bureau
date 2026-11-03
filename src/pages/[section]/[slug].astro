@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publishedPosts, formatDate } from '../../lib/articles';
+
+export function getStaticPaths() {
+  return publishedPosts.map((post) => ({
+    params: {
+      section: post.frontmatter.section,
+      slug: post.frontmatter.slug
+    },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const data = post.frontmatter;
+const { Content } = post;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const image = data.cover || '/images/bureau-engraving.svg';
+const description = data.excerpt || data.subtitle || data.title;
+---
+<BaseLayout title={data.title} description={description}>
+  <article>
+    <header class="article-header">
+      <span class="article-card-category">{data.category} · {data.section}</span>
+      <h1 class="article-title">{data.title}</h1>
+      {data.subtitle && <p class="article-subtitle">{data.subtitle}</p>}
+      <div class="article-byline">
+        <span>Por {data.author}</span>
+        <time datetime={String(data.publishedAt).slice(0, 10)}>{formatDate(data.publishedAt)}</time>
+      </div>
+    </header>
+    <img class="article-cover" src={image} alt={data.coverAlt || data.title} />
+    <div class="article-body">
+      <Content />
+    </div>
+    <p class="article-source-note">The Bullshit Bureau · A verdade acima da ideologia. Compartilhe esta publicação citando o jornal e o autor.</p>
+  </article>
+</BaseLayout>
