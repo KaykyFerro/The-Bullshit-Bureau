@@ -1,0 +1,47 @@
+[
+  {
+    "title": "A verdade acima da ideologia: o compromisso do Bureau",
+    "slug": "a-verdade-acima-da-ideologia",
+    "subtitle": "Um jornal começa pelo nome que escolhe. Continua pelo método que decide seguir.",
+    "excerpt": "Conheça a proposta editorial do The Bullshit Bureau: apuração, contexto, transparência e distinção entre fato, análise e opinião.",
+    "section": "editoriais",
+    "category": "Jornalismo",
+    "author": "Redação The Bullshit Bureau",
+    "publishedAt": "2026-11-03",
+    "status": "published",
+    "featured": true,
+    "cover": "/The-Bullshit-Bureau/assets/images/press-engraving.svg",
+    "coverAlt": "Ilustração editorial de uma prensa tipográfica.",
+    "body": "<p>O nome é provocativo. O compromisso, não. O <strong>The Bullshit Bureau</strong> nasce de uma ideia simples: nenhuma convicção política, econômica ou cultural deve substituir a verificação de uma informação.</p><p>Nosso slogan é uma promessa de método, não uma declaração de que somos donos da verdade. Errar é possível. Esconder o erro não pode ser parte do trabalho.</p><h2>O que você encontrará por aqui</h2><p>Notícias devem dizer o que aconteceu, quando, onde e de acordo com quais fontes. Análises devem explicar seus argumentos e reconhecer limites. Opiniões devem aparecer identificadas, sem se disfarçar de reportagem.</p><p>Quando um dado for relevante, procuraremos apresentar sua origem. Quando houver versões conflitantes, o leitor deverá saber quem afirma o quê. Quando uma informação mudar, a publicação deverá ser atualizada com transparência.</p><h2>Questionar todos os lados</h2><p>Independência não significa neutralidade automática diante de evidências. Significa aplicar critérios consistentes, inclusive quando os fatos contrariam nossas expectativas.</p><p>O Bureau não existe para confirmar a torcida de ninguém. Existe para oferecer informação que permita ao leitor formar seu próprio juízo.</p><p><strong>A verdade acima da ideologia.</strong> É o ponto de partida. O trabalho diário é merecer essa frase.</p>"
+  },
+  {
+    "title": "Fato, análise e opinião não são a mesma coisa",
+    "slug": "fato-analise-e-opiniao",
+    "subtitle": "Reconhecer a diferença entre informar, interpretar e defender uma ideia é um passo essencial para ler melhor.",
+    "excerpt": "Uma notícia relata o que foi apurado. Uma análise interpreta o contexto. Um artigo de opinião defende um ponto de vista. Misturar os formatos confunde o leitor.",
+    "section": "artigos",
+    "category": "Jornalismo",
+    "author": "Redação The Bullshit Bureau",
+    "publishedAt": "2026-11-03",
+    "status": "published",
+    "featured": false,
+    "cover": "/The-Bullshit-Bureau/assets/images/press-engraving.svg",
+    "coverAlt": "Prensa tipográfica em ilustração editorial monocromática.",
+    "body": "<p>Nem todo texto publicado em um site de notícias tem a mesma finalidade. Alguns textos relatam acontecimentos; outros explicam relações entre fatos; outros defendem uma interpretação. Os três formatos podem ser legítimos, desde que o leitor saiba qual está lendo.</p><h2>Notícia: o que foi apurado</h2><p>A notícia deve priorizar informações verificáveis. O texto precisa deixar claro o que se sabe, de onde veio a informação e o que ainda não foi confirmado.</p><p>Uma afirmação atribuída a uma fonte não se transforma automaticamente em fato comprovado. A atribuição importa: quem disse, em qual contexto e com qual evidência?</p><h2>Análise: o que os fatos podem significar</h2><p>A análise conecta informações, identifica tendências e apresenta interpretações. Ela pode discutir consequências e cenários, mas precisa separar evidências de inferências.</p><h2>Opinião: o que alguém defende</h2><p>O artigo de opinião apresenta um ponto de vista. Seu autor pode argumentar, criticar e propor caminhos, mas o gênero deve estar identificado com clareza.</p><p>Identificar o formato não resolve tudo. Mas é uma forma concreta de tornar a comunicação mais honesta e a leitura mais consciente.</p>"
+  },
+  {
+    "title": "Três perguntas antes de compartilhar uma informação",
+    "slug": "tres-perguntas-antes-de-compartilhar",
+    "subtitle": "Uma pausa curta pode evitar que uma afirmação sem contexto viaje mais rápido do que a correção.",
+    "excerpt": "Antes de repassar uma notícia, procure a fonte original, confira a data e veja se o conteúdo sustenta a conclusão apresentada.",
+    "section": "artigos",
+    "category": "Sociedade",
+    "author": "Redação The Bullshit Bureau",
+    "publishedAt": "2026-11-03",
+    "status": "published",
+    "featured": false,
+    "cover": "/The-Bullshit-Bureau/assets/images/press-engraving.svg",
+    "coverAlt": "Ilustração editorial de uma prensa de jornal.",
+    "body": "<p>Uma publicação pode parecer convincente e ainda assim estar incompleta. Um título pode exagerar o que o texto demonstra. Uma imagem pode ser verdadeira, mas ter sido retirada de outro contexto.</p><h2>1. De onde veio?</h2><p>Procure a publicação original, o documento, a entrevista ou a instituição que produziu a informação. Uma captura de tela sem origem é um ponto de partida fraco para uma conclusão forte.</p><h2>2. Quando aconteceu?</h2><p>Data muda o significado de uma informação. Uma fotografia antiga pode reaparecer como se fosse atual. Uma regra que já foi substituída pode circular como se ainda estivesse em vigor.</p><h2>3. O conteúdo prova o que o título promete?</h2><p>Leia além da manchete. Compare a conclusão com os dados apresentados. Observe se há ressalvas, limitações ou informações relevantes que ficaram de fora.</p><h2>Compartilhar também é publicar</h2><p>Ninguém precisa se tornar especialista em tudo para consumir informação com cuidado. Mas cada compartilhamento ajuda a ampliar o alcance de uma afirmação.</p><p>A pausa para verificar é pequena. A responsabilidade é coletiva.</p>"
+  }
+]
