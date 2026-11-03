@@ -9,27 +9,34 @@ const googleServicesPath = resolve('android/app/google-services.json');
 const iconSourcePath = resolve('native/android/ic_stat_bureau.xml');
 const iconTargetPath = resolve('android/app/src/main/res/drawable/ic_stat_bureau.xml');
 
+await mkdir(resolve('android/app/src/main/res/drawable'), { recursive: true });
+await cp(iconSourcePath, iconTargetPath);
+
+let manifest = await readFile(manifestPath, 'utf8');
+const metaData = '<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_bureau" />';
+if (!manifest.includes('com.google.firebase.messaging.default_notification_icon')) {
+  const appClose = manifest.indexOf('</application>');
+  if (appClose < 0) throw new Error('Tag </application> não encontrado no AndroidManifest.xml.');
+  manifest = manifest.slice(0, appClose) + `        ${metaData}\n` + manifest.slice(appClose);
+  await writeFile(manifestPath, manifest, 'utf8');
+}
+
 try {
-  await mkdir(resolve('android/app/src/main/res/drawable'), { recursive: true });
-  await cp(iconSourcePath, iconTargetPath);
-  let manifest = await readFile(manifestPath, 'utf8');
-  const metaData = '<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_bureau" />';
-  if (!manifest.includes('com.google.firebase.messaging.default_notification_icon')) {
-    const appClose = manifest.indexOf('</application>');
-    if (appClose < 0) throw new Error('Tag </application> não encontrado no AndroidManifest.xml.');
-    manifest = manifest.slice(0, appClose) + `        ${metaData}\n` + manifest.slice(appClose);
-    await writeFile(manifestPath, manifest, 'utf8');
-  }
+  let variables = await readFile(variablesPath, 'utf8');
+  variables = variables
+    .replace(/compileSdkVersion\s*=\s*\d+/g, 'compileSdkVersion = 36')
+    .replace(/targetSdkVersion\s*=\s*\d+/g, 'targetSdkVersion = 36');
+  await writeFile(variablesPath, variables, 'utf8');
+  console.log('compileSdk/targetSdk definidos como 36.');
 } catch (error) {
   if (error?.code !== 'ENOENT') throw error;
-  console.log('Projeto Android ainda não foi gerado ou manifest não encontrado.');
-  process.exit(1);
+  console.warn('variables.gradle não encontrado; confira compileSdk/targetSdk no projeto gerado.');
 }
 
 try {
   await readFile(googleServicesPath);
 } catch {
-  console.log('google-services.json não fornecido. APK será gerado sem push remoto.');
+  console.log('google-services.json não fornecido. Build seguirá sem push remoto.');
   process.exit(0);
 }
 
@@ -58,14 +65,4 @@ if (!appGradle.includes('com.google.gms.google-services')) {
   await writeFile(appGradlePath, appGradle, 'utf8');
 }
 
-try {
-  let variables = await readFile(variablesPath, 'utf8');
-  variables = variables
-    .replace(/compileSdkVersion\s*=\s*\d+/g, 'compileSdkVersion = 36')
-    .replace(/targetSdkVersion\s*=\s*\d+/g, 'targetSdkVersion = 36');
-  await writeFile(variablesPath, variables, 'utf8');
-} catch (error) {
-  if (error?.code !== 'ENOENT') throw error;
-}
-
-console.log('Google Services, ícone de notificação e Android API 36 configurados.');
+console.log('Google Services plugin configurado para Firebase Cloud Messaging.');
