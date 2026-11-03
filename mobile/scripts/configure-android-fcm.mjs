@@ -14,13 +14,13 @@ try {
 
 let rootGradle = await readFile(rootGradlePath, 'utf8');
 if (!rootGradle.includes('com.google.gms.google-services')) {
-  const pluginLine = "    id 'com.google.gms.google-services' version '4.4.4' apply false\n";
+  const pluginLine = "    id 'com.google.gms.google-services' version '4.5.0' apply false\n";
   if (rootGradle.includes('plugins {')) {
     rootGradle = rootGradle.replace('plugins {', 'plugins {\n' + pluginLine);
   } else {
     rootGradle += `\nbuildscript {
   repositories { google(); mavenCentral() }
-  dependencies { classpath 'com.google.gms:google-services:4.4.4' }
+  dependencies { classpath 'com.google.gms:google-services:4.5.0' }
 }
 `;
   }
