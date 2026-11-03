@@ -14,7 +14,7 @@ Jornal digital independente com estética de jornal impresso, feito em HTML, CSS
 
 O site público está em `docs/` e não depende de Astro, Node.js, npm, banco de dados ou compilação.
 
-O workflow `.github/workflows/deploy.yml` apenas envia os arquivos prontos de `docs/` para o GitHub Pages. Não existe etapa de build.
+O GitHub Pages publica diretamente a pasta `docs/` da branch `main`. Não existe workflow próprio de deploy nem etapa de build.
 
 O GitHub Pages está configurado para **GitHub Actions** como fonte de publicação. Mantenha essa opção selecionada em Settings → Pages.
 
@@ -49,7 +49,7 @@ Endereço público:
 - [x] Conteúdo em JSON versionado no GitHub.
 - [x] Pages CMS configurado com editor visual, campos editoriais e upload de imagens.
 - [x] Workflow de publicação sem etapa de build.
-- [ ] Confirmar no GitHub Actions a primeira execução verde do workflow HTML.
+- [ ] Em Settings → Pages, selecionar **Deploy from a branch**, branch `main`, pasta `/docs`, e salvar.
 - [ ] Confirmar que o endereço público está acessível após a publicação.
 
 ## Como funciona a atualização do jornal
@@ -210,14 +210,14 @@ Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contra
 
 ## Registro de atualizações
 
-### 03/11/2026 — Migração para HTML estático e publicação sem build
+### 03/11/2026 — Migração para HTML estático e publicação direta pela branch
 
 - Criado portal público em HTML, CSS e JavaScript puros dentro de `docs/`.
 - Migração do conteúdo editorial para `docs/data/posts.json`.
 - Configurado o Pages CMS para editar a lista JSON com rich-text HTML e mídia.
-- Criado workflow de publicação que envia `docs/` diretamente ao GitHub Pages, sem Node, npm ou compilação.
+- Removido o workflow Astro que impedia a publicação por incompatibilidade de Node.
+- Escolhida publicação direta pelo GitHub Pages usando a branch `main` e pasta `/docs`, sem Node, npm ou compilação.
 - Criadas páginas de fallback 404, robots.txt e sitemap.xml.
-- Documentado o motivo da falha anterior: o workflow Astro parava na validação por incompatibilidade entre a versão do Node usada e o requisito do Astro; o deploy era ignorado.
 - Mantido o protótipo Astro em `src/` apenas como referência, fora do caminho de publicação.
 
 ## Licença e responsabilidade
