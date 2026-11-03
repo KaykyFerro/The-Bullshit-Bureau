@@ -12,11 +12,9 @@ Jornal digital independente com estética de jornal impresso, feito em HTML, CSS
 
 ## Como o projeto está hospedado
 
-O site público está em `docs/` e não depende de Astro, Node.js, npm, banco de dados ou compilação.
+O site público está em `docs/` e é composto por HTML, CSS e JavaScript puros. Não depende de Astro, Node.js, npm, banco de dados ou compilação.
 
-O GitHub Pages publica diretamente a pasta `docs/` da branch `main`. Não existe workflow próprio de deploy nem etapa de build.
-
-O GitHub Pages está configurado para **GitHub Actions** como fonte de publicação. Mantenha essa opção selecionada em Settings → Pages.
+O GitHub Pages deve publicar diretamente a pasta `docs/` da branch `main`. Cada commit feito nessa pasta será publicado automaticamente.
 
 ### O que é publicado
 
@@ -31,7 +29,7 @@ O GitHub Pages está configurado para **GitHub Actions** como fonte de publicaç
 | `docs/404.html` | Página de endereço não encontrado |
 | `docs/.nojekyll` | Evita processamento Jekyll |
 
-Endereço público:
+Endereço público esperado:
 
 `https://kaykyferro.github.io/The-Bullshit-Bureau/`
 
@@ -48,7 +46,6 @@ Endereço público:
 - [x] SEO básico, canonical, Open Graph, robots e sitemap.
 - [x] Conteúdo em JSON versionado no GitHub.
 - [x] Pages CMS configurado com editor visual, campos editoriais e upload de imagens.
-- [x] Workflow de publicação sem etapa de build.
 - [ ] Em Settings → Pages, selecionar **Deploy from a branch**, branch `main`, pasta `/docs`, e salvar.
 - [ ] Confirmar que o endereço público está acessível após a publicação.
 
@@ -161,24 +158,22 @@ Valores aceitos para `section`:
 
 O valor de `slug` deve ser único e usar letras minúsculas, números e hífens.
 
-## Hospedagem no GitHub Pages
+## Hospedagem direta pelo GitHub Pages
 
-A configuração atual utiliza a tela **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+A publicação é feita diretamente dos arquivos versionados, sem workflow próprio e sem etapa de compilação.
 
-O arquivo `.github/workflows/deploy.yml`:
+### Ativação necessária no GitHub
 
-1. Baixa o repositório.
-2. Configura o GitHub Pages.
-3. Envia a pasta `docs/` como artefato.
-4. Publica esse conteúdo no GitHub Pages.
+1. Abra [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages).
+2. Em **Build and deployment → Source**, escolha **Deploy from a branch**.
+3. Em **Branch**, selecione `main`.
+4. Na pasta, selecione `/docs`.
+5. Clique em **Save**.
+6. Aguarde o primeiro deploy e abra o endereço público.
 
-Não executa `npm install`, `astro build` ou qualquer compilador. O que está em `docs/` é o que será publicado.
+O GitHub Pages procura `index.html` na raiz da pasta escolhida. Neste repositório, ele está em `docs/index.html`, exatamente na raiz da fonte `main /docs`. O arquivo `.nojekyll` nessa pasta desativa o processamento Jekyll. A cada commit em `docs/`, o GitHub publica as alterações automaticamente.
 
-O workflow roda automaticamente quando há commits na branch `main`, inclusive quando uma matéria é salva pelo Pages CMS.
-
-Acompanhe as execuções em:
-
-https://github.com/KaykyFerro/The-Bullshit-Bureau/actions
+Não escolha **GitHub Actions**, Jekyll ou outro fluxo de build para este modo direto. O site já está pronto dentro de `docs/`.
 
 ## Endereços do portal
 
@@ -197,7 +192,7 @@ Todas as rotas são atendidas por `docs/index.html`. Não há dependência de ro
 
 ## Arquivos antigos do protótipo Astro
 
-Os arquivos `src/`, `package.json`, `astro.config.mjs` e `tsconfig.json` pertencem à primeira implementação experimental em Astro. Eles foram preservados no repositório como referência, mas **não participam da hospedagem atual**. O workflow publica somente `docs/`.
+Os arquivos `src/`, `package.json`, `astro.config.mjs` e `tsconfig.json` pertencem à primeira implementação experimental em Astro. Eles foram preservados no repositório como referência, mas **não participam da hospedagem atual**. O GitHub Pages publica somente `docs/`.
 
 ## Identidade editorial
 
