@@ -8,11 +8,21 @@ const manifestPath = resolve('android/app/src/main/AndroidManifest.xml');
 const googleServicesPath = resolve('android/app/google-services.json');
 const iconSourcePath = resolve('native/android/ic_stat_bureau.xml');
 const iconTargetPath = resolve('android/app/src/main/res/drawable/ic_stat_bureau.xml');
+const launcherSourcePath = resolve('native/android/ic_bureau_launcher.xml');
+const launcherTargetPath = resolve('android/app/src/main/res/drawable/ic_bureau_launcher.xml');
 
 await mkdir(resolve('android/app/src/main/res/drawable'), { recursive: true });
 await cp(iconSourcePath, iconTargetPath);
+await cp(launcherSourcePath, launcherTargetPath);
 
 let manifest = await readFile(manifestPath, 'utf8');
+manifest = manifest.replace(/android:icon="@mipmap\\/ic_launcher"/g, 'android:icon="@drawable/ic_bureau_launcher"');
+manifest = manifest.replace(/android:roundIcon="@mipmap\\/ic_launcher_round"/g, 'android:roundIcon="@drawable/ic_bureau_launcher"');
+if (!manifest.includes('android.permission.POST_NOTIFICATIONS')) {
+  const appOpen = manifest.indexOf('<application');
+  if (appOpen < 0) throw new Error('Tag <application> não encontrado no AndroidManifest.xml.');
+  manifest = manifest.slice(0, appOpen) + '    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\\n    ' + manifest.slice(appOpen);
+}
 const metaData = '<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_bureau" />';
 if (!manifest.includes('com.google.firebase.messaging.default_notification_icon')) {
   const appClose = manifest.indexOf('</application>');

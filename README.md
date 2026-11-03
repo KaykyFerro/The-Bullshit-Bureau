@@ -555,6 +555,10 @@ O fluxo editorial permanece único:
 
 Não existe cópia separada de notícias para o app e ele não altera o conteúdo do CMS.
 
+### Redação mobile e permissões
+
+A versão 1.1.0 inclui uma área **Redação** na navegação inferior. Ela cria e edita matérias, permite rascunhos locais, upload de capas e publicação direta em `docs/data/posts.json`. Para conectar, use um Fine-grained GitHub token restrito ao repositório, com `Contents: Read and write`; a credencial é guardada no Android Keystore/iOS Keychain, nunca dentro do bundle. A tela inicial explica as permissões: notificações são opcionais, imagens são selecionadas pelo sistema apenas quando solicitadas e os recursos offline usam armazenamento privado sem pedir acesso amplo ao aparelho. Localização, contatos e microfone não são solicitados.
+
 ### Tecnologias mobile
 
 - Capacitor 8.6.0 para Android/iOS.

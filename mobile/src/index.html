@@ -18,6 +18,7 @@
         <span id="connection-state">CONECTANDO</span>
       </div>
       <a class="masthead" href="#" data-action="home" aria-label="The Bullshit Bureau, início">
+        <img class="masthead-mark" src="./assets/images/app-mark.svg" alt="">
         <span class="masthead-the">THE</span>
         <span class="masthead-name">BULLSHIT BUREAU</span>
       </a>
@@ -55,6 +56,10 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 20-1.4-1.3C5.5 14.1 2 10.9 2 7a5 5 0 0 1 8.5-3.5L12 5l1.5-1.5A5 5 0 0 1 22 7c0 3.9-3.5 7.1-8.6 11.7z"/></svg>
         <span>Favoritos</span>
       </button>
+      <button class="bottom-item" data-tab="newsroom">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Zm9-13 4 4M3 4h7M3 8h4"/></svg>
+        <span>Redação</span>
+      </button>
       <button class="bottom-item" data-tab="offline">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>
         <span>Offline</span>
@@ -66,6 +71,19 @@
     </nav>
   </div>
 
+  <section id="welcome-overlay" class="welcome-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="welcome-card">
+      <img src="./assets/images/app-mark.svg" alt="" class="welcome-logo">
+      <p class="section-kicker">Privacidade e permissões</p><h1 id="welcome-title">O jornal no seu bolso.</h1>
+      <p>Você escolhe quais recursos ativar. O aplicativo só pede acesso quando a função precisa dele.</p>
+      <div class="permission-item"><span class="permission-symbol">♧</span><div><strong>Notificações</strong><small>O Android perguntará se pode avisar sobre novas matérias. Opcional.</small></div><span class="permission-tag">Opcional</span></div>
+      <div class="permission-item"><span class="permission-symbol">▣</span><div><strong>Fotos e capas</strong><small>O seletor do sistema abre apenas quando você escolher uma imagem na Redação. Sem acesso geral à galeria.</small></div><span class="permission-tag">Ao usar</span></div>
+      <div class="permission-item"><span class="permission-symbol">⇩</span><div><strong>Leitura offline</strong><small>As matérias ficam no espaço privado do app. Não exige permissão de armazenamento.</small></div><span class="permission-tag">Interno</span></div>
+      <div class="permission-item"><span class="permission-symbol">↗</span><div><strong>Compartilhamento</strong><small>Usa o menu nativo do aparelho, sem acessar contatos.</small></div><span class="permission-tag">Ao usar</span></div>
+      <button class="editor-primary welcome-primary" data-action="grant-notifications">Permitir notificações e continuar</button>
+      <button class="editor-link-button" data-action="skip-permissions">Continuar sem notificações</button>
+    </div>
+  </section>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

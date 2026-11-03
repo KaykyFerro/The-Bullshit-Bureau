@@ -1,6 +1,6 @@
 # Notificações push do The Bullshit Bureau
 
-O app usa `@capacitor-firebase/messaging 8.6.0` com Firebase JS SDK 13.2.0 para receber **tokens FCM em Android e iOS**. Não instalamos `@capacitor/push-notifications` em paralelo: a documentação do plugin Firebase recomenda manter um único plugin de push, evitando conflitos.
+O app usa `@capacitor-firebase/messaging 8.6.0` com Firebase JS SDK 12.19.0 para receber **tokens FCM em Android e iOS**. Não instalamos `@capacitor/push-notifications` em paralelo: a documentação do plugin Firebase recomenda manter um único plugin de push, evitando conflitos.
 
 O envio remoto com o app fechado requer Firebase Cloud Messaging (FCM), APNs configurado no Firebase para iOS, um Cloudflare Worker e uma tabela D1 que guarda somente tokens de instalações. O jornal continua sem banco de dados editorial.
 

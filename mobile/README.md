@@ -44,7 +44,7 @@ Portal web              App mobile
                        \       /
                       Recursos nativos
                  Share · Preferences · Filesystem
-                 Local Notifications · Firebase Messaging
+                 Local Notifications · Firebase Messaging · Secure Storage
 ```
 
 O script `scripts/sync-content.mjs` copia o conteúdo e as imagens de `docs/` para o bundle local do app. Em execução, o app busca a versão mais recente em `https://kaykyferro.github.io/The-Bullshit-Bureau/docs/data/`. Se não houver rede, usa o cache persistente; para leitura offline garantida, salve cada matéria desejada dentro do aplicativo.
@@ -65,6 +65,7 @@ mobile/
 ├── src/
 │   ├── index.html
 │   ├── main.js
+│   ├── editor.js
 │   ├── styles.css
 │   └── public/assets/images/app-mark.svg
 ├── native/
@@ -186,6 +187,24 @@ Secrets/variáveis necessários no GitHub:
 | `FIREBASE_GOOGLE_SERVICE_INFO_PLIST_BASE64` | Secret |
 
 Sem esses recursos externos, as notificações remotas permanecem inativas. Favoritos, compartilhamento, modo leitura e offline continuam disponíveis. Notificações locais são disparadas quando o app detecta uma nova matéria durante uma atualização; elas não substituem um serviço push de segundo plano.
+
+## Redação diretamente no aplicativo
+
+Na navegação inferior, abra **Redação**. Na primeira utilização, conecte o app com um **Fine-grained personal access token** do GitHub:
+
+1. Em GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens, crie um token com acesso somente ao repositório `KaykyFerro/The-Bullshit-Bureau`.
+2. Conceda somente `Contents: Read and write` em Repository permissions. Metadata permanece Read-only.
+3. Defina validade curta e cole o token na tela de acesso editorial.
+4. O token fica no Android Keystore ou iOS Keychain, protegido em repouso. Ele não é incorporado ao APK nem enviado ao Cloudflare.
+5. Crie ou edite matéria, selecione editoria, categoria, autor, data, capa e conteúdo. Você pode guardar rascunhos localmente ou publicar diretamente no branch `main`.
+
+A publicação atualiza `docs/data/posts.json`; imagens selecionadas no aparelho são enviadas para `docs/assets/images/uploads/`. O GitHub Pages publica o portal automaticamente. Revogue o token no GitHub quando não precisar mais dele e use **Desconectar este aparelho** para apagar a credencial local.
+
+## Permissões e privacidade
+
+Na primeira abertura, o app explica cada recurso. Notificações são opcionais e a permissão do Android/iOS é solicitada quando o usuário escolhe ativá-las. O seletor de capas abre somente após interação e concede acesso à imagem escolhida, sem pedir acesso geral a fotos/armazenamento. Favoritos, cache e leitura offline ficam no espaço privado do app. Localização, contatos e microfone não são solicitados.
+
+O Android não apresenta todas as permissões no instalador: permissões sensíveis são solicitadas durante o uso. A tela inicial explica isso antes de pedir notificações.
 
 ## Integração editorial
 

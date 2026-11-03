@@ -4,6 +4,7 @@ import { Share } from '@capacitor/share';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { createNewsroom } from './editor.js';
 
 const SITE_URL = 'https://kaykyferro.github.io/The-Bullshit-Bureau/';
 const CONTENT_URL = new URL('docs/', SITE_URL);
@@ -11,6 +12,7 @@ const main = document.querySelector('#main-content');
 const toastNode = document.querySelector('#toast');
 const native = Capacitor.isNativePlatform();
 const platform = Capacitor.getPlatform();
+let newsroom;
 
 const state = {
   posts: [],
@@ -24,6 +26,7 @@ const state = {
   search: '',
   readerMode: false,
   notificationsEnabled: false,
+  onboardingComplete: false,
   site: { name: 'The Bullshit Bureau', slogan: 'A verdade acima da ideologia.', description: '' },
   config: {},
   pushToken: ''
@@ -165,6 +168,7 @@ async function loadInitialContent() {
   state.offlineSlugs = await getPref('offline-slugs', []);
   state.readerMode = await getPref('reader-mode', false);
   state.notificationsEnabled = await getPref('notifications-enabled', false);
+  state.onboardingComplete = await getPref('onboarding-complete', false);
   state.offlinePosts = await readOfflinePosts();
   document.body.classList.toggle('reader-mode', state.readerMode);
   updateHeader();
@@ -329,6 +333,14 @@ function renderSettings() {
         <button class="paper-button" data-action="toggle-notifications">${state.notificationsEnabled ? 'Desativar' : 'Ativar'}</button>
       </div>
       <div class="setting-row">
+        <div><strong>Permissões do aplicativo</strong><p>Revise notificações e entenda quando imagens e arquivos são acessados.</p></div>
+        <button class="paper-button secondary" data-action="review-permissions">Ver permissões</button>
+      </div>
+      <div class="setting-row">
+        <div><strong>Redação mobile</strong><p>Escreva, edite e publique matérias pelo aparelho.</p></div>
+        <button class="paper-button secondary" data-action="open-newsroom">Abrir redação</button>
+      </div>
+      <div class="setting-row">
         <div><strong>Atualização do jornal</strong><p>As notícias são sincronizadas com o site e o Pages CMS.</p></div>
         <button class="paper-button secondary" data-action="refresh">Atualizar agora</button>
       </div>
@@ -338,7 +350,7 @@ function renderSettings() {
       </div>
     </section>
     <p class="settings-note">The Bullshit Bureau · A verdade acima da ideologia.</p>
-    <p class="settings-version">Aplicativo 1.0.0 · ${native ? platform.toUpperCase() : 'WEB PREVIEW'}</p>
+    <p class="settings-version">Aplicativo 1.1.0 · ${native ? platform.toUpperCase() : 'WEB PREVIEW'}</p>
   `;
 }
 
@@ -379,10 +391,13 @@ function renderArticle(post) {
 function render() {
   document.body.classList.toggle('reader-mode', state.readerMode);
   document.querySelectorAll('.bottom-item').forEach((button) => button.classList.toggle('active', button.dataset.tab === state.tab));
+  const welcome = document.querySelector('#welcome-overlay');
+  if (welcome) welcome.hidden = state.onboardingComplete;
   document.querySelectorAll('.section-tab').forEach((button) => button.classList.toggle('active', button.dataset.section === state.section));
   if (state.view === 'article' && state.currentPost) renderArticle(state.currentPost);
   else if (state.tab === 'favorites') renderCollection('favorites');
   else if (state.tab === 'offline') renderCollection('offline');
+  else if (state.tab === 'newsroom') newsroom?.render();
   else if (state.tab === 'settings') renderSettings();
   else renderHome();
 }
@@ -584,32 +599,31 @@ async function setupPushListeners() {
 }
 
 async function enableNotifications() {
-  if (!native) {
-    toast('Notificações push exigem a versão instalada do aplicativo.');
-    return;
-  }
+  if (!native) { toast('A permissão de notificações pode ser solicitada na versão instalada.'); return; }
   try {
-    await setupPushListeners();
-    const permission = await FirebaseMessaging.requestPermissions();
-    if (permission.receive !== 'granted') {
-      toast('Permissão de notificações não concedida.');
-      return;
+    let localPermission = await LocalNotifications.checkPermissions();
+    if (localPermission.display !== 'granted') localPermission = await LocalNotifications.requestPermissions();
+    let remoteToken = '';
+    try {
+      await setupPushListeners();
+      const permission = await FirebaseMessaging.requestPermissions();
+      if (permission.receive === 'granted') {
+        const tokenResult = await FirebaseMessaging.getToken();
+        remoteToken = tokenResult.token || '';
+      }
+    } catch (pushError) {
+      console.info('Push remoto não configurado. Notificações locais continuam disponíveis.', pushError);
     }
-
-    const localPermission = await LocalNotifications.checkPermissions();
-    if (localPermission.display !== 'granted') {
-      await LocalNotifications.requestPermissions();
+    if (localPermission.display !== 'granted' && !remoteToken) {
+      toast('Permissão de notificações não concedida. Você pode ativar depois nos ajustes do aparelho.'); return;
     }
-
     await setPref('notifications-enabled', true);
     state.notificationsEnabled = true;
-    const tokenResult = await FirebaseMessaging.getToken();
-    await registerPushToken(tokenResult.token);
-    render();
-    toast('Notificações ativadas neste aparelho.');
+    if (remoteToken) await registerPushToken(remoteToken);
+    render(); toast('Notificações ativadas neste aparelho.');
   } catch (error) {
-    console.error('Falha ao ativar Firebase Messaging:', error);
-    toast('Não foi possível ativar notificações. Confira a configuração do Firebase.');
+    console.error('Falha ao ativar notificações:', error);
+    toast('Não foi possível solicitar a permissão. Confira os ajustes do Android.');
   }
 }
 
@@ -670,6 +684,10 @@ async function handleAction(button) {
     return;
   }
   if (action === 'clear-offline') return clearOffline();
+  if (action === 'open-newsroom') { state.tab = 'newsroom'; state.view = 'home'; render(); return; }
+  if (action === 'review-permissions') { const dialog = document.querySelector('#welcome-overlay'); if (dialog) dialog.hidden = false; return; }
+  if (action === 'grant-notifications') { await enableNotifications(); state.onboardingComplete = true; await setPref('onboarding-complete', true); render(); return; }
+  if (action === 'skip-permissions') { state.onboardingComplete = true; await setPref('onboarding-complete', true); render(); return; }
 }
 
 main.addEventListener('click', async (event) => {
@@ -685,6 +703,13 @@ main.addEventListener('click', async (event) => {
     const post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];
     if (post) renderArticle(post);
   }
+});
+
+document.querySelector('#welcome-overlay').addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-action]');
+  if (!button) return;
+  event.preventDefault();
+  await handleAction(button);
 });
 
 document.querySelector('.bottom-nav').addEventListener('click', (event) => {
@@ -732,6 +757,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 async function start() {
+  newsroom = createNewsroom({ root: main, onPublished: async (published) => { state.posts = published; await setPref('news-cache', published); updateHeader(); }, toast });
   await loadInitialContent();
   await setupPushListeners();
 
