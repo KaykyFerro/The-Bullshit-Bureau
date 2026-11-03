@@ -1,0 +1,84 @@
+name: Notify new The Bullshit Bureau stories
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/data/posts.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find newly published stories
+        id: stories
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const cp = require('node:child_process');
+          const after = JSON.parse(fs.readFileSync('docs/data/posts.json', 'utf8'));
+          let base = process.env.BEFORE_SHA;
+          if (!base || /^0+$/.test(base)) {
+            try { base = cp.execFileSync('git', ['rev-parse', 'HEAD^'], { encoding: 'utf8' }).trim(); }
+            catch { base = ''; }
+          }
+          let previous = [];
+          if (base) {
+            try {
+              previous = JSON.parse(cp.execFileSync('git', ['show', `${base}:docs/data/posts.json`], { encoding: 'utf8' }));
+            } catch { previous = []; }
+          }
+          const oldPublished = new Set(previous.filter(p => p.status === 'published').map(p => p.slug));
+          const fresh = after
+            .filter(p => p.status === 'published' && p.slug && !oldPublished.has(p.slug))
+            .map(p => ({ slug: p.slug, title: p.title, excerpt: p.excerpt || p.subtitle || '' }));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `articles=${JSON.stringify(fresh)}\n`);
+          console.log(`Novas publicações identificadas: ${fresh.length}`);
+          NODE
+
+      - name: Send notification to registered devices
+        if: ${{ steps.stories.outputs.articles != '[]' && steps.stories.outputs.articles != '' }}
+        env:
+          PUSH_WORKER_URL: ${{ secrets.PUSH_WORKER_URL }}
+          PUSH_PUBLISH_SECRET: ${{ secrets.PUSH_PUBLISH_SECRET }}
+          ARTICLES_JSON: ${{ steps.stories.outputs.articles }}
+        run: |
+          if [ -z "$PUSH_WORKER_URL" ] || [ -z "$PUSH_PUBLISH_SECRET" ]; then
+            echo "Push backend não configurado. Nenhuma notificação remota foi enviada."
+            exit 0
+          fi
+          node <<'NODE'
+          const articles = JSON.parse(process.env.ARTICLES_JSON);
+          const endpoint = process.env.PUSH_WORKER_URL.replace(/\/$/, '') + '/notify';
+          (async () => {
+            for (const article of articles) {
+              const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${process.env.PUSH_PUBLISH_SECRET}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  title: 'Nova matéria · The Bullshit Bureau',
+                  body: article.title,
+                  slug: article.slug,
+                  url: `https://kaykyferro.github.io/The-Bullshit-Bureau/?post=${encodeURIComponent(article.slug)}`
+                })
+              });
+              const result = await response.text();
+              if (!response.ok) throw new Error(`Push falhou (${response.status}): ${result}`);
+              console.log(result);
+            }
+          })().catch(error => { console.error(error); process.exit(1); });
+          NODE

@@ -1,0 +1,84 @@
+name: Build The Bullshit Bureau iOS Simulator App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "mobile/**"
+      - "docs/data/posts.json"
+      - "docs/assets/images/**"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package.json
+
+      - name: Install mobile dependencies
+        working-directory: mobile
+        run: npm install --no-audit --no-fund
+
+      - name: Build app web bundle
+        working-directory: mobile
+        env:
+          PUSH_API_URL: ${{ vars.PUSH_API_URL }}
+        run: npm run build
+
+      - name: Generate iOS platform
+        working-directory: mobile
+        run: npx cap add ios
+
+      - name: Add privacy manifest
+        run: |
+          mkdir -p mobile/ios/App/App
+          cp mobile/native/ios/PrivacyInfo.xcprivacy mobile/ios/App/App/PrivacyInfo.xcprivacy
+
+      - name: Add Firebase iOS configuration (optional)
+        env:
+          GOOGLE_SERVICE_INFO_BASE64: ${{ secrets.FIREBASE_GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+        run: |
+          if [ -n "$GOOGLE_SERVICE_INFO_BASE64" ]; then
+            printf '%s' "$GOOGLE_SERVICE_INFO_BASE64" | base64 --decode > mobile/ios/App/App/GoogleService-Info.plist
+          else
+            echo "Firebase iOS config não fornecida; push remoto ficará inativo neste build."
+          fi
+
+      - name: Sync Capacitor iOS
+        working-directory: mobile
+        run: npx cap sync ios
+
+      - name: Build for iOS Simulator
+        run: |
+          xcodebuild \
+            -workspace mobile/ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath mobile/build/ios \
+            CODE_SIGNING_ALLOWED=NO build
+
+      - name: Package simulator app
+        run: |
+          cd mobile/build/ios/Build/Products/Debug-iphonesimulator
+          ditto -c -k --sequesterRsrc --keepParent App.app TheBullshitBureau-iOS-Simulator.zip
+
+      - name: Upload iOS Simulator build
+        uses: actions/upload-artifact@v4
+        with:
+          name: the-bullshit-bureau-ios-simulator
+          path: mobile/build/ios/Build/Products/Debug-iphonesimulator/TheBullshitBureau-iOS-Simulator.zip
+          if-no-files-found: error
+          retention-days: 14

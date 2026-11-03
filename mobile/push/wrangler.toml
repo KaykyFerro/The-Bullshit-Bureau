@@ -1,0 +1,8 @@
+name = "the-bullshit-bureau-push"
+main = "worker.js"
+compatibility_date = "2026-11-03"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "the-bullshit-bureau-push"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
