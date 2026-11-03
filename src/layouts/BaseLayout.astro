@@ -1,0 +1,56 @@
+---
+import Masthead from '../components/Masthead.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'The Bullshit Bureau',
+  description = 'A verdade acima da ideologia.',
+  noindex = false
+} = Astro.props;
+const fullTitle = title === 'The Bullshit Bureau' ? title : `${title} | The Bullshit Bureau`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f0e6" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Bullshit Bureau" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical.toString()} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{fullTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <Masthead />
+    <main id="conteudo" class="page-shell main-content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="page-shell footer-inner">
+        <div>
+          <p class="footer-brand">The Bullshit Bureau</p>
+          <p class="footer-tagline">A verdade acima da ideologia.</p>
+        </div>
+        <div class="footer-meta">
+          <div>Jornalismo, contexto e responsabilidade.</div>
+          <div>© {new Date().getFullYear()} The Bullshit Bureau</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
