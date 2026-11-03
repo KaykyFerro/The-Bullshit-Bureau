@@ -1,0 +1,156 @@
+media:
+  - name: images
+    label: Imagens do jornal
+    input: public/images/uploads
+    output: /images/uploads
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+    categories:
+      - image
+    rename: safe
+
+content:
+  - name: publications
+    label: Publicações
+    type: collection
+    path: src/content/noticias
+    filename:
+      template: "{year}-{month}-{day}-{slug}.md"
+      field: false
+    view:
+      primary: title
+      sort: publishedAt
+      order: desc
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+      - name: slug
+        label: URL amigável
+        type: string
+        required: true
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        description: "Use letras minúsculas, números e hífens. Ex.: verdade-acima-da-ideologia"
+      - name: subtitle
+        label: Linha fina
+        type: text
+        required: true
+      - name: excerpt
+        label: Resumo
+        type: text
+        required: true
+      - name: section
+        label: Editoria
+        type: select
+        required: true
+        options:
+          values:
+            - name: noticias
+              label: Notícias
+            - name: artigos
+              label: Artigos e análises
+            - name: editoriais
+              label: Editorial
+            - name: opiniao
+              label: Opinião
+      - name: category
+        label: Categoria
+        type: select
+        required: true
+        options:
+          values:
+            - name: Política
+              label: Política
+            - name: Economia
+              label: Economia
+            - name: Brasil
+              label: Brasil
+            - name: Mundo
+              label: Mundo
+            - name: Tecnologia
+              label: Tecnologia
+            - name: Educação
+              label: Educação
+            - name: Ciência
+              label: Ciência
+            - name: Cultura
+              label: Cultura
+            - name: Sociedade
+              label: Sociedade
+            - name: Jornalismo
+              label: Jornalismo
+      - name: author
+        label: Autor
+        type: string
+        required: true
+      - name: publishedAt
+        label: Data de publicação
+        type: date
+        required: true
+      - name: status
+        label: Status
+        type: select
+        required: true
+        options:
+          values:
+            - name: draft
+              label: Rascunho
+            - name: published
+              label: Publicado
+      - name: featured
+        label: Manchete principal
+        type: boolean
+      - name: cover
+        label: Imagem de capa
+        type: image
+        options:
+          media: images
+          path: uploads
+          extensions:
+            - jpg
+            - jpeg
+            - png
+            - webp
+            - avif
+          rename: safe
+      - name: coverAlt
+        label: Texto alternativo da imagem
+        type: string
+        description: "Descreva objetivamente o que aparece na imagem para acessibilidade."
+      - name: body
+        label: Texto da publicação
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: images
+          path: uploads
+          extensions:
+            - jpg
+            - jpeg
+            - png
+            - webp
+            - avif
+          rename: safe
+          switcher: true
+
+  - name: about
+    label: Página Sobre
+    type: file
+    path: src/content/sobre.yml
+    format: yaml
+    fields:
+      - name: title
+        label: Título
+        type: string
+      - name: subtitle
+        label: Slogan
+        type: string
+      - name: description
+        label: Apresentação
+        type: text
