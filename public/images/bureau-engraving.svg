@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Ilustração editorial do Bureau</title>
+  <desc id="desc">Uma prensa tipográfica e folhas de jornal desenhadas em linhas pretas sobre papel envelhecido.</desc>
+  <rect width="1200" height="650" fill="#e8e2d4"/>
+  <g fill="none" stroke="#1d1d1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 500h1040M130 535h940M190 570h820"/>
+    <path d="M250 475V190h700v285M290 190v-75h620v75"/>
+    <path d="M410 115V65h380v50M465 65V35h270v30"/>
+    <path d="M375 235h450v205H375z"/>
+    <path d="M400 265h400M400 290h400M400 315h400M400 340h260M400 365h400M400 390h340"/>
+    <path d="M330 440h540l-35 35H365z"/>
+    <path d="M515 475v-35M685 475v-35M535 115v70M665 115v70"/>
+    <path d="M205 430l75-48 72 48M850 430l72-48 72 48"/>
+    <path d="M140 460l65-30 65 30M930 460l65-30 65 30"/>
+  </g>
+  <g fill="#1d1d1a">
+    <circle cx="300" cy="135" r="14"/><circle cx="900" cy="135" r="14"/>
+    <path d="M525 215h150v18H525z"/>
+    <path d="M430 410h340v9H430z"/>
+  </g>
+  <g fill="none" stroke="#5c594f" stroke-width="2">
+    <path d="M90 70h180M90 82h120M925 78h180M1010 90h95"/>
+    <path d="M100 600h250M850 600h250"/>
+    <path d="M105 125l35-30 35 30M1025 125l35-30 35 30"/>
+  </g>
+  <text x="600" y="625" fill="#272722" text-anchor="middle" font-family="Georgia,serif" font-size="18" letter-spacing="6">INFORMAÇÃO EXIGE IMPRESSÃO, NÃO PRESSA</text>
+</svg>
