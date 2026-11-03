@@ -2,19 +2,20 @@ import type { APIRoute } from 'astro';
 import { publishedPosts, postHref } from '../lib/articles';
 
 const staticPaths = [
-  '/',
-  '/noticias/',
-  '/artigos/',
-  '/editoriais/',
-  '/opiniao/',
-  '/busca/',
-  '/sobre/'
+  '',
+  'noticias/',
+  'artigos/',
+  'editoriais/',
+  'opiniao/',
+  'busca/',
+  'sobre/'
 ];
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = site?.origin ?? 'https://the-bullshit-bureau.pages.dev';
+  const origin = site?.origin ?? 'https://kaykyferro.github.io';
+  const base = import.meta.env.BASE_URL;
   const paths = [
-    ...staticPaths,
+    ...staticPaths.map((path) => `${base}${path}`),
     ...publishedPosts.map((post) => postHref(post))
   ];
   const urls = paths.map((path) => {
