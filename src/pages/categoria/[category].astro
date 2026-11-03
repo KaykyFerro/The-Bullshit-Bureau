@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { publishedPosts, categories, categorySlug } from '../../lib/articles';
+
+export function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { category: categorySlug(category) },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.props;
+const posts = publishedPosts.filter((post) => post.frontmatter.category === category);
+---
+<BaseLayout title={category} description={`Publicações da categoria ${category} no The Bullshit Bureau.`}>
+  <header class="listing-header">
+    <p class="section-kicker">Arquivo temático</p>
+    <h1 class="section-title">{category}</h1>
+    <p class="listing-description">Todas as publicações desta categoria.</p>
+  </header>
+  {posts.length ? <div class="news-grid">{posts.map((post) => <ArticleCard post={post} />)}</div> : <p class="empty-state">Nenhuma publicação nesta categoria.</p>}
+</BaseLayout>
