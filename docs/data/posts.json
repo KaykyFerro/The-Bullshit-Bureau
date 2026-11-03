@@ -10,9 +10,12 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": false,
-    "cover": "/The-Bullshit-Bureau/assets/images/press-engraving.svg",
-    "coverAlt": "Ilustração editorial de uma prensa tipográfica.",
-    "body": "<p>O nome é provocativo. O compromisso, não. O <strong>The Bullshit Bureau</strong> nasce de uma ideia simples: nenhuma convicção política, econômica ou cultural deve substituir a verificação de uma informação.</p><p>Nosso slogan é uma promessa de método, não uma declaração de que somos donos da verdade. Errar é possível. Esconder o erro não pode ser parte do trabalho.</p><h2>O que você encontrará por aqui</h2><p>Notícias devem dizer o que aconteceu, quando, onde e de acordo com quais fontes. Análises devem explicar seus argumentos e reconhecer limites. Opiniões devem aparecer identificadas, sem se disfarçar de reportagem.</p><p>Quando um dado for relevante, procuraremos apresentar sua origem. Quando houver versões conflitantes, o leitor deverá saber quem afirma o quê. Quando uma informação mudar, a publicação deverá ser atualizada com transparência.</p><h2>Questionar todos os lados</h2><p>Independência não significa neutralidade automática diante de evidências. Significa aplicar critérios consistentes, inclusive quando os fatos contrariam nossas expectativas.</p><p>O Bureau não existe para confirmar a torcida de ninguém. Existe para oferecer informação que permita ao leitor formar seu próprio juízo.</p><p><strong>A verdade acima da ideologia.</strong> É o ponto de partida. O trabalho diário é merecer essa frase.</p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Person_reading_a_newspaper_%28Unsplash%29.jpg/1280px-Person_reading_a_newspaper_%28Unsplash%29.jpg",
+    "coverAlt": "Pessoa lendo um jornal impresso em um banco ao ar livre.",
+    "body": "<p>O nome é provocativo. O compromisso, não. O <strong>The Bullshit Bureau</strong> nasce de uma ideia simples: nenhuma convicção política, econômica ou cultural deve substituir a verificação de uma informação.</p><p>Nosso slogan é uma promessa de método, não uma declaração de que somos donos da verdade. Errar é possível. Esconder o erro não pode ser parte do trabalho.</p><h2>O que você encontrará por aqui</h2><p>Notícias devem dizer o que aconteceu, quando, onde e de acordo com quais fontes. Análises devem explicar seus argumentos e reconhecer limites. Opiniões devem aparecer identificadas, sem se disfarçar de reportagem.</p><p>Quando um dado for relevante, procuraremos apresentar sua origem. Quando houver versões conflitantes, o leitor deverá saber quem afirma o quê. Quando uma informação mudar, a publicação deverá ser atualizada com transparência.</p><h2>Questionar todos os lados</h2><p>Independência não significa neutralidade automática diante de evidências. Significa aplicar critérios consistentes, inclusive quando os fatos contrariam nossas expectativas.</p><p>O Bureau não existe para confirmar a torcida de ninguém. Existe para oferecer informação que permita ao leitor formar seu próprio juízo.</p><p><strong>A verdade acima da ideologia.</strong> É o ponto de partida. O trabalho diário é merecer essa frase.</p>",
+    "coverCredit": "Roman Kraft / Unsplash, via Wikimedia Commons · CC0 1.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Person_reading_a_newspaper_(Unsplash).jpg",
+    "coverLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "title": "Fato, análise e opinião não são a mesma coisa",
@@ -25,9 +28,12 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": false,
-    "cover": "/The-Bullshit-Bureau/assets/images/press-engraving.svg",
-    "coverAlt": "Prensa tipográfica em ilustração editorial monocromática.",
-    "body": "<p>Nem todo texto publicado em um site de notícias tem a mesma finalidade. Alguns textos relatam acontecimentos; outros explicam relações entre fatos; outros defendem uma interpretação. Os três formatos podem ser legítimos, desde que o leitor saiba qual está lendo.</p><h2>Notícia: o que foi apurado</h2><p>A notícia deve priorizar informações verificáveis. O texto precisa deixar claro o que se sabe, de onde veio a informação e o que ainda não foi confirmado.</p><p>Uma afirmação atribuída a uma fonte não se transforma automaticamente em fato comprovado. A atribuição importa: quem disse, em qual contexto e com qual evidência?</p><h2>Análise: o que os fatos podem significar</h2><p>A análise conecta informações, identifica tendências e apresenta interpretações. Ela pode discutir consequências e cenários, mas precisa separar evidências de inferências.</p><h2>Opinião: o que alguém defende</h2><p>O artigo de opinião apresenta um ponto de vista. Seu autor pode argumentar, criticar e propor caminhos, mas o gênero deve estar identificado com clareza.</p><p>Identificar o formato não resolve tudo. Mas é uma forma concreta de tornar a comunicação mais honesta e a leitura mais consciente.</p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Magnifying_glass_with_focus_on_paper.png/1280px-Magnifying_glass_with_focus_on_paper.png",
+    "coverAlt": "Lupa ampliando o texto de uma página impressa.",
+    "body": "<p>Nem todo texto publicado em um site de notícias tem a mesma finalidade. Alguns textos relatam acontecimentos; outros explicam relações entre fatos; outros defendem uma interpretação. Os três formatos podem ser legítimos, desde que o leitor saiba qual está lendo.</p><h2>Notícia: o que foi apurado</h2><p>A notícia deve priorizar informações verificáveis. O texto precisa deixar claro o que se sabe, de onde veio a informação e o que ainda não foi confirmado.</p><p>Uma afirmação atribuída a uma fonte não se transforma automaticamente em fato comprovado. A atribuição importa: quem disse, em qual contexto e com qual evidência?</p><h2>Análise: o que os fatos podem significar</h2><p>A análise conecta informações, identifica tendências e apresenta interpretações. Ela pode discutir consequências e cenários, mas precisa separar evidências de inferências.</p><h2>Opinião: o que alguém defende</h2><p>O artigo de opinião apresenta um ponto de vista. Seu autor pode argumentar, criticar e propor caminhos, mas o gênero deve estar identificado com clareza.</p><p>Identificar o formato não resolve tudo. Mas é uma forma concreta de tornar a comunicação mais honesta e a leitura mais consciente.</p>",
+    "coverCredit": "Niabot / Wikimedia Commons · CC BY-SA 3.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Magnifying_glass_with_focus_on_paper.png",
+    "coverLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   {
     "title": "Três perguntas antes de compartilhar uma informação",
@@ -40,9 +46,12 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": false,
-    "cover": "/The-Bullshit-Bureau/assets/images/press-engraving.svg",
-    "coverAlt": "Ilustração editorial de uma prensa de jornal.",
-    "body": "<p>Uma publicação pode parecer convincente e ainda assim estar incompleta. Um título pode exagerar o que o texto demonstra. Uma imagem pode ser verdadeira, mas ter sido retirada de outro contexto.</p><h2>1. De onde veio?</h2><p>Procure a publicação original, o documento, a entrevista ou a instituição que produziu a informação. Uma captura de tela sem origem é um ponto de partida fraco para uma conclusão forte.</p><h2>2. Quando aconteceu?</h2><p>Data muda o significado de uma informação. Uma fotografia antiga pode reaparecer como se fosse atual. Uma regra que já foi substituída pode circular como se ainda estivesse em vigor.</p><h2>3. O conteúdo prova o que o título promete?</h2><p>Leia além da manchete. Compare a conclusão com os dados apresentados. Observe se há ressalvas, limitações ou informações relevantes que ficaram de fora.</p><h2>Compartilhar também é publicar</h2><p>Ninguém precisa se tornar especialista em tudo para consumir informação com cuidado. Mas cada compartilhamento ajuda a ampliar o alcance de uma afirmação.</p><p>A pausa para verificar é pequena. A responsabilidade é coletiva.</p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Smart-Phone.jpg/1280px-Smart-Phone.jpg",
+    "coverAlt": "Quatro aparelhos de telefone celular organizados lado a lado.",
+    "body": "<p>Uma publicação pode parecer convincente e ainda assim estar incompleta. Um título pode exagerar o que o texto demonstra. Uma imagem pode ser verdadeira, mas ter sido retirada de outro contexto.</p><h2>1. De onde veio?</h2><p>Procure a publicação original, o documento, a entrevista ou a instituição que produziu a informação. Uma captura de tela sem origem é um ponto de partida fraco para uma conclusão forte.</p><h2>2. Quando aconteceu?</h2><p>Data muda o significado de uma informação. Uma fotografia antiga pode reaparecer como se fosse atual. Uma regra que já foi substituída pode circular como se ainda estivesse em vigor.</p><h2>3. O conteúdo prova o que o título promete?</h2><p>Leia além da manchete. Compare a conclusão com os dados apresentados. Observe se há ressalvas, limitações ou informações relevantes que ficaram de fora.</p><h2>Compartilhar também é publicar</h2><p>Ninguém precisa se tornar especialista em tudo para consumir informação com cuidado. Mas cada compartilhamento ajuda a ampliar o alcance de uma afirmação.</p><p>A pausa para verificar é pequena. A responsabilidade é coletiva.</p>",
+    "coverCredit": "Ka Kit Pang / Wikimedia Commons · CC BY-SA 4.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Smart-Phone.jpg",
+    "coverLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "title": "Inteligência artificial no cotidiano: o que vale automatizar?",
@@ -55,9 +64,12 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": true,
-    "cover": "/The-Bullshit-Bureau/assets/images/ai-workspace.svg",
-    "coverAlt": "Ilustração de uma pessoa trabalhando diante de um computador, com conexões digitais ao redor.",
-    "body": "<p>A inteligência artificial já pode ajudar em tarefas comuns: organizar ideias, resumir documentos, revisar textos e apoiar pesquisas. O melhor uso começa quando a ferramenta resolve uma etapa repetitiva sem substituir o julgamento de quem está trabalhando.</p><h2>Comece por tarefas pequenas</h2><p>Uma boa experiência é pedir ajuda para estruturar uma pauta, transformar anotações em tópicos ou comparar versões de um texto. O resultado deve ser tratado como rascunho: confira nomes, números, datas e referências antes de usar.</p><h2>Cuide das informações</h2><p>Evite inserir senhas, documentos sigilosos ou dados pessoais de terceiros em ferramentas cuja política de tratamento você não conhece. Em ambientes profissionais, siga as regras da organização.</p><h2>Use a ferramenta, mantenha a responsabilidade</h2><p>Uma resposta bem escrita pode conter erros. Sempre que a informação influenciar uma decisão, procure a fonte original e valide o conteúdo. A tecnologia pode acelerar o trabalho; a responsabilidade continua sendo humana.</p><p><em>Este é um texto explicativo de referência, não uma notícia sobre um lançamento específico.</em></p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Man_working_on_computer_%28Unsplash%29.jpg/1280px-Man_working_on_computer_%28Unsplash%29.jpg",
+    "coverAlt": "Pessoa trabalhando em frente a um computador em um ambiente pouco iluminado.",
+    "body": "<p>A inteligência artificial já pode ajudar em tarefas comuns: organizar ideias, resumir documentos, revisar textos e apoiar pesquisas. O melhor uso começa quando a ferramenta resolve uma etapa repetitiva sem substituir o julgamento de quem está trabalhando.</p><h2>Comece por tarefas pequenas</h2><p>Uma boa experiência é pedir ajuda para estruturar uma pauta, transformar anotações em tópicos ou comparar versões de um texto. O resultado deve ser tratado como rascunho: confira nomes, números, datas e referências antes de usar.</p><h2>Cuide das informações</h2><p>Evite inserir senhas, documentos sigilosos ou dados pessoais de terceiros em ferramentas cuja política de tratamento você não conhece. Em ambientes profissionais, siga as regras da organização.</p><h2>Use a ferramenta, mantenha a responsabilidade</h2><p>Uma resposta bem escrita pode conter erros. Sempre que a informação influenciar uma decisão, procure a fonte original e valide o conteúdo. A tecnologia pode acelerar o trabalho; a responsabilidade continua sendo humana.</p><p><em>Este é um texto explicativo de referência, não uma notícia sobre um lançamento específico.</em></p>",
+    "coverCredit": "Mark Cruz / Unsplash, via Wikimedia Commons · CC0 1.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Man_working_on_computer_(Unsplash).jpg",
+    "coverLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "title": "Checar antes de compartilhar: um hábito simples para a vida digital",
@@ -70,9 +82,12 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": false,
-    "cover": "/The-Bullshit-Bureau/assets/images/media-literacy.svg",
-    "coverAlt": "Ilustração de uma lupa e uma marca de verificação sobre páginas de jornal.",
-    "body": "<p>Uma imagem verdadeira pode ser apresentada fora de contexto. Um título pode simplificar um estudo. Uma publicação pode circular muito tempo depois de o fato ter acontecido. Antes de repassar uma informação, vale fazer uma pausa.</p><h2>Procure a origem</h2><p>Veja quem publicou primeiro e se o texto aponta para documentos, pesquisas, entrevistas ou dados que possam ser consultados. Quando houver uma declaração, procure a fala completa e seu contexto.</p><h2>Confira a data</h2><p>A data da publicação nem sempre é a data do acontecimento. Fotografias antigas, regras revogadas e números de períodos anteriores podem reaparecer como se fossem atuais.</p><h2>Leia além da manchete</h2><p>Compare o título com o conteúdo. Observe se há ressalvas, limitações ou informações que mudam a interpretação. Em temas importantes, procure mais de uma fonte independente.</p><p>Compartilhar também amplia o alcance de uma afirmação. Verificar antes é uma forma prática de reduzir a circulação de erros.</p><p><em>Este é um guia de leitura crítica, não a cobertura de um caso específico.</em></p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Man_reading_a_newspaper.jpg/1280px-Man_reading_a_newspaper.jpg",
+    "coverAlt": "Leitor sentado em um banco de praça enquanto consulta um jornal.",
+    "body": "<p>Uma imagem verdadeira pode ser apresentada fora de contexto. Um título pode simplificar um estudo. Uma publicação pode circular muito tempo depois de o fato ter acontecido. Antes de repassar uma informação, vale fazer uma pausa.</p><h2>Procure a origem</h2><p>Veja quem publicou primeiro e se o texto aponta para documentos, pesquisas, entrevistas ou dados que possam ser consultados. Quando houver uma declaração, procure a fala completa e seu contexto.</p><h2>Confira a data</h2><p>A data da publicação nem sempre é a data do acontecimento. Fotografias antigas, regras revogadas e números de períodos anteriores podem reaparecer como se fossem atuais.</p><h2>Leia além da manchete</h2><p>Compare o título com o conteúdo. Observe se há ressalvas, limitações ou informações que mudam a interpretação. Em temas importantes, procure mais de uma fonte independente.</p><p>Compartilhar também amplia o alcance de uma afirmação. Verificar antes é uma forma prática de reduzir a circulação de erros.</p><p><em>Este é um guia de leitura crítica, não a cobertura de um caso específico.</em></p>",
+    "coverCredit": "Michael Slaten / Wikimedia Commons · CC BY-SA 4.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Man_reading_a_newspaper.jpg",
+    "coverLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "title": "Cidades caminháveis começam com calçadas seguras e espaços públicos",
@@ -85,9 +100,12 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": false,
-    "cover": "/The-Bullshit-Bureau/assets/images/walkable-city.svg",
-    "coverAlt": "Ilustração de uma avenida arborizada com calçadas, pedestres e espaços públicos.",
-    "body": "<p>Uma cidade caminhável não depende apenas de ruas bonitas. Ela precisa permitir que pessoas com diferentes idades e mobilidades consigam chegar a serviços, comércio, escolas e transporte com segurança.</p><h2>Calçadas contínuas e acessíveis</h2><p>Pavimento regular, rampas bem posicionadas, faixa livre para circulação e manutenção frequente ajudam a reduzir obstáculos. Acessibilidade deve fazer parte do projeto desde o início.</p><h2>Travessias e iluminação</h2><p>Faixas visíveis, velocidades compatíveis com áreas de pedestres, tempos adequados de semáforo e iluminação pública tornam o deslocamento mais previsível. A segurança também depende de cruzamentos legíveis.</p><h2>Conexões entre destinos</h2><p>Praças, áreas verdes, pontos de ônibus e equipamentos públicos funcionam melhor quando estão conectados por caminhos confortáveis. A qualidade do percurso importa tanto quanto o destino.</p><p>Planejar para caminhar é planejar para que o espaço público possa ser usado por mais pessoas.</p><p><em>Texto explicativo sobre princípios de urbanismo, sem atribuição a uma obra ou política municipal específica.</em></p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Sidewalk_and_bike_path.JPG/960px-Sidewalk_and_bike_path.JPG",
+    "coverAlt": "Calçada urbana e ciclovia lado a lado.",
+    "body": "<p>Uma cidade caminhável não depende apenas de ruas bonitas. Ela precisa permitir que pessoas com diferentes idades e mobilidades consigam chegar a serviços, comércio, escolas e transporte com segurança.</p><h2>Calçadas contínuas e acessíveis</h2><p>Pavimento regular, rampas bem posicionadas, faixa livre para circulação e manutenção frequente ajudam a reduzir obstáculos. Acessibilidade deve fazer parte do projeto desde o início.</p><h2>Travessias e iluminação</h2><p>Faixas visíveis, velocidades compatíveis com áreas de pedestres, tempos adequados de semáforo e iluminação pública tornam o deslocamento mais previsível. A segurança também depende de cruzamentos legíveis.</p><h2>Conexões entre destinos</h2><p>Praças, áreas verdes, pontos de ônibus e equipamentos públicos funcionam melhor quando estão conectados por caminhos confortáveis. A qualidade do percurso importa tanto quanto o destino.</p><p>Planejar para caminhar é planejar para que o espaço público possa ser usado por mais pessoas.</p><p><em>Texto explicativo sobre princípios de urbanismo, sem atribuição a uma obra ou política municipal específica.</em></p>",
+    "coverCredit": "Natur243 / Wikimedia Commons · CC BY-SA 4.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Sidewalk_and_bike_path.JPG",
+    "coverLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "title": "Ensino técnico e aprendizagem contínua: caminhos para ampliar oportunidades",
@@ -100,8 +118,11 @@
     "publishedAt": "2026-11-03",
     "status": "published",
     "featured": false,
-    "cover": "/The-Bullshit-Bureau/assets/images/education-classroom.svg",
-    "coverAlt": "Ilustração de uma sala de aula com quadro, mesas e livros.",
-    "body": "<p>A formação profissional não acontece em um único momento. Cursos técnicos, graduação, oficinas, projetos e experiências de trabalho podem compor uma trajetória de aprendizagem ao longo da vida.</p><h2>Teoria conectada à prática</h2><p>Atividades em laboratório, projetos, simulações e estágios ajudam a transformar conceitos em competências. A prática também permite identificar dúvidas que nem sempre aparecem durante uma aula expositiva.</p><h2>Aprender continuamente</h2><p>Ferramentas e processos mudam. Reservar tempo para atualizar conhecimentos, estudar fundamentos e desenvolver comunicação e colaboração pode ser útil em diferentes áreas.</p><h2>Escolher com informação</h2><p>Antes de selecionar um curso, vale verificar reconhecimento, grade curricular, infraestrutura, modalidade, custos e oportunidades de prática. Conversar com estudantes e profissionais também ajuda a conhecer a experiência real.</p><p>Uma boa escolha educacional começa por objetivos claros e informações verificáveis.</p><p><em>Este texto é um material explicativo e não anuncia um programa ou matrícula específico.</em></p>"
+    "cover": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Students_in_classroom.jpg/1280px-Students_in_classroom.jpg",
+    "coverAlt": "Estudantes participando de uma aula em sala de aula.",
+    "body": "<p>A formação profissional não acontece em um único momento. Cursos técnicos, graduação, oficinas, projetos e experiências de trabalho podem compor uma trajetória de aprendizagem ao longo da vida.</p><h2>Teoria conectada à prática</h2><p>Atividades em laboratório, projetos, simulações e estágios ajudam a transformar conceitos em competências. A prática também permite identificar dúvidas que nem sempre aparecem durante uma aula expositiva.</p><h2>Aprender continuamente</h2><p>Ferramentas e processos mudam. Reservar tempo para atualizar conhecimentos, estudar fundamentos e desenvolver comunicação e colaboração pode ser útil em diferentes áreas.</p><h2>Escolher com informação</h2><p>Antes de selecionar um curso, vale verificar reconhecimento, grade curricular, infraestrutura, modalidade, custos e oportunidades de prática. Conversar com estudantes e profissionais também ajuda a conhecer a experiência real.</p><p>Uma boa escolha educacional começa por objetivos claros e informações verificáveis.</p><p><em>Este texto é um material explicativo e não anuncia um programa ou matrícula específico.</em></p>",
+    "coverCredit": "Esthee2010 / Wikimedia Commons · CC BY-SA 4.0",
+    "coverCreditUrl": "https://commons.wikimedia.org/wiki/File:Students_in_classroom.jpg",
+    "coverLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   }
 ]
