@@ -562,7 +562,7 @@ Não existe cópia separada de notícias para o app e ele não altera o conteúd
 - Capacitor Preferences e Filesystem para dados no aparelho.
 - Capacitor Share para o compartilhamento nativo.
 - Local Notifications para alertas locais.
-- `@capacitor-firebase/messaging 8.6.0` + Firebase JS SDK 13.2.0 para tokens FCM em Android/iOS.
+- `@capacitor-firebase/messaging 8.6.0` + Firebase JS SDK 12.19.0 para tokens FCM em Android/iOS.
 - Cloudflare Worker e D1 para registro técnico de instalações e envio remoto FCM.
 
 ### Gerar o aplicativo Android
