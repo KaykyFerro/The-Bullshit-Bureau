@@ -1,0 +1,19 @@
+---
+import { formatDate, postHref } from '../lib/articles';
+const { post, variant = 'standard' } = Astro.props;
+const data = post.frontmatter;
+const image = data.cover || '/images/bureau-engraving.svg';
+const alt = data.coverAlt || `Ilustração editorial para: ${data.title}`;
+---
+<a class:list={['article-card', variant]} href={postHref(post)}>
+  <img class="article-card-image" src={image} alt={alt} loading="lazy" />
+  <div>
+    <span class="article-card-category">{data.category}</span>
+    <h2 class="article-card-title">{data.title}</h2>
+    {variant !== 'compact' && <p class="article-card-excerpt">{data.excerpt}</p>}
+    <div class="article-card-meta">
+      <span>{data.author}</span>
+      <span>{formatDate(data.publishedAt)}</span>
+    </div>
+  </div>
+</a>
