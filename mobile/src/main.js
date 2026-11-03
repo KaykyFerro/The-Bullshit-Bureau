@@ -45,7 +45,7 @@ function slugNumber(value) {
     hash ^= char.charCodeAt(0);
     hash = Math.imul(hash, 16777619);
   }
-  return Math.abs(hash >>> 0) || 1;
+  return ((hash >>> 0) % 2147483647) || 1;
 }
 
 async function getPref(key, fallback) {
@@ -532,7 +532,7 @@ async function setupPushListeners() {
   await PushNotifications.addListener('pushNotificationReceived', (notification) => {
     toast(notification.title || 'Nova notícia disponível.');
   });
-  await PushNotifications.addListener('pushNotificationActionPerformed', (event) => {
+  await LocalNotifications.addListener('localNotificationActionPerformed', (event) => {\n    const slug = event.notification?.extra?.slug;\n    const post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];\n    if (post) { state.tab = 'home'; renderArticle(post); }\n  });\n  await PushNotifications.addListener('pushNotificationActionPerformed', (event) => {
     const slug = event.notification?.data?.slug;
     const post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];
     if (post) {
