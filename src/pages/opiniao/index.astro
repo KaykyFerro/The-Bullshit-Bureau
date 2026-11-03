@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { publishedPosts } from '../../lib/articles';
+
+const posts = publishedPosts.filter((post) => post.frontmatter.section === 'opiniao');
+---
+<BaseLayout title="Opinião" description="Artigos de opinião claramente identificados no The Bullshit Bureau.">
+  <header class="listing-header">
+    <p class="section-kicker">Vozes e perspectivas</p>
+    <h1 class="section-title">Opinião</h1>
+    <p class="listing-description">Interpretações e pontos de vista identificados como opinião, distintos da notícia factual.</p>
+  </header>
+  {posts.length ? <div class="news-grid">{posts.map((post) => <ArticleCard post={post} />)}</div> : <p class="empty-state">Ainda não há artigos de opinião publicados.</p>}
+</BaseLayout>
