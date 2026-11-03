@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { publishedPosts } from '../../lib/articles';
+
+const posts = publishedPosts.filter((post) => post.frontmatter.section === 'editoriais');
+---
+<BaseLayout title="Editorial" description="Posicionamentos institucionais e princípios editoriais do The Bullshit Bureau.">
+  <header class="listing-header">
+    <p class="section-kicker">A posição do jornal</p>
+    <h1 class="section-title">Editorial</h1>
+    <p class="listing-description">Os princípios, compromissos e posicionamentos institucionais do Bureau.</p>
+  </header>
+  {posts.length ? <div class="news-grid">{posts.map((post) => <ArticleCard post={post} />)}</div> : <p class="empty-state">Ainda não há editoriais publicados.</p>}
+</BaseLayout>
