@@ -40,20 +40,29 @@ export function createNewsroom({root,onPublished,toast}) {
     return token;
   }
   async function api(path,options={}) {
-    const response=await fetch(API+path,{...options,headers:{Accept:'application/vnd.github+json',Authorization:'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})}});
+    const { operation = 'acessar o GitHub', ...fetchOptions } = options;
+    const response=await fetch(API+path,{...fetchOptions,headers:{Accept:'application/vnd.github+json',Authorization:'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(fetchOptions.body?{'Content-Type':'application/json'}:{}),...(fetchOptions.headers||{})}});
     const data=await response.json().catch(()=>({}));
-    if(!response.ok) throw new Error(data.message||('GitHub respondeu HTTP '+response.status));
+    if(!response.ok) {
+      const required=response.headers.get('X-Accepted-GitHub-Permissions') || '';
+      if(response.status===403 && /Resource not accessible by personal access token|Resource not accessible by integration/i.test(data.message||'')) {
+        const permission=required || 'contents=write';
+        throw new Error('O GitHub recusou a operação de '+operation+' porque o token não tem acesso suficiente. Permissão exigida pela API: '+permission+'. Crie um Fine-grained token para o repositório KaykyFerro/The-Bullshit-Bureau, habilite Repository permissions → Contents → Read and write, mantenha Metadata → Read-only e confira se o repositório está marcado em Repository access. Depois toque em “Trocar token” e conecte novamente. O erro não é causado pela imagem ou pelo texto.');
+      }
+      if(response.status===404) throw new Error('O GitHub não encontrou o arquivo ou o repositório. Confirme o acesso do token ao repositório KaykyFerro/The-Bullshit-Bureau.');
+      throw new Error(data.message||('GitHub respondeu HTTP '+response.status+' ao '+operation+'.'));
+    }
     return data;
   }
   async function fetchPosts() {
-    const file=await api('/repos/'+REPO+'/contents/'+FILE+'?ref=main');
+    const file=await api('/repos/'+REPO+'/contents/'+FILE+'?ref=main',{operation:'ler a lista de matérias'});
     const data=JSON.parse(decode64(file.content));
     if(!Array.isArray(data)) throw new Error('O arquivo de matérias não contém uma lista válida.');
     remotePosts=data; loaded=true; return data;
   }
   async function savePosts(next,message) {
-    const file=await api('/repos/'+REPO+'/contents/'+FILE+'?ref=main');
-    await api('/repos/'+REPO+'/contents/'+FILE,{method:'PUT',body:JSON.stringify({message,content:encode64(JSON.stringify(next,null,2)+'\n'),sha:file.sha,branch:'main'})});
+    const file=await api('/repos/'+REPO+'/contents/'+FILE+'?ref=main',{operation:'ler a versão atual do arquivo editorial'});
+    await api('/repos/'+REPO+'/contents/'+FILE,{method:'PUT',operation:'gravar docs/data/posts.json',body:JSON.stringify({message,content:encode64(JSON.stringify(next,null,2)+'\n'),sha:file.sha,branch:'main'})});
     remotePosts=next; loaded=true;
     await onPublished(next.filter(p=>p.status==='published').sort((a,b)=>String(b.publishedAt||'').localeCompare(String(a.publishedAt||''))));
   }
@@ -65,7 +74,7 @@ export function createNewsroom({root,onPublished,toast}) {
     const base64=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]||'');reader.onerror=reject;reader.readAsDataURL(f);});
     const ext=({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'})[f.type]||'jpg';
     const name=slugify(slug)+'-'+Date.now()+'.'+ext;
-    await api('/repos/'+REPO+'/contents/docs/assets/images/uploads/'+name,{method:'PUT',body:JSON.stringify({message:'media(mobile): adiciona capa '+slugify(slug),content:base64,branch:'main'})});
+    await api('/repos/'+REPO+'/contents/docs/assets/images/uploads/'+name,{method:'PUT',operation:'enviar a imagem de capa',body:JSON.stringify({message:'media(mobile): adiciona capa '+slugify(slug),content:base64,branch:'main'})});
     return '/The-Bullshit-Bureau/docs/assets/images/uploads/'+name;
   }
   function login(message='') {
@@ -74,7 +83,7 @@ export function createNewsroom({root,onPublished,toast}) {
       '<p>O token fica protegido no Android Keystore ou no iOS Keychain. Ele é enviado somente ao GitHub para validar e gravar matérias.</p>'+
       '<label class="editor-label" for="github-token">Token de acesso pessoal</label><input id="github-token" class="editor-input" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..." />'+
       '<button class="editor-primary" data-editor="connect">Conectar à redação</button><p class="editor-message">'+esc(message)+'</p>'+
-      '<details class="editor-help"><summary>Como criar o token restrito</summary><ol><li>Abra GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens.</li><li>Escolha somente o repositório <strong>'+REPO+'</strong>.</li><li>Em Repository permissions, escolha <strong>Contents: Read and write</strong>. Metadata permanece Read-only.</li><li>Defina validade curta, gere o token e cole aqui. Nunca compartilhe esse código.</li></ol><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Criar token no GitHub ↗</a></details></section>'+
+      '<details class="editor-help" open><summary>Como criar o token com a permissão correta</summary><ol><li>Abra GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens.</li><li>Em <strong>Resource owner</strong>, escolha KaykyFerro; em <strong>Repository access</strong>, marque <strong>Only select repositories</strong> e selecione <strong>'+REPO+'</strong>.</li><li>Em <strong>Repository permissions</strong>, habilite <strong>Contents → Read and write</strong>. Deixe <strong>Metadata → Read-only</strong>.</li><li>Gere um token novo com validade curta e cole aqui. Não use um token configurado apenas para leitura ou sem o repositório selecionado.</li></ol><p>O erro “Resource not accessible by personal access token” normalmente indica exatamente falta de permissão ou de acesso ao repositório. A publicação usa a permissão <code>contents=write</code>.</p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Criar novo token no GitHub ↗</a></details></section>'+
       '<p class="settings-note">O token pode ser removido deste aparelho a qualquer momento. Não configure o acesso editorial em aparelhos compartilhados.</p>';
   }
   function list() {
@@ -85,7 +94,7 @@ export function createNewsroom({root,onPublished,toast}) {
       '<div class="editor-toolbar-top"><button class="editor-primary" data-editor="new">＋ Nova matéria</button><button class="paper-button secondary" data-editor="reload">Sincronizar</button></div>'+
       '<div class="editor-tabs"><button class="'+(tab==='new'?'active':'')+'" data-editor="tab" data-tab="new">Painel</button><button class="'+(tab==='drafts'?'active':'')+'" data-editor="tab" data-tab="drafts">Rascunhos ('+(remotePosts.filter(p=>p.status!=='published').length+localDrafts.length)+')</button><button class="'+(tab==='published'?'active':'')+'" data-editor="tab" data-tab="published">Publicadas ('+remotePosts.filter(p=>p.status==='published').length+')</button></div>'+
       (tab==='new'?'<section class="editor-overview"><div><strong>'+remotePosts.filter(p=>p.status==='published').length+'</strong><span>Publicadas</span></div><div><strong>'+remotePosts.filter(p=>p.status!=='published').length+'</strong><span>Rascunhos no GitHub</span></div><div><strong>main</strong><span>Branch editorial</span></div></section><p class="editor-note">As matérias são gravadas em <code>docs/data/posts.json</code>. O GitHub Pages atualiza o portal após o commit.</p>':'<div class="editor-list">'+(rows+local||'<div class="empty-state">Nenhuma matéria nesta lista.</div>')+'</div>')+
-      '<button class="editor-link-button" data-editor="disconnect">Desconectar este aparelho</button>';
+      '<div class="editor-account-actions"><button class="editor-link-button" data-editor="change-token">Trocar token de acesso</button><button class="editor-link-button" data-editor="disconnect">Desconectar este aparelho</button></div>';
   }
   function form(post={}) {
     editingSlug=post.slug||'';selectedImage=null;
@@ -122,12 +131,32 @@ export function createNewsroom({root,onPublished,toast}) {
   }
   async function publish() {
     if(busy)return;busy=true;
-    try {const post=value();post.status='published';if(selectedImage)post.cover=await uploadCover(post.slug);if(!post.cover)throw new Error('Adicione uma URL de capa ou selecione uma imagem.');
+    try {
+      const post=value();
+      post.status='published';
+      if(selectedImage) {
+        post.cover=await uploadCover(post.slug);
+        const coverField=root.querySelector('#post-cover');
+        if(coverField) coverField.value=post.cover;
+        selectedImage=null;
+        const fileField=root.querySelector('#post-image-file');
+        if(fileField) fileField.value='';
+        const fileLabel=root.querySelector('#cover-file-name');
+        if(fileLabel) fileLabel.textContent='Capa enviada ao repositório. Se a publicação falhar, tente novamente sem reenviar a imagem.';
+      }
+      if(!post.cover)throw new Error('Adicione uma URL de capa ou selecione uma imagem.');
       const next=[...remotePosts],i=next.findIndex(p=>p.slug===editingSlug||p.slug===post.slug);if(i>=0)next[i]=post;else next.unshift(post);
       await savePosts(next,(editingSlug?'editor(mobile): atualiza ':'editor(mobile): publica ')+post.slug);
       localDrafts=localDrafts.filter(p=>p.slug!==post.slug);await Preferences.set({key:'newsroom-local-drafts',value:JSON.stringify(localDrafts)});
       toast('Matéria publicada. O portal será atualizado pelo GitHub Pages.');tab='published';list();
-    } catch(e){const message=root.querySelector('#editor-form-message');if(message)message.textContent=e.message;toast('Falha ao publicar: '+e.message);}
+    } catch(e){
+      const message=root.querySelector('#editor-form-message');
+      if(message) {
+        message.textContent='';
+        message.innerHTML=esc(e.message)+'<br><button type="button" class="editor-link-button" data-editor="change-token">Corrigir / trocar token do GitHub</button>';
+      }
+      toast('Falha ao publicar: '+e.message);
+    }
     finally{busy=false;}
   }
   async function deletePost(slug) {
@@ -152,6 +181,7 @@ export function createNewsroom({root,onPublished,toast}) {
   root.addEventListener('click',async event=>{
     const b=event.target.closest('[data-editor]');if(!b)return;const action=b.dataset.editor;
     if(action==='connect')return connect();
+    if(action==='change-token') { token=''; try { await SecureStorage.remove('github-token'); } catch {} loaded=false; return login('Crie um token com Contents: Read and write e conecte novamente.'); }
     if(action==='disconnect'){try{await SecureStorage.remove('github-token');}catch{}token='';loaded=false;remotePosts=[];return login('Acesso removido deste aparelho.');}
     if(action==='reload')return refresh();
     if(action==='new'){tab='new';return form();}

@@ -634,3 +634,8 @@ O D1 armazena apenas tokens de instalação e metadados técnicos, não matéria
 - [Workflow de app iOS Simulator](.github/workflows/build-mobile-ios-simulator.yml)
 
 **The Bullshit Bureau — A verdade acima da ideologia.**
+
+
+### Solução de erro de autorização da Redação mobile
+
+Se a API do GitHub retornar `Resource not accessible by personal access token`, gere um novo fine-grained token com **Repository access → Only select repositories → The-Bullshit-Bureau**, **Contents → Read and write** e Metadata Read-only. No aplicativo, use **Trocar token de acesso**. A tela de erro informa a operação bloqueada e a permissão reportada pelo cabeçalho `X-Accepted-GitHub-Permissions`.

@@ -228,3 +228,23 @@ Antes de publicar:
 - Publique política de privacidade e preencha as declarações de dados conforme os recursos efetivamente ativados.
 
 **The Bullshit Bureau — A verdade acima da ideologia.**
+
+
+## Solução de problemas da Redação
+
+### Erro “Resource not accessible by personal access token”
+
+Esse retorno HTTP 403 vem do GitHub e significa que o fine-grained token não tem uma permissão exigida pela operação ou não tem acesso ao repositório.
+
+Crie um token novo em [Fine-grained personal access tokens](https://github.com/settings/personal-access-tokens/new) e confira:
+
+- **Resource owner:** `KaykyFerro`.
+- **Repository access:** `Only select repositories` → selecione `The-Bullshit-Bureau`.
+- **Repository permissions:** `Contents` → `Read and write`.
+- **Metadata:** `Read-only` (padrão).
+
+Depois, na aba Redação do app, toque em **Trocar token de acesso** e conecte com o token novo. Não é necessário dar acesso a Actions, Administration ou a todos os repositórios.
+
+A permissão `Contents: Read and write` é usada tanto para gravar `docs/data/posts.json` quanto para enviar capas a `docs/assets/images/uploads/`. O app exibe o cabeçalho `X-Accepted-GitHub-Permissions` retornado pela API quando houver bloqueio, junto da operação que falhou.
+
+Documentação oficial: [GitHub REST API troubleshooting](https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api) e [permissões exigidas por fine-grained tokens](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens).

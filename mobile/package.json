@@ -1,6 +1,6 @@
 {
   "name": "the-bullshit-bureau-mobile",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Aplicativo Android e iOS do The Bullshit Bureau com Capacitor.",
   "engines": {
