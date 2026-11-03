@@ -738,6 +738,19 @@ document.addEventListener('visibilitychange', () => {
 async function start() {
   await loadInitialContent();
   await setupPushListeners();
+
+  if (native && state.notificationsEnabled) {
+    try {
+      const permission = await FirebaseMessaging.checkPermissions();
+      if (permission.receive === 'granted') {
+        const token = await FirebaseMessaging.getToken();
+        await registerPushToken(token.token);
+      }
+    } catch (error) {
+      console.warn('Push remoto não configurado neste aparelho:', error);
+    }
+  }
+
   await refreshFeed({ silent: true });
   updateHeader();
   if (!native) {
