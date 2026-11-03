@@ -64,13 +64,13 @@ Hugo entra no Pages CMS com GitHub
      Atualiza docs/data/posts.json
                 |
                 v
- GitHub Actions envia os arquivos HTML
+     GitHub Pages lê main /docs
                 |
                 v
-       GitHub Pages publica
+       Site é atualizado
 ```
 
-O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório.
+O GitHub é a fonte oficial do conteúdo e do histórico. Não há banco de dados próprio do jornal nem API editorial. O Pages CMS é a interface de edição e grava os arquivos no repositório. O GitHub Pages publica diretamente a pasta `docs/` da branch `main`; para isso, a opção `Settings → Pages → Deploy from a branch → main → /docs` precisa estar salva.
 
 ## Painel editorial
 
@@ -84,13 +84,13 @@ Na primeira entrada:
 4. Acesse **Publicações**.
 5. Edite uma matéria existente ou crie uma nova.
 
-A página `/admin/` não é necessária para a administração: o link de edição fica no menu do próprio jornal, em **Redação**.
+A página `/admin/` não é necessária para a administração: o link de edição fica no menu do próprio jornal, em **Redação**. Esse link abre o CMS hospedado, onde você entra com GitHub.
 
 **Para manter apenas um editor:** mantenha `KaykyFerro` como única conta com permissão de escrita no repositório e não convide outros colaboradores para editar.
 
 ### Editor visual
 
-O Pages CMS está configurado para editar o arquivo `docs/data/posts.json` como uma lista de publicações. O campo **Texto da matéria** usa rich-text em HTML. O editor permite formatação de texto e upload de imagens.
+O Pages CMS está configurado para editar o arquivo `docs/data/posts.json` como uma lista de publicações (`type: file`, `format: json`, `list: true`). O campo **Texto da matéria** usa o editor rich-text em HTML, com o modo Source oculto. O editor permite formatação de texto e upload de imagens.
 
 Campos da publicação:
 
@@ -115,7 +115,7 @@ Campos da publicação:
 - `draft`: não aparece na página pública.
 - `published`: aparece no jornal após a atualização do site.
 
-O JavaScript filtra as publicações por `status` antes de renderizar o conteúdo. O rascunho continua no JSON, mas não é exibido aos visitantes.
+O JavaScript filtra as publicações por `status` antes de renderizar o conteúdo. O rascunho continua no JSON, mas não é exibido aos visitantes. Salvar no CMS grava um commit no GitHub; com `main /docs` ativado em Settings → Pages, a publicação do site ocorre automaticamente.
 
 ### Uploads
 
@@ -204,6 +204,15 @@ A proposta é questionar narrativas de todos os lados, distinguir fato, análise
 Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contrapontos relevantes e correções transparentes. Textos demonstrativos devem ser revisados antes de serem tratados como notícia.
 
 ## Registro de atualizações
+
+### 03/11/2026 — Como editar e publicar matérias
+
+1. Abra [Pages CMS](https://app.pagescms.org/) e entre com a conta GitHub autorizada.
+2. Selecione `KaykyFerro/The-Bullshit-Bureau` e a branch `main`.
+3. Abra **Publicações** para editar uma matéria ou criar uma nova.
+4. Preencha título, slug, editoria, categoria, autor, data, capa e corpo no editor visual.
+5. Use `draft` para rascunho ou `published` para colocar no jornal.
+6. Salve. O CMS grava no `docs/data/posts.json`; o GitHub Pages publica quando a origem `main /docs` está ativa.
 
 ### 03/11/2026 — Migração para HTML estático e publicação direta pela branch
 
