@@ -102,7 +102,7 @@ O arquivo `docs/404.html` é a página de fallback do GitHub Pages para endereç
 | Edição | Pages CMS | Formulário visual, rich-text e envio de imagens |
 | Versionamento | GitHub | Histórico e armazenamento dos arquivos |
 | Hospedagem | GitHub Pages | Disponibilização do site |
-| Automação | GitHub Actions | Validação, empacotamento e publicação |
+| Publicação | GitHub Pages | Entrega direta dos arquivos da branch `main` |
 
 ### Sem backend e sem banco de dados próprio
 
@@ -151,7 +151,10 @@ The-Bullshit-Bureau/
 | Arquivo | Finalidade |
 | --- | --- |
 | `.pages.yml` | Define as coleções, campos do CMS e diretório de mídia |
-
+| `.nojekyll` | Desativa o processamento Jekyll na raiz publicada |
+| `404.html` | Página de erro publicada na raiz |
+| `robots.txt` | Regras dos robôs de busca na raiz |
+| `sitemap.xml` | Sitemap disponível na raiz |
 | `index.html` | Entrada pública na raiz do projeto; carrega CSS, JS e conteúdo a partir de `docs/` |
 | `docs/index.html` | Estrutura completa alternativa do portal, usada quando a origem do Pages é a pasta `/docs` |
 | `docs/assets/css/newspaper.css` | Layout, tipografia, cores e regras responsivas |
@@ -161,7 +164,7 @@ The-Bullshit-Bureau/
 | `docs/assets/images/favicon.svg` | Ícone do site |
 | `docs/assets/images/press-engraving.svg` | Ilustração local de reserva e imagem da página Sobre |
 | `docs/assets/images/uploads/` | Destino das imagens enviadas pelo CMS |
-| `docs/404.html` | Página de endereço não encontrado |
+| `docs/404.html` | Cópia da página de endereço não encontrado para a versão interna em `docs/` |
 | `docs/robots.txt` | Orientações básicas para robôs de busca |
 | `docs/sitemap.xml` | Sitemap XML atual |
 
