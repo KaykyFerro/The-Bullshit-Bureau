@@ -5,7 +5,7 @@
   "type": "module",
   "description": "The Bullshit Bureau — A verdade acima da ideologia.",
   "engines": {
-    "node": ">=22.22.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "dev": "astro dev",
