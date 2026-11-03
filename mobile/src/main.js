@@ -328,7 +328,7 @@ function renderSettings() {
       </div>
       <div class="setting-row">
         <div><strong>Notificações de novas matérias</strong><p>Receba avisos quando uma nova publicação for disponibilizada.</p></div>
-        <button class="paper-button" data-action="enable-notifications">${state.notificationsEnabled ? 'Ativadas' : 'Ativar'}</button>
+        <button class="paper-button" data-action="enable-notifications">${state.notificationsEnabled ? 'Desativar' : 'Ativar'}</button>
       </div>
       <div class="setting-row">
         <div><strong>Atualização do jornal</strong><p>As notícias são sincronizadas com o site e o Pages CMS.</p></div>
@@ -570,6 +570,30 @@ async function enableNotifications() {
   }
 }
 
+
+async function disableNotifications() {
+  const stored = await getPref('pending-push-token', null);
+  const token = state.pushToken || stored?.token;
+  const endpoint = String(state.config.pushApiUrl || '').replace(/\\/$/, '');
+  if (token && endpoint) {
+    try {
+      await fetch(`${endpoint}/register`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
+      });
+    } catch (error) {
+      console.warn('Não foi possível remover o token push:', error);
+    }
+  }
+  try { if (native) await PushNotifications.unregister(); } catch { /* O token será revogado no servidor quando possível. */ }
+  await setPref('notifications-enabled', false);
+  state.notificationsEnabled = false;
+  state.pushToken = '';
+  render();
+  toast('Notificações desativadas neste aparelho.');
+}
+
 async function handleAction(button) {
   const action = button.dataset.action;
   const slug = button.dataset.slug;
@@ -586,6 +610,7 @@ async function handleAction(button) {
     return;
   }
   if (action === 'enable-notifications') return enableNotifications();
+  if (action === 'toggle-notifications') return state.notificationsEnabled ? disableNotifications() : enableNotifications();
   if (action === 'refresh') return refreshFeed();
   if (action === 'back' || action === 'home') {
     state.view = 'home';
