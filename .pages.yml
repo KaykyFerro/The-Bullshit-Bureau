@@ -115,7 +115,6 @@ content:
         type: image
         options:
           media: images
-          path: uploads
           extensions:
             - jpg
             - jpeg
@@ -134,7 +133,6 @@ content:
         options:
           format: markdown
           media: images
-          path: uploads
           extensions:
             - jpg
             - jpeg
