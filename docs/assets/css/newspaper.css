@@ -221,7 +221,10 @@ img { display: block; max-width: 100%; }
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.article-cover { width: min(100%, 1100px); max-height: 620px; margin: 0 auto 30px; object-fit: cover; filter: grayscale(1); }
+.article-cover { width: min(100%, 1100px); max-height: 620px; margin: 0 auto 8px; object-fit: cover; filter: grayscale(1); }
+.image-credit { width: min(1100px, 100%); margin: 0 auto 28px; color: var(--muted); font: 10px/1.45 var(--sans); text-align: right; }
+.image-credit a { color: var(--muted); text-decoration: underline; }
+.image-credit a:hover { color: var(--red); }
 .article-body { width: min(740px, 100%); margin: 0 auto; font: 19px/1.78 var(--serif); }
 .article-body > :first-child { margin-top: 0; }
 .article-body h2, .article-body h3 { margin: 2em 0 .65em; font: 700 1.65rem/1.1 var(--serif); }
