@@ -24,9 +24,12 @@ content:
       template: "{year}-{month}-{day}-{fields.slug}.md"
       field: false
     view:
+      fields: [title, section, category, status, publishedAt]
       primary: title
-      sort: publishedAt
-      order: desc
+      sort: [publishedAt, title]
+      default:
+        sort: publishedAt
+        order: desc
     fields:
       - name: title
         label: Título
@@ -139,4 +142,4 @@ content:
             - webp
             - avif
           rename: safe
-          switcher: true
+          switcher: false
