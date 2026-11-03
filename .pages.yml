@@ -20,8 +20,6 @@ content:
     path: docs/data/posts.json
     format: json
     list: true
-    operations:
-      delete: true
     fields:
       - name: title
         label: Título
