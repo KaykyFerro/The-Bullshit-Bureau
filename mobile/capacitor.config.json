@@ -1,0 +1,21 @@
+{
+  "appId": "br.com.thebullshitbureau.app",
+  "appName": "The Bullshit Bureau",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "launchAutoHide": true,
+      "backgroundColor": "#f3efe5",
+      "showSpinner": false
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_bureau",
+      "iconColor": "#8c211e"
+    }
+  }
+}

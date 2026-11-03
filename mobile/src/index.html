@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3efe5">
+  <meta name="description" content="The Bullshit Bureau. A verdade acima da ideologia.">
+  <title>The Bullshit Bureau</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/images/favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./main.js"></script>
+</head>
+<body>
+  <div class="app-frame">
+    <header class="app-header">
+      <div class="header-topline">
+        <span>EDIÇÃO DIGITAL</span>
+        <span id="connection-state">CONECTANDO</span>
+      </div>
+      <a class="masthead" href="#" data-action="home" aria-label="The Bullshit Bureau, início">
+        <span class="masthead-the">THE</span>
+        <span class="masthead-name">BULLSHIT BUREAU</span>
+      </a>
+      <p class="masthead-slogan">A verdade acima da ideologia.</p>
+      <div class="header-divider"></div>
+      <div class="header-meta">
+        <span id="edition-date">JORNALISMO · CONTEXTO · RESPONSABILIDADE</span>
+        <button class="icon-button" type="button" data-action="refresh" aria-label="Atualizar notícias" title="Atualizar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M5.6 9A7 7 0 0 1 18 6.5L20 12M4 12l2 5.5A7 7 0 0 0 18.4 15"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <nav class="section-tabs" aria-label="Editorias">
+      <button class="section-tab active" data-section="all">Capa</button>
+      <button class="section-tab" data-section="noticias">Notícias</button>
+      <button class="section-tab" data-section="artigos">Artigos</button>
+      <button class="section-tab" data-section="editoriais">Editorial</button>
+      <button class="section-tab" data-section="opiniao">Opinião</button>
+    </nav>
+
+    <main id="main-content" tabindex="-1" aria-live="polite">
+      <section class="loading-state">
+        <div class="loading-rule"></div>
+        <p>Preparando a edição...</p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegação do aplicativo">
+      <button class="bottom-item active" data-tab="home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>
+        <span>Capa</span>
+      </button>
+      <button class="bottom-item" data-tab="favorites">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 20-1.4-1.3C5.5 14.1 2 10.9 2 7a5 5 0 0 1 8.5-3.5L12 5l1.5-1.5A5 5 0 0 1 22 7c0 3.9-3.5 7.1-8.6 11.7z"/></svg>
+        <span>Favoritos</span>
+      </button>
+      <button class="bottom-item" data-tab="offline">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>
+        <span>Offline</span>
+      </button>
+      <button class="bottom-item" data-tab="settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0-6v3m0 14v3M4.9 4.9 7 7m10 10 2.1 2.1M2 12h3m14 0h3M4.9 19.1 7 17m10-10 2.1-2.1"/></svg>
+        <span>Ajustes</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
