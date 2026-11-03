@@ -33,7 +33,7 @@ Jornal digital independente com identidade visual de jornal impresso, portal est
 
 - [ ] Instalar/autorizar o GitHub App do Pages CMS para este repositório.
 - [ ] Entrar no Pages CMS com GitHub e confirmar que a coleção **Publicações** aparece.
-- [ ] Em Settings → Pages, selecionar **GitHub Actions** como Source (ou confirmar se a action `configure-pages` ativou automaticamente).
+- [ ] Em Settings → Pages, selecionar manualmente **GitHub Actions** como Source. A action usa `GITHUB_TOKEN`, que não tem permissão para habilitar Pages pela primeira vez.
 - [ ] Confirmar o primeiro resultado verde do workflow e o primeiro deploy público.
 - [ ] Confirmar o primeiro resultado verde do workflow e o endereço público do site.
 
@@ -192,7 +192,7 @@ O workflow `.github/workflows/deploy.yml` executa validação, build Astro, uplo
 4. Abra a aba [Actions](https://github.com/KaykyFerro/The-Bullshit-Bureau/actions) e acompanhe **Deploy to GitHub Pages**.
 5. Quando os jobs `build` e `deploy` terminarem com sucesso, abra o endereço público acima.
 
-O workflow também chama `actions/configure-pages@v5` para configurar/consultar os metadados do Pages. A configuração de Source em Settings deve ser conferida caso o primeiro deploy solicite essa ativação.
+O workflow também chama `actions/configure-pages@v5` para consultar/configurar metadados do Pages. Como o workflow usa o `GITHUB_TOKEN`, ele não pode ativar Pages pela primeira vez. A seleção manual de **GitHub Actions** em Settings → Pages é obrigatória antes do deploy inicial.
 
 Não são necessárias variáveis de ambiente para gerar o portal. O workflow é disparado em pushes para `main` e pode ser iniciado manualmente pela aba Actions.
 
@@ -258,7 +258,7 @@ Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, co
 ### 03/11/2026 — Configuração de hospedagem no GitHub Pages
 
 - Astro configurado com `site` e `base` para o domínio de projeto `kaykyferro.github.io/The-Bullshit-Bureau`.
-- Links internos, imagens, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
+- Links internos, imagens de capa e imagens/links incluídos no corpo das matérias, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
 - Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
 - Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
 - Ativação do Source como GitHub Actions e confirmação do primeiro deploy ainda precisam ser verificadas no GitHub.
