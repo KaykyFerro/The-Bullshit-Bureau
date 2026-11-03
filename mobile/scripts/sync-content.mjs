@@ -22,12 +22,12 @@ for (const file of requiredFiles) {
 }
 
 await rm(resolve(publicRoot, 'data'), { recursive: true, force: true });
-await rm(resolve(publicRoot, 'assets/images'), { recursive: true, force: true });
+await rm(resolve(publicRoot, 'assets/site-images'), { recursive: true, force: true });
 await mkdir(resolve(publicRoot, 'data'), { recursive: true });
-await mkdir(resolve(publicRoot, 'assets/images'), { recursive: true });
+await mkdir(resolve(publicRoot, 'assets/site-images'), { recursive: true });
 
 await cp(resolve(repoRoot, 'docs/data'), resolve(publicRoot, 'data'), { recursive: true });
-await cp(resolve(repoRoot, 'docs/assets/images'), resolve(publicRoot, 'assets/images'), { recursive: true });
+await cp(resolve(repoRoot, 'docs/assets/images'), resolve(publicRoot, 'assets/site-images'), { recursive: true });
 
 const appConfig = {
   siteUrl: 'https://kaykyferro.github.io/The-Bullshit-Bureau/',
