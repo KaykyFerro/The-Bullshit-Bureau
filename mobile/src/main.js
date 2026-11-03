@@ -62,7 +62,8 @@ async function setPref(key, value) {
 }
 
 function localAsset(path) {
-  return new URL(path.replace(/^\\/+/, ''), document.baseURI).href;
+  const relative = path.startsWith('/') ? path.slice(1) : path;
+  return new URL(relative, document.baseURI).href;
 }
 
 function coverUrl(value) {
