@@ -55,6 +55,10 @@ jobs:
             echo "Firebase iOS config não fornecida; push remoto ficará inativo neste build."
           fi
 
+      - name: Patch iOS push callbacks
+        working-directory: mobile
+        run: node scripts/patch-ios-push.mjs
+
       - name: Sync Capacitor iOS
         working-directory: mobile
         run: npx cap sync ios
