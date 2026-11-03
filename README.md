@@ -123,7 +123,19 @@ O JavaScript filtra as publicações por `status` antes de renderizar o conteúd
 
 ### Imagens e créditos
 
-As sete publicações possuem imagens de capa. As fotografias estão hospedadas no Wikimedia Commons e são carregadas por URL HTTPS. Cada publicação armazena `coverCredit`, `coverCreditUrl` e `coverLicenseUrl`; a página da matéria exibe o crédito e o link da licença. As licenças incluem CC0 1.0 ou CC BY-SA 3.0/4.0 conforme a imagem.
+As sete publicações possuem fotografias de capa hospedadas no Wikimedia Commons e carregadas por URL HTTPS. Cada publicação armazena `coverCredit`, `coverCreditUrl` e `coverLicenseUrl`; a página da matéria exibe o crédito e o link da licença.
+
+| Publicação | Crédito | Licença |
+| --- | --- | --- |
+| A verdade acima da ideologia | Roman Kraft / Unsplash | CC0 1.0 |
+| Fato, análise e opinião | Niabot | CC BY-SA 3.0 |
+| Três perguntas antes de compartilhar | Ka Kit Pang | CC BY-SA 4.0 |
+| Inteligência artificial no cotidiano | Mark Cruz / Unsplash | CC0 1.0 |
+| Checar antes de compartilhar | Michael Slaten | CC BY-SA 4.0 |
+| Cidades caminháveis | Natur243 | CC BY-SA 4.0 |
+| Ensino técnico e aprendizagem contínua | Esthee2010 | CC BY-SA 4.0 |
+
+Os links da fonte e das licenças estão gravados em cada item de `docs/data/posts.json` e aparecem junto à imagem na página da matéria.
 
 O portal também usa uma ilustração SVG local como fallback caso uma imagem externa esteja indisponível. Para novas imagens, preencha os campos de crédito e licença no CMS quando exigidos pela licença escolhida.
 
