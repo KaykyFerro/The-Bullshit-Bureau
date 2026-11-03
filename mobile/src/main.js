@@ -238,7 +238,7 @@ function storyCard(post, compact = false) {
   return `
     <article class="story-card ${compact ? 'compact' : ''}" data-open="${escapeHtml(post.slug)}">
       <button class="story-image-button" data-open="${escapeHtml(post.slug)}" aria-label="Abrir ${escapeHtml(post.title)}">
-        <img class="story-image" src="${cover}" alt="${escapeHtml(post.coverAlt || post.title)}" loading="lazy"
+        <img class="story-image" src="${escapeHtml(cover)}" alt="${escapeHtml(post.coverAlt || post.title)}" loading="lazy"
           onerror="this.onerror=null;this.src='${localAsset('assets/site-images/press-engraving.svg')}'">
       </button>
       <div class="story-copy">
@@ -364,7 +364,7 @@ function renderArticle(post) {
         ${post.subtitle ? `<p class="reader-subtitle">${escapeHtml(post.subtitle)}</p>` : ''}
         <div class="reader-byline">Por ${escapeHtml(post.author || 'Redação')} · ${dateLabel(post.publishedAt)}</div>
       </header>
-      <img class="reader-cover" src="${cover}" alt="${escapeHtml(post.coverAlt || post.title)}"
+      <img class="reader-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(post.coverAlt || post.title)}"
         onerror="this.onerror=null;this.src='${localAsset('assets/site-images/press-engraving.svg')}'">
       ${source ? `<p class="image-credit">Imagem: ${source}${license}</p>` : ''}
       <div class="reader-toolbar">
