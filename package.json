@@ -1,0 +1,23 @@
+{
+  "name": "the-bullshit-bureau",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The Bullshit Bureau — A verdade acima da ideologia.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^7.4.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.8.3"
+  }
+}
