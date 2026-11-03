@@ -509,6 +509,22 @@ Edite `docs/index.html` para modificar o masthead, o menu, o cabeçalho ou o rod
 
 Edite `.pages.yml` somente quando precisar mudar as coleções, campos, opções ou locais de mídia do Pages CMS. Essa configuração não altera diretamente o layout público.
 
+## 14. Princípios editoriais e responsabilidade
+
+Antes de publicar uma matéria factual:
+
+- Confira a origem das informações e a data dos acontecimentos.
+- Diferencie fatos confirmados, declarações, hipóteses e interpretações.
+- Identifique análises e opiniões como tais.
+- Inclua links ou referências para fontes verificáveis.
+- Confira os direitos de uso das imagens e mantenha os créditos exigidos.
+- Atualize a matéria quando houver correção relevante e deixe claro o que foi corrigido.
+
+O objetivo do The Bullshit Bureau é informar com rigor, contexto e transparência. A revisão editorial é parte do processo de publicação.
+
+---
+
+
 ## 15. Aplicativo Android e iOS
 
 O projeto inclui o aplicativo **The Bullshit Bureau Mobile**, construído com Capacitor 8.6.0. Ele tem uma interface própria para celular, mas consome as mesmas notícias do portal e do Pages CMS.
@@ -612,20 +628,5 @@ O D1 armazena apenas tokens de instalação e metadados técnicos, não matéria
 - [Configuração do Firebase e push](mobile/push/README.md)
 - [Workflow de APK Android](.github/workflows/build-mobile-android.yml)
 - [Workflow de app iOS Simulator](.github/workflows/build-mobile-ios-simulator.yml)
-
-## 14. Princípios editoriais e responsabilidade
-
-Antes de publicar uma matéria factual:
-
-- Confira a origem das informações e a data dos acontecimentos.
-- Diferencie fatos confirmados, declarações, hipóteses e interpretações.
-- Identifique análises e opiniões como tais.
-- Inclua links ou referências para fontes verificáveis.
-- Confira os direitos de uso das imagens e mantenha os créditos exigidos.
-- Atualize a matéria quando houver correção relevante e deixe claro o que foi corrigido.
-
-O objetivo do The Bullshit Bureau é informar com rigor, contexto e transparência. A revisão editorial é parte do processo de publicação.
-
----
 
 **The Bullshit Bureau — A verdade acima da ideologia.**
