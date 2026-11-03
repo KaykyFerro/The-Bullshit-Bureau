@@ -11,7 +11,7 @@ Jornal digital independente com aparência de jornal impresso. O portal é feito
 | **CMS editorial** | https://app.pagescms.org/ |
 | **Hospedagem** | GitHub Pages |
 | **Branch de publicação** | `main` |
-| **Pasta publicada** | `docs/` |
+| **Pasta publicada** | `/` (raiz do repositório) |
 
 ---
 
@@ -118,9 +118,6 @@ A estrutura foi reduzida para manter somente os arquivos utilizados pelo site, p
 
 ```text
 The-Bullshit-Bureau/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml
 ├── .nojekyll                # Entrada raiz sem processamento Jekyll
 ├── 404.html                 # Fallback da raiz publicada
 ├── index.html               # Entrada raiz, carrega a aplicação de docs/
@@ -154,7 +151,7 @@ The-Bullshit-Bureau/
 | Arquivo | Finalidade |
 | --- | --- |
 | `.pages.yml` | Define as coleções, campos do CMS e diretório de mídia |
-| `.github/workflows/deploy.yml` | Valida e publica o site |
+
 | `index.html` | Entrada pública na raiz do projeto; carrega CSS, JS e conteúdo a partir de `docs/` |
 | `docs/index.html` | Estrutura completa alternativa do portal, usada quando a origem do Pages é a pasta `/docs` |
 | `docs/assets/css/newspaper.css` | Layout, tipografia, cores e regras responsivas |
@@ -328,60 +325,49 @@ O campo de imagem de capa e as imagens inseridas no rich-text utilizam essa cole
 
 ## 8. Publicação e hospedagem
 
-O jornal é hospedado no **GitHub Pages**:
+O jornal é hospedado diretamente pelo **GitHub Pages**, a partir da branch `main`. Não há workflow personalizado de deploy nem etapa de compilação.
 
 - Repositório: `KaykyFerro/The-Bullshit-Bureau`
-- Branch: `main`
+- Branch de publicação: `main`
+- Pasta de publicação: `/` (raiz do repositório)
 - Endereço: https://kaykyferro.github.io/The-Bullshit-Bureau/
 
-### Entradas e compatibilidade com a origem do Pages
+### Configuração do GitHub Pages
 
-O repositório possui duas entradas que apontam para o mesmo conteúdo:
+Em [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages), a origem deve estar assim:
 
-- `index.html` na raiz: carrega o portal usando os arquivos e dados de `docs/`. É a entrada utilizada quando a fonte do Pages publica a raiz da branch.
-- `docs/index.html`: contém a estrutura do portal e utiliza os dados da própria pasta `docs/`. É a entrada para a configuração de branch `main /docs`.
+| Campo | Valor |
+| --- | --- |
+| Source | Deploy from a branch |
+| Branch | `main` |
+| Folder | `/ (root)` |
 
-O JavaScript detecta a base de conteúdo e resolve os caminhos de imagens e dados para os dois cenários. Assim, o endereço principal não deve exibir o README como página inicial.
+A entrada pública é `index.html` na raiz. Ela carrega CSS e JavaScript de `docs/assets/` e dados de `docs/data/`. O README não é utilizado como página inicial.
 
-Os arquivos `.nojekyll`, `404.html`, `robots.txt` e `sitemap.xml` também existem na raiz para a configuração que publica a raiz do repositório.
+O marcador raiz `.nojekyll` instrui o GitHub Pages a servir os arquivos sem processamento Jekyll. Também existem arquivos de raiz `404.html`, `robots.txt` e `sitemap.xml`.
 
-### Workflow de publicação
+### Como as atualizações são publicadas
 
-O workflow fica em:
+O Pages acompanha os commits na branch `main`. Quando uma matéria é salva pelo Pages CMS, o commit atualiza `docs/data/posts.json`; o GitHub Pages publica a nova versão automaticamente.
 
-`.github/workflows/deploy.yml`
+Não há instalação de Node.js, npm, framework, compilador, API editorial ou banco de dados.
 
-Ele é acionado por alterações em `docs/**`, na entrada raiz `index.html`, no marcador `.nojekyll` ou no próprio workflow. Também pode ser executado manualmente.
+### Por que o workflow personalizado foi removido
 
-Etapas executadas:
+O repositório estava executando a publicação nativa por branch e também um workflow que chamava `actions/deploy-pages`. Os dois mecanismos tentaram publicar ao mesmo tempo. O log do GitHub confirmou o conflito: uma implantação foi recusada porque outra ainda estava em andamento.
 
-1. Baixa o repositório.
-2. Configura o GitHub Pages.
-3. Valida HTML, CSS, JavaScript, o marcador `.nojekyll` e os JSON.
-4. Monta um pacote com `index.html` na raiz e os arquivos do site em `docs/`.
-5. Envia o pacote como artefato do GitHub Pages.
-6. Publica o artefato.
+Para manter apenas um mecanismo, o workflow personalizado foi removido. A publicação agora utiliza **GitHub Pages → main → root**.
 
-Não há instalação de Node.js, npm, Astro ou compilação.
+### Acompanhar a publicação
 
-### Qual fonte selecionar em Settings → Pages
-
-A configuração recomendada para o workflow é **GitHub Actions**.
-
-Se optar pela publicação direta por branch, use `main / (root)` para que a entrada raiz `index.html` seja utilizada. A configuração alternativa `main /docs` usa `docs/index.html`.
-
-Evite misturar fontes diferentes sem entender a diferença: uma publicação por branch pode substituir o resultado de um deploy por Actions, e vice-versa. Use uma única fonte de publicação como configuração principal.
-
-### Acompanhar uma publicação
-
-- Histórico das execuções: https://github.com/KaykyFerro/The-Bullshit-Bureau/actions
-- Configuração do Pages: https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages
+- [Configurações do GitHub Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages)
+- [Commits recentes](https://github.com/KaykyFerro/The-Bullshit-Bureau/commits/main)
 
 Se uma alteração não aparecer:
 
 1. Confirme se o CMS gravou o commit na branch `main`.
-2. Abra Actions e verifique se o workflow terminou com sucesso.
-3. Confirme a fonte de publicação em Settings → Pages.
+2. Abra Settings → Pages e confira `main / (root)`.
+3. Aguarde o processamento da publicação pelo GitHub Pages.
 4. Atualize o jornal. Se necessário, faça recarga forçada com `Ctrl + F5`.
 
 
@@ -437,7 +423,7 @@ Também é possível editar manualmente os arquivos:
 
 Ao editar `posts.json` manualmente, preserve o formato JSON válido, use aspas duplas, não deixe vírgula após o último item e mantenha todos os campos com seus tipos corretos.
 
-Para alterações de layout ou comportamento, faça commits em `docs/`. O workflow de publicação será acionado automaticamente.
+Para alterações de layout ou comportamento, faça commits em `docs/` ou na entrada raiz `index.html`. O GitHub Pages publica a atualização diretamente a partir da branch `main`.
 
 ## 12. Conteúdo atualmente cadastrado
 
