@@ -1,0 +1,51 @@
+name: Publish The Bullshit Bureau (static HTML)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Validate HTML site files
+        run: |
+          test -s docs/index.html
+          test -s docs/assets/css/newspaper.css
+          test -s docs/assets/js/newspaper.js
+          test -s docs/.nojekyll
+          python3 -m json.tool docs/data/posts.json > /dev/null
+          python3 -m json.tool docs/data/site.json > /dev/null
+
+      - name: Upload static website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./docs
+          include-hidden-files: true
+
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
