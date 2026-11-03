@@ -2,7 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import { Share } from '@capacitor/share';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { PushNotifications } from '@capacitor/push-notifications';
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 const SITE_URL = 'https://kaykyferro.github.io/The-Bullshit-Bureau/';
@@ -504,46 +504,87 @@ async function notifyNewPosts(posts) {
 }
 
 let pushListenersReady = false;
+
+async function registerPushToken(tokenValue) {
+  const token = String(tokenValue || '').trim();
+  if (!token) return;
+  state.pushToken = token;
+  await setPref('pending-push-token', { token, platform });
+
+  const endpoint = String(state.config.pushApiUrl || '').replace(/\/$/, '');
+  if (!endpoint) {
+    toast('Permissão concedida. O serviço remoto de notificações ainda precisa ser configurado.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`${endpoint}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, platform })
+    });
+    if (!response.ok) throw new Error(`Registro recusado: HTTP ${response.status}`);
+    toast('Dispositivo inscrito para receber novas notícias.');
+  } catch (error) {
+    console.error('Falha ao registrar token FCM:', error);
+    toast('Permissão ativada, mas não foi possível registrar o dispositivo no servidor.');
+  }
+}
+
+async function openNotificationArticle(notification) {
+  const slug = notification?.data?.slug || notification?.data?.articleSlug;
+  if (!slug) {
+    await refreshFeed({ silent: true });
+    return;
+  }
+  let post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];
+  if (!post) {
+    await refreshFeed({ silent: true });
+    post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];
+  }
+  if (post) {
+    state.tab = 'home';
+    state.section = 'all';
+    state.view = 'article';
+    renderArticle(post);
+    render();
+  }
+}
+
 async function setupPushListeners() {
   if (!native || pushListenersReady) return;
   pushListenersReady = true;
-  await PushNotifications.addListener('registration', async (token) => {
-    state.pushToken = token.value;
-    await setPref('pending-push-token', { token: token.value, platform });
-    const endpoint = String(state.config.pushApiUrl || '').replace(/\/$/, '');
-    if (!endpoint) {
-      toast('Permissão concedida. O serviço de envio push ainda precisa ser configurado.');
-      return;
-    }
+
+  await FirebaseMessaging.addListener('tokenReceived', async (event) => {
+    await registerPushToken(event.token);
+  });
+
+  await FirebaseMessaging.addListener('notificationReceived', (event) => {
+    toast(event.notification?.title || 'Nova notícia disponível.');
+  });
+
+  await FirebaseMessaging.addListener('notificationActionPerformed', async (event) => {
+    await openNotificationArticle(event.notification);
+  });
+
+  await LocalNotifications.addListener('localNotificationActionPerformed', async (event) => {
+    await openNotificationArticle({ data: event.notification?.extra || {} });
+  });
+
+  if (platform === 'android') {
     try {
-      await fetch(`${endpoint}/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: token.value, platform })
+      await LocalNotifications.createChannel({
+        id: 'news',
+        name: 'Notícias',
+        description: 'Novas publicações do The Bullshit Bureau',
+        importance: 5,
+        sound: 'default',
+        vibration: true
       });
-      toast('Dispositivo inscrito para receber novas notícias.');
-    } catch {
-      toast('Permissão ativada; não foi possível registrar o dispositivo no servidor.');
+    } catch (error) {
+      console.warn('Não foi possível criar o canal Android de notícias:', error);
     }
-  });
-  await PushNotifications.addListener('registrationError', (error) => {
-    console.error('Falha no registro push:', error);
-    toast('Não foi possível registrar as notificações.');
-  });
-  await PushNotifications.addListener('pushNotificationReceived', (notification) => {
-    toast(notification.title || 'Nova notícia disponível.');
-  });
-  await LocalNotifications.addListener('localNotificationActionPerformed', (event) => {\n    const slug = event.notification?.extra?.slug;\n    const post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];\n    if (post) { state.tab = 'home'; renderArticle(post); }\n  });\n  await PushNotifications.addListener('pushNotificationActionPerformed', (event) => {
-    const slug = event.notification?.data?.slug;
-    const post = state.posts.find((item) => item.slug === slug) || state.offlinePosts[slug];
-    if (post) {
-      state.tab = 'home';
-      renderArticle(post);
-      render();
-    } else {
-      refreshFeed({ silent: true });
-    }
-  });
+  }
 }
 
 async function enableNotifications() {
@@ -552,30 +593,35 @@ async function enableNotifications() {
     return;
   }
   try {
-    const permission = await PushNotifications.requestPermissions();
+    await setupPushListeners();
+    const permission = await FirebaseMessaging.requestPermissions();
     if (permission.receive !== 'granted') {
       toast('Permissão de notificações não concedida.');
       return;
     }
+
     const localPermission = await LocalNotifications.checkPermissions();
-    if (localPermission.display !== 'granted') await LocalNotifications.requestPermissions();
+    if (localPermission.display !== 'granted') {
+      await LocalNotifications.requestPermissions();
+    }
+
     await setPref('notifications-enabled', true);
     state.notificationsEnabled = true;
-    await setupPushListeners();
-    await PushNotifications.register();
+    const tokenResult = await FirebaseMessaging.getToken();
+    await registerPushToken(tokenResult.token);
     render();
     toast('Notificações ativadas neste aparelho.');
   } catch (error) {
-    console.error(error);
-    toast('Não foi possível ativar as notificações.');
+    console.error('Falha ao ativar Firebase Messaging:', error);
+    toast('Não foi possível ativar notificações. Confira a configuração do Firebase.');
   }
 }
-
 
 async function disableNotifications() {
   const stored = await getPref('pending-push-token', null);
   const token = state.pushToken || stored?.token;
-  const endpoint = String(state.config.pushApiUrl || '').replace(/\\/$/, '');
+  const endpoint = String(state.config.pushApiUrl || '').replace(/\/$/, '');
+
   if (token && endpoint) {
     try {
       await fetch(`${endpoint}/register`, {
@@ -584,11 +630,18 @@ async function disableNotifications() {
         body: JSON.stringify({ token })
       });
     } catch (error) {
-      console.warn('Não foi possível remover o token push:', error);
+      console.warn('Não foi possível remover o token do servidor:', error);
     }
   }
-  try { if (native) await PushNotifications.unregister(); } catch { /* O token será revogado no servidor quando possível. */ }
+
+  try {
+    if (native) await FirebaseMessaging.deleteToken();
+  } catch (error) {
+    console.warn('Não foi possível excluir o token FCM:', error);
+  }
+
   await setPref('notifications-enabled', false);
+  await setPref('pending-push-token', null);
   state.notificationsEnabled = false;
   state.pushToken = '';
   render();
