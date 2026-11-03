@@ -48,11 +48,16 @@ export function postHref(post: MarkdownPost): string {
 }
 
 export function assetPath(path: string): string {
-  if (/^(?:[a-z][a-z0-9+.-]*:)?\\/\\//i.test(path) || path.startsWith('data:')) {
+  if (
+    path.startsWith('http://') ||
+    path.startsWith('https://') ||
+    path.startsWith('data:')
+  ) {
     return path;
   }
 
-  return `${import.meta.env.BASE_URL}${path.replace(/^\\/+/, '')}`;
+  const relativePath = path.startsWith('/') ? path.slice(1) : path;
+  return `${import.meta.env.BASE_URL}${relativePath}`;
 }
 
 export function categorySlug(category: string): string {
