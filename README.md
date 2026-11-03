@@ -45,7 +45,9 @@ Endereço público publicado:
 - [x] Página Sobre e página 404.
 - [x] SEO básico, canonical, Open Graph, robots e sitemap.
 - [x] Conteúdo em JSON versionado no GitHub.
-- [x] Quatro matérias explicativas adicionadas com capas SVG próprias.
+- [x] Quatro matérias explicativas adicionadas com capas editoriais.
+- [x] Fotografias de capa configuradas nas sete matérias, com créditos e links de licença.
+- [x] Fallback local caso alguma imagem externa não carregue.
 - [x] Configuração do Pages CMS criada com editor visual, campos editoriais e upload de imagens.
 - [x] Workflow de publicação HTML configurado para GitHub Actions, sem Node.js ou compilação.
 - [x] Primeira execução do workflow concluída com sucesso.
@@ -118,6 +120,12 @@ Campos da publicação:
 - `published`: aparece no jornal após a atualização do site.
 
 O JavaScript filtra as publicações por `status` antes de renderizar o conteúdo. O rascunho continua no JSON, mas não é exibido aos visitantes. Salvar no CMS grava um commit no GitHub; com `main /docs` ativado em Settings → Pages, a publicação do site ocorre automaticamente.
+
+### Imagens e créditos
+
+As sete publicações possuem imagens de capa. As fotografias estão hospedadas no Wikimedia Commons e são carregadas por URL HTTPS. Cada publicação armazena `coverCredit`, `coverCreditUrl` e `coverLicenseUrl`; a página da matéria exibe o crédito e o link da licença. As licenças incluem CC0 1.0 ou CC BY-SA 3.0/4.0 conforme a imagem.
+
+O portal também usa uma ilustração SVG local como fallback caso uma imagem externa esteja indisponível. Para novas imagens, preencha os campos de crédito e licença no CMS quando exigidos pela licença escolhida.
 
 ### Uploads
 
@@ -237,6 +245,8 @@ Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contra
 - Criado portal público em HTML, CSS e JavaScript puros dentro de `docs/`.
 - Migração do conteúdo editorial para `docs/data/posts.json`.
 - Inclusão de quatro matérias explicativas curtas e quatro capas editoriais SVG originais.
+- Substituição das capas por fotografias do Wikimedia Commons, com identificação de autoria e licença em cada matéria.
+- Adicionados fallback de imagem, exibição de créditos no artigo e campos de crédito/fonte/licença no Pages CMS.
 - Configurado o Pages CMS para editar a lista JSON com rich-text HTML e mídia.
 - Removido o workflow Astro que impedia a publicação por incompatibilidade de Node.
 - Workflow GitHub Actions restaurado para publicar o HTML pronto de `docs/`, sem Node, npm ou compilação.
