@@ -257,11 +257,11 @@ Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, co
 ### 03/11/2026 — Configuração de hospedagem no GitHub Pages
 
 - Astro configurado com `site` e `base` para o domínio de projeto `kaykyferro.github.io/The-Bullshit-Bureau`.
-- Links internos, imagens de capa e imagens/links incluídos no corpo das matérias, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
+- Links internos, imagens de capa nos cards e nas matérias, imagens/links incluídos no corpo dos textos, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
 - Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
 - Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
 - Node.js dos workflows e requisito local ajustados para 22.22.0, mínimo da versão Astro 7.4.5 usada no projeto.
-- Ativação do Source como GitHub Actions e confirmação do primeiro deploy ainda precisam ser verificadas no GitHub.
+- A tela de Pages já foi mostrada com Source = GitHub Actions; falta conferir a execução do workflow e confirmar o primeiro deploy público.
 
 ### 03/11/2026 — Primeira implementação
 
