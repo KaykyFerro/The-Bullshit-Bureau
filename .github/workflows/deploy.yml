@@ -5,6 +5,8 @@ on:
     branches:
       - main
     paths:
+      - "index.html"
+      - ".nojekyll"
       - "docs/**"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
@@ -31,8 +33,9 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Validate HTML site files
+      - name: Validate source files
         run: |
+          test -s index.html
           test -s docs/index.html
           test -s docs/assets/css/newspaper.css
           test -s docs/assets/js/newspaper.js
@@ -40,10 +43,21 @@ jobs:
           python3 -m json.tool docs/data/posts.json > /dev/null
           python3 -m json.tool docs/data/site.json > /dev/null
 
+      - name: Assemble site with root entry point
+        run: |
+          rm -rf _site
+          mkdir -p _site/docs
+          cp index.html _site/index.html
+          cp -a docs/. _site/docs/
+          cp docs/404.html _site/404.html
+          cp docs/robots.txt _site/robots.txt
+          cp docs/sitemap.xml _site/sitemap.xml
+          touch _site/.nojekyll
+
       - name: Upload static website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./docs
+          path: ./_site
           include-hidden-files: true
 
       - name: Deploy website
