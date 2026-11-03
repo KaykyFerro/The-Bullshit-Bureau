@@ -102,29 +102,64 @@ O arquivo `docs/404.html` é a página de fallback do GitHub Pages para endereç
 | Edição | Pages CMS | Formulário visual, rich-text e envio de imagens |
 | Versionamento | GitHub | Histórico e armazenamento dos arquivos |
 | Hospedagem | GitHub Pages | Disponibilização do site |
-| Publicação | GitHub Pages | Entrega direta dos arquivos da branch `main` |
+| Publicação do portal | GitHub Pages | Entrega direta dos arquivos da branch `main` |
+| App Android/iOS | Capacitor 8.6 + Vite | WebView local e recursos nativos |
+| Persistência mobile | Preferences + Filesystem | Favoritos, preferências e leitura offline |
+| Compartilhamento mobile | Capacitor Share | Folha nativa de compartilhamento |
+| Push mobile | Firebase Messaging + Cloudflare Worker | Tokens FCM e alertas de novas matérias |
+| Armazenamento técnico de push | Cloudflare D1 | Tokens de instalação, sem conteúdo editorial |
 
 ### Sem backend e sem banco de dados próprio
 
-O portal é estático. Não utiliza servidor de aplicação, API editorial, Node.js, npm, framework de frontend ou banco de dados próprio.
+O portal público é estático. Não utiliza servidor de aplicação, API editorial ou banco de dados para armazenar matérias. O GitHub é a fonte oficial do código, das matérias, das imagens enviadas e do histórico. O navegador carrega `docs/data/site.json` e `docs/data/posts.json` por requisições `fetch`.
 
-O GitHub é a fonte oficial do código, das matérias, das imagens enviadas e do histórico. O navegador carrega `docs/data/site.json` e `docs/data/posts.json` por requisições `fetch`.
+O Pages CMS autentica com GitHub e grava alterações no repositório. O app mobile sincroniza o mesmo JSON publicado; não mantém uma segunda redação.
 
-O Pages CMS é um serviço externo que autentica com GitHub e grava alterações no repositório. O serviço pode ter seus próprios mecanismos internos, mas o jornal não mantém uma base de dados separada.
+**Exceção técnica:** notificações push remotas usam um Cloudflare Worker e Cloudflare D1 para registrar tokens de dispositivos. Essa tabela não armazena notícias, usuários editoriais ou dados do CMS. O push é opcional e só funciona depois de configurar Firebase, APNs, Worker e secrets.
 
 ## 4. Estrutura atual do repositório
 
-A estrutura foi reduzida para manter somente os arquivos utilizados pelo site, pelo editor ou pela publicação:
+O repositório mantém o site público, a configuração do CMS e o aplicativo mobile:
 
 ```text
 The-Bullshit-Bureau/
-├── .nojekyll                # Entrada raiz sem processamento Jekyll
-├── 404.html                 # Fallback da raiz publicada
-├── index.html               # Entrada raiz, carrega a aplicação de docs/
+├── .github/
+│   └── workflows/
+│       ├── build-mobile-android.yml
+│       ├── build-mobile-ios-simulator.yml
+│       └── notify-mobile-push.yml
+├── .nojekyll
+├── 404.html
+├── index.html
 ├── robots.txt
 ├── sitemap.xml
 ├── .pages.yml
 ├── README.md
+├── mobile/
+│   ├── .gitignore
+│   ├── README.md
+│   ├── capacitor.config.json
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── scripts/
+│   │   ├── sync-content.mjs
+│   │   ├── configure-android-fcm.mjs
+│   │   ├── patch-ios-push.mjs
+│   │   └── configure-ios-project.mjs
+│   ├── src/
+│   │   ├── index.html
+│   │   ├── main.js
+│   │   ├── styles.css
+│   │   └── public/assets/images/app-mark.svg
+│   ├── native/
+│   │   ├── android/ic_stat_bureau.xml
+│   │   ├── android/README.md
+│   │   └── ios/PrivacyInfo.xcprivacy
+│   └── push/
+│       ├── README.md
+│       ├── schema.sql
+│       ├── worker.js
+│       └── wrangler.toml
 └── docs/
     ├── .nojekyll
     ├── 404.html
@@ -132,43 +167,39 @@ The-Bullshit-Bureau/
     ├── robots.txt
     ├── sitemap.xml
     ├── assets/
-    │   ├── css/
-    │   │   └── newspaper.css
-    │   ├── js/
-    │   │   └── newspaper.js
+    │   ├── css/newspaper.css
+    │   ├── js/newspaper.js
     │   └── images/
     │       ├── favicon.svg
     │       ├── press-engraving.svg
     │       └── uploads/
-    │           └── .gitkeep
     └── data/
         ├── posts.json
         └── site.json
 ```
 
-### Responsabilidade de cada arquivo
+### Responsabilidade dos arquivos principais
 
-| Arquivo | Finalidade |
+| Caminho | Finalidade |
 | --- | --- |
-| `.pages.yml` | Define as coleções, campos do CMS e diretório de mídia |
-| `.nojekyll` | Desativa o processamento Jekyll na raiz publicada |
-| `404.html` | Página de erro publicada na raiz |
-| `robots.txt` | Regras dos robôs de busca na raiz |
-| `sitemap.xml` | Sitemap disponível na raiz |
-| `index.html` | Entrada pública na raiz do projeto; carrega CSS, JS e conteúdo a partir de `docs/` |
-| `docs/index.html` | Estrutura completa alternativa do portal, usada quando a origem do Pages é a pasta `/docs` |
-| `docs/assets/css/newspaper.css` | Layout, tipografia, cores e regras responsivas |
-| `docs/assets/js/newspaper.js` | Carrega os JSON e monta as telas |
-| `docs/data/posts.json` | Lista de notícias, artigos, editoriais e opiniões |
+| `.pages.yml` | Campos do editor Pages CMS, coleções e uploads |
+| `index.html` | Entrada pública do portal no GitHub Pages |
+| `docs/assets/css/newspaper.css` | Identidade visual e responsividade do jornal web |
+| `docs/assets/js/newspaper.js` | Navegação, busca e renderização do portal |
+| `docs/data/posts.json` | Notícias, artigos, editoriais e opiniões |
 | `docs/data/site.json` | Nome, slogan e descrição do jornal |
-| `docs/assets/images/favicon.svg` | Ícone do site |
-| `docs/assets/images/press-engraving.svg` | Ilustração local de reserva e imagem da página Sobre |
-| `docs/assets/images/uploads/` | Destino das imagens enviadas pelo CMS |
-| `docs/404.html` | Cópia da página de endereço não encontrado para a versão interna em `docs/` |
-| `docs/robots.txt` | Orientações básicas para robôs de busca |
-| `docs/sitemap.xml` | Sitemap XML atual |
+| `mobile/package.json` | Capacitor, plugins nativos e scripts do app |
+| `mobile/src/main.js` | Interface mobile, leitura, favoritos, offline e notificações |
+| `mobile/scripts/sync-content.mjs` | Copia o conteúdo atual do CMS para o bundle mobile |
+| `mobile/push/worker.js` | API de registro e envio de notificações FCM |
+| `mobile/push/schema.sql` | Tabela técnica D1 para tokens de dispositivos |
+| `.github/workflows/build-mobile-android.yml` | Gera APK debug para testes |
+| `.github/workflows/build-mobile-ios-simulator.yml` | Gera app para iOS Simulator, sem assinatura |
+| `.github/workflows/notify-mobile-push.yml` | Detecta novas matérias e chama o Worker push |
 
-Não existe mais protótipo Astro, código TypeScript, pasta de build ou dependência de pacote no projeto ativo.
+As plataformas nativas `mobile/android/` e `mobile/ios/`, os arquivos compilados `mobile/www/` e as dependências `node_modules/` são gerados durante o build e não são versionados.
+
+O site publicado continua estático e não depende do build mobile. O aplicativo usa Capacitor/Vite dentro da pasta `mobile/`; não há mais protótipo Astro.
 
 ## 5. Como o conteúdo funciona
 
@@ -477,6 +508,110 @@ Edite `docs/index.html` para modificar o masthead, o menu, o cabeçalho ou o rod
 ### Alterar a configuração do editor
 
 Edite `.pages.yml` somente quando precisar mudar as coleções, campos, opções ou locais de mídia do Pages CMS. Essa configuração não altera diretamente o layout público.
+
+## 15. Aplicativo Android e iOS
+
+O projeto inclui o aplicativo **The Bullshit Bureau Mobile**, construído com Capacitor 8.6.0. Ele tem uma interface própria para celular, mas consome as mesmas notícias do portal e do Pages CMS.
+
+### Recursos do aplicativo
+
+| Recurso | Implementação |
+| --- | --- |
+| Compartilhamento | Capacitor Share abre o menu nativo do aparelho |
+| Favoritos | Preferences salva as matérias marcadas no dispositivo |
+| Leitura offline | Filesystem guarda o texto da matéria e tenta baixar a capa |
+| Notificações locais | Avisa sobre novos slugs detectados durante a sincronização |
+| Notificações remotas | Firebase Messaging com tokens FCM, quando o backend push está configurado |
+| Modo leitura | Aumenta tipografia e limita a coluna do texto |
+| Atualização | Busca `docs/data/posts.json` e `docs/data/site.json` publicados pelo GitHub Pages |
+
+Favoritos e matérias offline ficam no aparelho e não exigem login. Quando o aplicativo está online, sincroniza a edição mais recente. Quando fica offline, usa o cache e as matérias que o usuário salvou.
+
+### Integração com o CMS
+
+O fluxo editorial permanece único:
+
+1. A redação edita uma matéria no Pages CMS.
+2. O CMS grava a atualização em `docs/data/posts.json`.
+3. O GitHub Pages publica o jornal.
+4. O app sincroniza o mesmo JSON na abertura e na retomada.
+5. Se FCM/Worker estiverem configurados, GitHub Actions detecta matérias recém-publicadas e solicita o envio de notificação.
+
+Não existe cópia separada de notícias para o app e ele não altera o conteúdo do CMS.
+
+### Tecnologias mobile
+
+- Capacitor 8.6.0 para Android/iOS.
+- Vite 8 para empacotar a interface local do app.
+- Capacitor Preferences e Filesystem para dados no aparelho.
+- Capacitor Share para o compartilhamento nativo.
+- Local Notifications para alertas locais.
+- `@capacitor-firebase/messaging 8.6.0` + Firebase JS SDK 13.2.0 para tokens FCM em Android/iOS.
+- Cloudflare Worker e D1 para registro técnico de instalações e envio remoto FCM.
+
+### Gerar o aplicativo Android
+
+Requisitos: Node.js 22+, JDK 21 e Android Studio 2025.2.1+.
+
+```powershell
+cd mobile
+npm install
+npm run build
+npx cap add android
+npm run android:sync
+npm run android:open
+```
+
+No Android Studio, execute em um emulador ou aparelho conectado. Para APK debug:
+
+```powershell
+cd android
+.\\gradlew.bat assembleDebug
+```
+
+O arquivo fica em `mobile/android/app/build/outputs/apk/debug/app-debug.apk`.
+
+Também existe o workflow **Build The Bullshit Bureau Android APK** na aba [GitHub Actions](https://github.com/KaykyFerro/The-Bullshit-Bureau/actions). Após a execução, baixe o artifact `the-bullshit-bureau-android-debug`.
+
+O APK debug serve para teste. Para Play Store, gere um AAB de release assinado com chave própria e verifique targetSdk 36 ou superior.
+
+### Gerar o aplicativo iOS
+
+Requisitos: macOS e Xcode 26+.
+
+```bash
+cd mobile
+npm install
+npm run ios:add
+npm run ios:sync
+npm run ios:open
+```
+
+O workflow **Build The Bullshit Bureau iOS Simulator App** gera um app para iOS Simulator e o compacta em ZIP. Esse artefato não é IPA distribuível.
+
+Para instalar em iPhone físico via TestFlight ou publicar na App Store, são necessários Apple Developer account, Bundle ID, certificado Apple Distribution, provisioning profile, Team ID e assinatura. O target também precisa habilitar Push Notifications e o Firebase deve receber a chave APNs.
+
+A Apple avalia se apps que encapsulam conteúdo web oferecem utilidade suficiente além de um site. O app inclui favoritos persistentes, leitura offline, compartilhamento nativo, modo leitura e push, mas isso não garante aprovação na App Store. Consulte a [diretriz 4.2 da Apple](https://developer.apple.com/app-store/review/guidelines/).
+
+### Configuração de notificações remotas
+
+O cliente Firebase está implementado, mas o serviço de envio remoto depende de configuração externa:
+
+1. Criar um projeto Firebase.
+2. Registrar Android `br.com.thebullshitbureau.app` e o mesmo Bundle ID no iOS.
+3. Baixar `google-services.json` e `GoogleService-Info.plist`.
+4. Enviar a chave APNs para Firebase.
+5. Criar o D1 e implantar `mobile/push/worker.js` no Cloudflare.
+6. Cadastrar as variáveis e secrets descritos em [mobile/push/README.md](mobile/push/README.md).
+
+O D1 armazena apenas tokens de instalação e metadados técnicos, não matérias nem dados do CMS. Sem essas credenciais, o app continua oferecendo compartilhamento, favoritos, modo leitura e leitura offline; push remoto permanece desativado.
+
+### Documentação mobile
+
+- [Guia completo de instalação e operação](mobile/README.md)
+- [Configuração do Firebase e push](mobile/push/README.md)
+- [Workflow de APK Android](.github/workflows/build-mobile-android.yml)
+- [Workflow de app iOS Simulator](.github/workflows/build-mobile-ios-simulator.yml)
 
 ## 14. Princípios editoriais e responsabilidade
 
