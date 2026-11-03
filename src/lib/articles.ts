@@ -34,8 +34,12 @@ const allPosts = Object.entries(modules).map(([file, module]) => ({
 export const publishedPosts = allPosts
   .filter(({ frontmatter }) => frontmatter.status === 'published')
   .sort((a, b) => {
-    const dateA = new Date(a.frontmatter.publishedAt).getTime();
-    const dateB = new Date(b.frontmatter.publishedAt).getTime();
+    const dateA = a.frontmatter.publishedAt instanceof Date
+      ? a.frontmatter.publishedAt.getTime()
+      : new Date(a.frontmatter.publishedAt).getTime();
+    const dateB = b.frontmatter.publishedAt instanceof Date
+      ? b.frontmatter.publishedAt.getTime()
+      : new Date(b.frontmatter.publishedAt).getTime();
     return dateB - dateA;
   });
 
