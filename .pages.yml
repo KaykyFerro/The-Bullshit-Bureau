@@ -1,8 +1,8 @@
 media:
   - name: images
     label: Imagens do jornal
-    input: public/images/uploads
-    output: /images/uploads
+    input: docs/assets/images/uploads
+    output: /The-Bullshit-Bureau/assets/images/uploads
     extensions:
       - jpg
       - jpeg
@@ -16,20 +16,12 @@ media:
 content:
   - name: publications
     label: Publicações
-    type: collection
-    path: src/content/noticias
-    format: yaml-frontmatter
-    subfolders: false
-    filename:
-      template: "{year}-{month}-{day}-{fields.slug}.md"
-      field: false
-    view:
-      fields: [title, section, category, status, publishedAt]
-      primary: title
-      sort: [publishedAt, title]
-      default:
-        sort: publishedAt
-        order: desc
+    type: file
+    path: docs/data/posts.json
+    format: json
+    list: true
+    operations:
+      delete: true
     fields:
       - name: title
         label: Título
@@ -40,11 +32,9 @@ content:
         type: string
         required: true
         pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
-        description: "Use letras minúsculas, números e hífens. Ex.: verdade-acima-da-ideologia"
       - name: subtitle
         label: Linha fina
         type: text
-        required: true
       - name: excerpt
         label: Resumo
         type: text
@@ -115,6 +105,7 @@ content:
         type: image
         options:
           media: images
+          path: docs/assets/images/uploads
           extensions:
             - jpg
             - jpeg
@@ -125,14 +116,14 @@ content:
       - name: coverAlt
         label: Texto alternativo da imagem
         type: string
-        description: "Descreva objetivamente o que aparece na imagem para acessibilidade."
       - name: body
-        label: Texto da publicação
+        label: Texto da matéria
         type: rich-text
         required: true
         options:
-          format: markdown
+          format: html
           media: images
+          path: docs/assets/images/uploads
           extensions:
             - jpg
             - jpeg
@@ -141,3 +132,19 @@ content:
             - avif
           rename: safe
           switcher: false
+
+  - name: site
+    label: Identidade do jornal
+    type: file
+    path: docs/data/site.json
+    format: json
+    fields:
+      - name: name
+        label: Nome do jornal
+        type: string
+      - name: slogan
+        label: Slogan
+        type: string
+      - name: description
+        label: Descrição
+        type: text
