@@ -1,5 +1,21 @@
 [
   {
+    "title": "Hugo da abunda",
+    "slug": "hugo-da-abunda",
+    "subtitle": "Sem pelo",
+    "excerpt": "Minha pika",
+    "section": "noticias",
+    "category": "Jornalismo",
+    "author": "Kayky",
+    "publishedAt": "2026-11-03",
+    "status": "published",
+    "featured": false,
+    "cover": "/The-Bullshit-Bureau/docs/assets/images/uploads/hugo-da-abunda-1793724378736.jpg",
+    "coverAlt": "Hugo da abunda",
+    "body": "Um pintao<p></p>",
+    "updatedAt": "2026-11-03T16:46:18.647Z"
+  },
+  {
     "title": "A verdade acima da ideologia: o compromisso do Bureau",
     "slug": "a-verdade-acima-da-ideologia",
     "subtitle": "Um jornal começa pelo nome que escolhe. Continua pelo método que decide seguir.",
