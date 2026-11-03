@@ -58,6 +58,10 @@ jobs:
             echo "Firebase Android config não fornecida; push remoto ficará inativo neste build."
           fi
 
+      - name: Configure Firebase Gradle plugin (when configured)
+        working-directory: mobile
+        run: node scripts/configure-android-fcm.mjs
+
       - name: Sync Capacitor Android
         working-directory: mobile
         run: npx cap sync android
