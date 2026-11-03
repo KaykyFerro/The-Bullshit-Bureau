@@ -44,7 +44,15 @@ export const publishedPosts = allPosts
   });
 
 export function postHref(post: MarkdownPost): string {
-  return `/${post.frontmatter.section}/${post.frontmatter.slug}/`;
+  return `${import.meta.env.BASE_URL}${post.frontmatter.section}/${post.frontmatter.slug}/`;
+}
+
+export function assetPath(path: string): string {
+  if (/^(?:[a-z][a-z0-9+.-]*:)?\\/\\//i.test(path) || path.startsWith('data:')) {
+    return path;
+  }
+
+  return `${import.meta.env.BASE_URL}${path.replace(/^\\/+/, '')}`;
 }
 
 export function categorySlug(category: string): string {
