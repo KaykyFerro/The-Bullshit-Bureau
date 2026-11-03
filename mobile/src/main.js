@@ -179,13 +179,10 @@ async function readOfflinePosts() {
       const file = await Filesystem.readFile({ path: `offline/${slug}.json`, directory: Directory.Data });
       const raw = typeof file.data === 'string' ? file.data : '';
       if (!raw) continue;
-      const post = JSON.parse(raw);
-      try {
-        const cover = await Filesystem.readFile({ path: `offline/covers/${slug}.jpg`, directory: Directory.Data });
-        if (typeof cover.data === 'string') post.offlineCover = `data:image/jpeg;base64,${cover.data}`;
-      } catch { /* A matéria permanece offline mesmo sem a fotografia. */ }
-      saved[slug] = post;
-    } catch { /* Ignora arquivos offline removidos ou incompletos. */ }
+      saved[slug] = JSON.parse(raw);
+    } catch {
+      // Ignora arquivos offline removidos ou incompletos.
+    }
   }
   return saved;
 }
@@ -413,30 +410,29 @@ async function saveOffline(slug) {
   if (!post) return;
   toast('Salvando matéria neste aparelho...');
   const safeSlug = slug.replace(/[^a-z0-9-]/gi, '-');
-  const stored = { ...post, offlineCover: undefined };
-  await Filesystem.writeFile({
-    path: `offline/${safeSlug}.json`,
-    data: JSON.stringify(stored),
-    directory: Directory.Data,
-    recursive: true
-  });
+  const stored = { ...post };
+
   try {
     const response = await fetch(coverUrl(post.cover), { mode: 'cors' });
     if (response.ok) {
       const blob = await response.blob();
       if (blob.size < 8 * 1024 * 1024) {
         const base64 = await toBase64(blob);
-        await Filesystem.writeFile({
-          path: `offline/covers/${safeSlug}.jpg`,
-          data: base64,
-          directory: Directory.Data,
-          recursive: true
-        });
+        const mimeType = blob.type && blob.type.startsWith('image/') ? blob.type : 'image/jpeg';
+        stored.offlineCover = `data:${mimeType};base64,${base64}`;
       }
     }
   } catch (error) {
     console.info('Capa não foi armazenada offline:', error);
   }
+
+  await Filesystem.writeFile({
+    path: `offline/${safeSlug}.json`,
+    data: JSON.stringify(stored),
+    directory: Directory.Data,
+    recursive: true
+  });
+
   if (!state.offlineSlugs.includes(slug)) state.offlineSlugs.push(slug);
   state.offlinePosts = await readOfflinePosts();
   await setPref('offline-slugs', state.offlineSlugs);
