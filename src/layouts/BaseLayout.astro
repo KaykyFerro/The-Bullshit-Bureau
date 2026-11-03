@@ -14,7 +14,8 @@ const {
   noindex = false
 } = Astro.props;
 const fullTitle = title === 'The Bullshit Bureau' ? title : `${title} | The Bullshit Bureau`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const siteUrl = Astro.site ?? new URL('https://the-bullshit-bureau.pages.dev');
+const canonical = new URL(Astro.url.pathname, siteUrl);
 ---
 <!doctype html>
 <html lang="pt-BR">
