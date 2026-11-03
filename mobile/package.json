@@ -15,7 +15,7 @@
     "android:sync": "npm run build && node scripts/configure-android-fcm.mjs && cap sync android",
     "android:open": "cap open android",
     "ios:add": "npm run build && cap add ios",
-    "ios:sync": "npm run build && node scripts/patch-ios-push.mjs && cap sync ios",
+    "ios:sync": "npm run build && node scripts/patch-ios-push.mjs && node scripts/configure-ios-project.mjs && cap sync ios",
     "ios:open": "cap open ios"
   },
   "dependencies": {
