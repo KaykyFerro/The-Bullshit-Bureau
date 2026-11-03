@@ -59,6 +59,10 @@ jobs:
         working-directory: mobile
         run: node scripts/patch-ios-push.mjs
 
+      - name: Register Firebase and privacy resources in Xcode project
+        working-directory: mobile
+        run: node scripts/configure-ios-project.mjs
+
       - name: Sync Capacitor iOS
         working-directory: mobile
         run: npx cap sync ios
