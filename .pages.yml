@@ -114,6 +114,15 @@ content:
       - name: coverAlt
         label: Texto alternativo da imagem
         type: string
+      - name: coverCredit
+        label: Crédito da imagem
+        type: string
+      - name: coverCreditUrl
+        label: Link da fonte da imagem
+        type: string
+      - name: coverLicenseUrl
+        label: Link da licença da imagem
+        type: string
       - name: body
         label: Texto da matéria
         type: rich-text
