@@ -29,13 +29,13 @@ O GitHub Pages deve publicar diretamente a pasta `docs/` da branch `main`. Cada 
 | `docs/404.html` | Página de endereço não encontrado |
 | `docs/.nojekyll` | Evita processamento Jekyll |
 
-Endereço público esperado:
+Endereço público esperado **depois de selecionar `main /docs` em Settings → Pages**:
 
 `https://kaykyferro.github.io/The-Bullshit-Bureau/`
 
 ## Estado da publicação
 
-- [x] Site público em HTML/CSS/JavaScript sem framework ou compilador.
+- [x] Site estático implementado em HTML/CSS/JavaScript sem framework ou compilador.
 - [x] Estética de jornal impresso responsiva.
 - [x] Manchete principal e chamadas secundárias.
 - [x] Seções: Notícias, Artigos, Editorial e Opinião.
@@ -45,7 +45,7 @@ Endereço público esperado:
 - [x] Página Sobre e página 404.
 - [x] SEO básico, canonical, Open Graph, robots e sitemap.
 - [x] Conteúdo em JSON versionado no GitHub.
-- [x] Pages CMS configurado com editor visual, campos editoriais e upload de imagens.
+- [x] Configuração do Pages CMS criada com editor visual, campos editoriais e upload de imagens.
 - [ ] Em Settings → Pages, selecionar **Deploy from a branch**, branch `main`, pasta `/docs`, e salvar.
 - [ ] Confirmar que o endereço público está acessível após a publicação.
 
@@ -211,7 +211,7 @@ Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contra
 - Migração do conteúdo editorial para `docs/data/posts.json`.
 - Configurado o Pages CMS para editar a lista JSON com rich-text HTML e mídia.
 - Removido o workflow Astro que impedia a publicação por incompatibilidade de Node.
-- Escolhida publicação direta pelo GitHub Pages usando a branch `main` e pasta `/docs`, sem Node, npm ou compilação.
+- Preparado para publicação direta pelo GitHub Pages usando a branch `main` e pasta `/docs`, sem Node, npm ou compilação. A seleção dessa fonte ainda precisa ser salva em Settings → Pages.
 - Criadas páginas de fallback 404, robots.txt e sitemap.xml.
 - Mantido o protótipo Astro em `src/` apenas como referência, fora do caminho de publicação.
 
