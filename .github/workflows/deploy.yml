@@ -27,10 +27,19 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Validate static site files
+        run: |
+          test -s docs/index.html
+          test -s docs/assets/css/newspaper.css
+          test -s docs/assets/js/newspaper.js
+          python3 -m json.tool docs/data/posts.json > /dev/null
+          python3 -m json.tool docs/data/site.json > /dev/null
+
       - name: Upload the ready-to-publish HTML site
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./docs
+          include-hidden-files: true
 
       - name: Publish to GitHub Pages
         id: deployment
