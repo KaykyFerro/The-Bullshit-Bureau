@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
 ---
 <BaseLayout title="Sobre o Bureau" description="Conheça a proposta, os princípios e o compromisso editorial do The Bullshit Bureau.">
   <header class="listing-header">
@@ -15,6 +16,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p><strong>Fato é fato.</strong> Notícia deve apresentar o que foi apurado e indicar suas fontes. <strong>Análise é análise.</strong> Deve expor argumentos e contexto. <strong>Opinião é opinião.</strong> Deve ser identificada como tal.</p>
       <p>O slogan não significa ausência de critérios ou de valores. Significa que nenhuma ideologia deve substituir a verificação dos fatos.</p>
     </div>
-    <img class="about-art" src="/images/bureau-engraving.svg" alt="Ilustração em traços de uma prensa tipográfica." loading="lazy" />
+    <img class="about-art" src={`${base}images/bureau-engraving.svg`} alt="Ilustração em traços de uma prensa tipográfica." loading="lazy" />
   </div>
 </BaseLayout>
