@@ -1,0 +1,33 @@
+---
+const now = new Date();
+const dateLabel = new Intl.DateTimeFormat('pt-BR', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+}).format(now);
+---
+<header class="page-shell">
+  <div class="topline">
+    <p>Edição digital independente</p>
+    <p class="topline-right">Fatos • Contexto • Responsabilidade</p>
+  </div>
+  <div class="masthead">
+    <p class="masthead-kicker">Jornal independente · Est. 2026</p>
+    <a class="masthead-title" href="/" aria-label="The Bullshit Bureau, página inicial">
+      THE <span>BULLSHIT BUREAU</span>
+    </a>
+    <p class="masthead-tagline">A verdade acima da ideologia.</p>
+    <p class="masthead-note">{dateLabel}</p>
+  </div>
+  <nav class="main-nav" aria-label="Navegação principal">
+    <a href="/">Início</a>
+    <a href="/noticias/">Notícias</a>
+    <a href="/artigos/">Artigos</a>
+    <a href="/editoriais/">Editorial</a>
+    <a href="/opiniao/">Opinião</a>
+    <a href="/busca/">Busca</a>
+    <a href="/sobre/">Sobre</a>
+    <a class="admin-link" href="/admin/">Edição</a>
+  </nav>
+</header>
