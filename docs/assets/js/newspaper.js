@@ -138,7 +138,7 @@
     const excerpt = escapeHtml(post.excerpt || post.subtitle || '');
     return `
       <a class="story-card${compact ? ' compact' : ''}" href="?post=${encodeURIComponent(post.slug)}">
-        <img class="story-image" src="${cover}" alt="${alt}" loading="lazy">
+        <img class="story-image" src="${cover}" alt="${alt}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackCover}'">
         <div class="story-copy">
           <span class="story-category">${category}</span>
           <h2 class="story-title">${title}</h2>
@@ -222,6 +222,11 @@
     const cover = assetUrl(post.cover);
     const coverAlt = escapeHtml(post.coverAlt || post.title);
     const body = cleanRichText(post.body || '<p>O texto desta publicação ainda não foi preenchido.</p>');
+    const creditSource = safeHref(post.coverCreditUrl || '');
+    const creditLicense = safeHref(post.coverLicenseUrl || '');
+    const imageCredit = post.coverCredit
+      ? `<p class="image-credit">Imagem: ${creditSource ? `<a href="${escapeHtml(creditSource)}" target="_blank" rel="noopener noreferrer">${escapeHtml(post.coverCredit)}</a>` : escapeHtml(post.coverCredit)}${creditLicense ? ` · <a href="${escapeHtml(creditLicense)}" target="_blank" rel="noopener noreferrer">licença</a>` : ''}</p>`
+      : '';
     const related = allPosts.filter((item) => item.slug !== post.slug && item.category === post.category).slice(0, 3);
 
     contentRoot.innerHTML = `
@@ -236,7 +241,8 @@
             <time datetime="${escapeHtml(String(post.publishedAt || '').slice(0, 10))}">${escapeHtml(formatDate(post.publishedAt))}</time>
           </div>
         </header>
-        <img class="article-cover" src="${cover}" alt="${coverAlt}">
+        <img class="article-cover" src="${cover}" alt="${coverAlt}" decoding="async" onerror="this.onerror=null;this.src='${fallbackCover}'">
+        ${imageCredit}
         <div class="article-body">${body}</div>
         <p class="article-endnote">The Bullshit Bureau · A verdade acima da ideologia. Ao compartilhar, cite a publicação e o autor.</p>
       </article>
