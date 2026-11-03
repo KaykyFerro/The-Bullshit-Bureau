@@ -33,7 +33,7 @@ Jornal digital independente com identidade visual de jornal impresso, portal est
 
 - [ ] Instalar/autorizar o GitHub App do Pages CMS para este repositório.
 - [ ] Entrar no Pages CMS com GitHub e confirmar que a coleção **Publicações** aparece.
-- [ ] Em Settings → Pages, selecionar manualmente **GitHub Actions** como Source. A action usa `GITHUB_TOKEN`, que não tem permissão para habilitar Pages pela primeira vez.
+- [ ] Confirmar em Settings → Pages que **GitHub Actions** continua selecionado como Source. A captura enviada já mostrava essa opção selecionada.
 - [ ] Confirmar o primeiro resultado verde do workflow e o endereço público do site.
 
 > O código e as configurações estão no GitHub. O CMS e a hospedagem exigem autorização inicial nas respectivas plataformas. Não há senha, token ou segredo hardcoded no projeto.
@@ -185,13 +185,12 @@ O workflow `.github/workflows/deploy.yml` executa validação, build Astro, uplo
 
 ### Ativação inicial
 
-1. Abra [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages).
-2. Em **Build and deployment → Source**, selecione **GitHub Actions**.
-3. Salve, se o GitHub solicitar.
-4. Abra a aba [Actions](https://github.com/KaykyFerro/The-Bullshit-Bureau/actions) e acompanhe **Deploy to GitHub Pages**.
-5. Quando os jobs `build` e `deploy` terminarem com sucesso, abra o endereço público acima.
+1. Abra [Settings → Pages](https://github.com/KaykyFerro/The-Bullshit-Bureau/settings/pages) e confirme que **Source** está como **GitHub Actions**. A captura recebida já mostrava essa opção selecionada.
+2. Não escolha os modelos Jekyll ou HTML estático: o workflow próprio do Astro já está no repositório em `.github/workflows/deploy.yml`.
+3. Abra a aba [Actions](https://github.com/KaykyFerro/The-Bullshit-Bureau/actions) e acompanhe **Deploy to GitHub Pages**.
+4. Quando os jobs `build` e `deploy` terminarem com sucesso, abra o endereço público acima.
 
-O workflow também chama `actions/configure-pages@v5` para consultar/configurar metadados do Pages. Como o workflow usa o `GITHUB_TOKEN`, ele não pode ativar Pages pela primeira vez. A seleção manual de **GitHub Actions** em Settings → Pages é obrigatória antes do deploy inicial.
+O workflow chama `actions/configure-pages@v5`, compila o Astro, envia `dist/` e publica o artefato. Se a configuração Source não tiver sido salva ainda, selecione **GitHub Actions** em Settings → Pages.
 
 Não são necessárias variáveis de ambiente para gerar o portal. O workflow é disparado em pushes para `main` e pode ser iniciado manualmente pela aba Actions.
 
@@ -261,7 +260,7 @@ Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, co
 - Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
 - Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
 - Node.js dos workflows e requisito local ajustados para 22.22.0, mínimo da versão Astro 7.4.5 usada no projeto.
-- A tela de Pages já foi mostrada com Source = GitHub Actions; falta conferir a execução do workflow e confirmar o primeiro deploy público.
+- A captura da configuração do Pages mostrava Source = GitHub Actions; falta confirmar que o workflow terminou com sucesso e que o primeiro deploy está acessível.
 
 ### 03/11/2026 — Primeira implementação
 
