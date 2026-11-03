@@ -62,7 +62,7 @@ async function setPref(key, value) {
 }
 
 function localAsset(path) {
-  return new URL(path.replace(/^\/+/, ''), import.meta.env.BASE_URL || './').href;
+  return new URL(path.replace(/^\\/+/, ''), document.baseURI).href;
 }
 
 function coverUrl(value) {
@@ -328,7 +328,7 @@ function renderSettings() {
       </div>
       <div class="setting-row">
         <div><strong>Notificações de novas matérias</strong><p>Receba avisos quando uma nova publicação for disponibilizada.</p></div>
-        <button class="paper-button" data-action="enable-notifications">${state.notificationsEnabled ? 'Desativar' : 'Ativar'}</button>
+        <button class="paper-button" data-action="toggle-notifications">${state.notificationsEnabled ? 'Desativar' : 'Ativar'}</button>
       </div>
       <div class="setting-row">
         <div><strong>Atualização do jornal</strong><p>As notícias são sincronizadas com o site e o Pages CMS.</p></div>
