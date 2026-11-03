@@ -34,7 +34,6 @@ Jornal digital independente com identidade visual de jornal impresso, portal est
 - [ ] Instalar/autorizar o GitHub App do Pages CMS para este repositório.
 - [ ] Entrar no Pages CMS com GitHub e confirmar que a coleção **Publicações** aparece.
 - [ ] Em Settings → Pages, selecionar manualmente **GitHub Actions** como Source. A action usa `GITHUB_TOKEN`, que não tem permissão para habilitar Pages pela primeira vez.
-- [ ] Confirmar o primeiro resultado verde do workflow e o primeiro deploy público.
 - [ ] Confirmar o primeiro resultado verde do workflow e o endereço público do site.
 
 > O código e as configurações estão no GitHub. O CMS e a hospedagem exigem autorização inicial nas respectivas plataformas. Não há senha, token ou segredo hardcoded no projeto.
@@ -63,7 +62,7 @@ O GitHub é a fonte oficial do conteúdo e do histórico. O projeto não mantém
 
 ## Começar localmente
 
-Requisitos: Node.js 22.12 ou superior e npm.
+Requisitos: Node.js 22.22 ou superior e npm.
 
 ```bash
 git clone https://github.com/KaykyFerro/The-Bullshit-Bureau.git
@@ -201,7 +200,7 @@ Não são necessárias variáveis de ambiente para gerar o portal. O workflow é
 O workflow `.github/workflows/ci.yml` executa:
 
 1. Checkout do repositório.
-2. Instalação do Node.js 22.12.
+2. Instalação do Node.js 22.22.
 3. Instalação das dependências.
 4. `npm run check`.
 5. `npm run build`.
@@ -261,6 +260,7 @@ Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, co
 - Links internos, imagens de capa e imagens/links incluídos no corpo das matérias, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
 - Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
 - Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
+- Node.js dos workflows e requisito local ajustados para 22.22.0, mínimo da versão Astro 7.4.5 usada no projeto.
 - Ativação do Source como GitHub Actions e confirmação do primeiro deploy ainda precisam ser verificadas no GitHub.
 
 ### 03/11/2026 — Primeira implementação
