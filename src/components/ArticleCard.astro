@@ -1,8 +1,8 @@
 ---
-import { formatDate, postHref } from '../lib/articles';
+import { formatDate, postHref, assetPath } from '../lib/articles';
 const { post, variant = 'standard' } = Astro.props;
 const data = post.frontmatter;
-const image = data.cover || '/images/bureau-engraving.svg';
+const image = assetPath(data.cover || '/images/bureau-engraving.svg');
 const alt = data.coverAlt || `Ilustração editorial para: ${data.title}`;
 ---
 <a class:list={['article-card', variant]} href={postHref(post)}>
