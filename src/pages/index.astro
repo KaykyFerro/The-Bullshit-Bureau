@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { publishedPosts } from '../lib/articles';
 
+const base = import.meta.env.BASE_URL;
 const featured = publishedPosts.find((post) => post.frontmatter.featured) || publishedPosts[0];
 const secondary = publishedPosts.filter((post) => post !== featured).slice(0, 4);
 const latest = publishedPosts.filter((post) => post !== featured).slice(0, 6);
@@ -50,7 +51,7 @@ const latest = publishedPosts.filter((post) => post !== featured).slice(0, 6);
       <p class="section-kicker">Primeira edição</p>
       <h1 class="section-title">A redação está preparando a próxima edição.</h1>
       <p>As publicações aparecerão nesta página assim que forem aprovadas e publicadas no painel editorial.</p>
-      <a class="button-link" href="/sobre/">Conheça o Bureau</a>
+      <a class="button-link" href={`${base}sobre/`}>Conheça o Bureau</a>
     </section>
   )}
 </BaseLayout>
