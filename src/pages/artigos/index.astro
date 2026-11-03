@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { publishedPosts } from '../../lib/articles';
+
+const posts = publishedPosts.filter((post) => post.frontmatter.section === 'artigos');
+---
+<BaseLayout title="Artigos e análises" description="Análises, explicadores e textos de contexto do The Bullshit Bureau.">
+  <header class="listing-header">
+    <p class="section-kicker">Contexto e interpretação</p>
+    <h1 class="section-title">Artigos & análises</h1>
+    <p class="listing-description">Textos que exploram o que os fatos significam, quais contextos importam e onde começa a interpretação.</p>
+  </header>
+  {posts.length ? <div class="news-grid">{posts.map((post) => <ArticleCard post={post} />)}</div> : <p class="empty-state">Ainda não há artigos publicados.</p>}
+</BaseLayout>
