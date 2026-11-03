@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { publishedPosts, formatDate } from '../../lib/articles';
+import { publishedPosts, formatDate, assetPath } from '../../lib/articles';
 
 export function getStaticPaths() {
   return publishedPosts.map((post) => ({
@@ -16,7 +16,7 @@ const { post } = Astro.props;
 const data = post.frontmatter;
 const { Content } = post;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const image = data.cover || '/images/bureau-engraving.svg';
+const image = assetPath(data.cover || '/images/bureau-engraving.svg');
 const description = data.excerpt || data.subtitle || data.title;
 ---
 <BaseLayout title={data.title} description={description}>
