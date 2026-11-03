@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { publishedPosts } from '../lib/articles';
+
+const featured = publishedPosts.find((post) => post.frontmatter.featured) || publishedPosts[0];
+const secondary = publishedPosts.filter((post) => post !== featured).slice(0, 4);
+const latest = publishedPosts.filter((post) => post !== featured).slice(0, 6);
+---
+<BaseLayout
+  title="The Bullshit Bureau"
+  description="A verdade acima da ideologia. Jornalismo independente, notícias, análises e contexto."
+>
+  <div class="edition-line">
+    <span><strong>O jornal</strong> · Informação sem torcida</span>
+    <span>{publishedPosts.length} publicações disponíveis</span>
+  </div>
+
+  {featured ? (
+    <>
+      <section class="hero-grid" aria-label="Destaque e chamadas">
+        <div class="hero-story">
+          <p class="section-kicker">Manchete principal</p>
+          <ArticleCard post={featured} />
+        </div>
+        <aside class="hero-aside" aria-label="Outras chamadas">
+          {secondary.length > 0 ? secondary.map((post) => (
+            <ArticleCard post={post} variant="compact" />
+          )) : (
+            <div class="sidebar-box">
+              <h2>Uma redação em construção</h2>
+              <p>Novas publicações aparecerão aqui. Acompanhe as próximas edições.</p>
+            </div>
+          )}
+        </aside>
+      </section>
+      <section class="content-section">
+        <p class="section-kicker">Últimas publicações</p>
+        {latest.length > 0 ? (
+          <div class="news-grid">
+            {latest.map((post) => <ArticleCard post={post} />)}
+          </div>
+        ) : (
+          <p class="empty-state">Esta é a edição de estreia. Mais conteúdo em breve.</p>
+        )}
+      </section>
+    </>
+  ) : (
+    <section class="admin-panel">
+      <p class="section-kicker">Primeira edição</p>
+      <h1 class="section-title">A redação está preparando a próxima edição.</h1>
+      <p>As publicações aparecerão nesta página assim que forem aprovadas e publicadas no painel editorial.</p>
+      <a class="button-link" href="/sobre/">Conheça o Bureau</a>
+    </section>
+  )}
+</BaseLayout>
