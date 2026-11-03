@@ -16,12 +16,12 @@ await cp(iconSourcePath, iconTargetPath);
 await cp(launcherSourcePath, launcherTargetPath);
 
 let manifest = await readFile(manifestPath, 'utf8');
-manifest = manifest.replace(/android:icon="@mipmap\\/ic_launcher"/g, 'android:icon="@drawable/ic_bureau_launcher"');
-manifest = manifest.replace(/android:roundIcon="@mipmap\\/ic_launcher_round"/g, 'android:roundIcon="@drawable/ic_bureau_launcher"');
+manifest = manifest.replaceAll("android:icon=\"@mipmap/ic_launcher\"", "android:icon=\"@drawable/ic_bureau_launcher\"");
+manifest = manifest.replaceAll("android:roundIcon=\"@mipmap/ic_launcher_round\"", "android:roundIcon=\"@drawable/ic_bureau_launcher\"");
 if (!manifest.includes('android.permission.POST_NOTIFICATIONS')) {
   const appOpen = manifest.indexOf('<application');
   if (appOpen < 0) throw new Error('Tag <application> não encontrado no AndroidManifest.xml.');
-  manifest = manifest.slice(0, appOpen) + '    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\\n    ' + manifest.slice(appOpen);
+  manifest = manifest.slice(0, appOpen) + "    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n    " + manifest.slice(appOpen);
 }
 const metaData = '<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_bureau" />';
 if (!manifest.includes('com.google.firebase.messaging.default_notification_icon')) {
