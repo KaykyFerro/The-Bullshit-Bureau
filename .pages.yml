@@ -2,7 +2,7 @@ media:
   - name: images
     label: Imagens do jornal
     input: docs/assets/images/uploads
-    output: /The-Bullshit-Bureau/assets/images/uploads
+    output: /The-Bullshit-Bureau/docs/assets/images/uploads
     extensions:
       - jpg
       - jpeg
