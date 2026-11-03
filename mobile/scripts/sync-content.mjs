@@ -33,7 +33,7 @@ const appConfig = {
   siteUrl: 'https://kaykyferro.github.io/The-Bullshit-Bureau/',
   feedUrl: 'https://kaykyferro.github.io/The-Bullshit-Bureau/docs/data/posts.json',
   siteInfoUrl: 'https://kaykyferro.github.io/The-Bullshit-Bureau/docs/data/site.json',
-  pushApiUrl: '',
+  pushApiUrl: process.env.PUSH_API_URL || '',
   appName: 'The Bullshit Bureau'
 };
 
