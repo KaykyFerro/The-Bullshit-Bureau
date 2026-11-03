@@ -25,7 +25,7 @@ O GitHub Pages deve publicar diretamente a pasta `docs/` da branch `main`. Cada 
 | `docs/assets/js/newspaper.js` | Navegação, busca e renderização das matérias |
 | `docs/data/posts.json` | Conteúdo editorial |
 | `docs/data/site.json` | Nome, slogan e descrição |
-| `docs/assets/images/` | Identidade visual e imagens |
+| `docs/assets/images/` | Identidade visual e capas editoriais |
 | `docs/404.html` | Página de endereço não encontrado |
 | `docs/.nojekyll` | Evita processamento Jekyll |
 
@@ -45,6 +45,7 @@ Endereço público esperado **depois de selecionar `main /docs` em Settings → 
 - [x] Página Sobre e página 404.
 - [x] SEO básico, canonical, Open Graph, robots e sitemap.
 - [x] Conteúdo em JSON versionado no GitHub.
+- [x] Quatro matérias explicativas adicionadas com capas SVG próprias.
 - [x] Configuração do Pages CMS criada com editor visual, campos editoriais e upload de imagens.
 - [ ] Em Settings → Pages, selecionar **Deploy from a branch**, branch `main`, pasta `/docs`, e salvar.
 - [ ] Confirmar que o endereço público está acessível após a publicação.
@@ -194,6 +195,19 @@ Todas as rotas são atendidas por `docs/index.html`. Não há dependência de ro
 
 Os arquivos `src/`, `package.json`, `astro.config.mjs` e `tsconfig.json` pertencem à primeira implementação experimental em Astro. Eles foram preservados no repositório como referência, mas **não participam da hospedagem atual**. O GitHub Pages publica somente `docs/`.
 
+## Matérias adicionadas em 03/11/2026
+
+Foram adicionadas quatro matérias curtas, ilustradas e identificadas como **especiais explicativos**. Elas são conteúdos perenes de preenchimento/editorial, não notícias sobre acontecimentos recentes inventados.
+
+| Matéria | Editoria | Capa |
+| --- | --- | --- |
+| Inteligência artificial no cotidiano: o que vale automatizar? | Tecnologia | `ai-workspace.svg` |
+| Checar antes de compartilhar: um hábito simples para a vida digital | Jornalismo | `media-literacy.svg` |
+| Cidades caminháveis começam com calçadas seguras e espaços públicos | Sociedade | `walkable-city.svg` |
+| Ensino técnico e aprendizagem contínua: caminhos para ampliar oportunidades | Educação | `education-classroom.svg` |
+
+A matéria sobre inteligência artificial está configurada como manchete principal. As quatro publicações estão marcadas como `published` no arquivo `docs/data/posts.json`.
+
 ## Identidade editorial
 
 **Nome:** The Bullshit Bureau  
@@ -218,6 +232,7 @@ Reportagens factuais devem incluir fontes verificáveis, datas, contexto, contra
 
 - Criado portal público em HTML, CSS e JavaScript puros dentro de `docs/`.
 - Migração do conteúdo editorial para `docs/data/posts.json`.
+- Inclusão de quatro matérias explicativas curtas e quatro capas editoriais SVG originais.
 - Configurado o Pages CMS para editar a lista JSON com rich-text HTML e mídia.
 - Removido o workflow Astro que impedia a publicação por incompatibilidade de Node.
 - Preparado para publicação direta pelo GitHub Pages usando a branch `main` e pasta `/docs`, sem Node, npm ou compilação. A seleção dessa fonte ainda precisa ser salva em Settings → Pages.
