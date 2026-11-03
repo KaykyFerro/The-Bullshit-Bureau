@@ -34,7 +34,7 @@ Jornal digital independente com identidade visual de jornal impresso, portal est
 - [ ] Instalar/autorizar o GitHub App do Pages CMS para este repositório.
 - [ ] Entrar no Pages CMS com GitHub e confirmar que a coleção **Publicações** aparece.
 - [ ] Confirmar em Settings → Pages que **GitHub Actions** continua selecionado como Source. A captura enviada já mostrava essa opção selecionada.
-- [ ] Confirmar o primeiro resultado verde do workflow e o endereço público do site.
+- [ ] Confirmar a execução verde do workflow após a correção do Node.js e validar o endereço público.
 
 > O código e as configurações estão no GitHub. O CMS e a hospedagem exigem autorização inicial nas respectivas plataformas. Não há senha, token ou segredo hardcoded no projeto.
 
@@ -62,7 +62,7 @@ O GitHub é a fonte oficial do conteúdo e do histórico. O projeto não mantém
 
 ## Começar localmente
 
-Requisitos: Node.js 22.22 ou superior e npm.
+Requisitos: Node.js 26 LTS (mínimo compatível: 22.23.4) ou superior e npm.
 
 ```bash
 git clone https://github.com/KaykyFerro/The-Bullshit-Bureau.git
@@ -199,7 +199,7 @@ Não são necessárias variáveis de ambiente para gerar o portal. O workflow é
 O workflow `.github/workflows/ci.yml` executa:
 
 1. Checkout do repositório.
-2. Instalação do Node.js 22.22.
+2. Instalação do Node.js 26 LTS (mínimo compatível: 22.23.4).
 3. Instalação das dependências.
 4. `npm run check`.
 5. `npm run build`.
@@ -259,7 +259,7 @@ Ao publicar matérias factuais, inclua fontes verificáveis, datas, contexto, co
 - Links internos, imagens de capa nos cards e nas matérias, imagens/links incluídos no corpo dos textos, favicon, canonical, sitemap e robots ajustados para funcionar sob o caminho base do repositório.
 - Criado workflow de GitHub Actions para validar, compilar, enviar o artefato e publicar no GitHub Pages.
 - Incluído `.nojekyll` para evitar processamento Jekyll nos arquivos estáticos.
-- Node.js dos workflows e requisito local ajustados para 22.22.0, mínimo da versão Astro 7.4.5 usada no projeto.
+- Node.js dos workflows e requisito local ajustados para 26 LTS, mínimo da versão Astro 7.4.5 usada no projeto.
 - A captura da configuração do Pages mostrava Source = GitHub Actions; falta confirmar que o workflow terminou com sucesso e que o primeiro deploy está acessível.
 
 ### 03/11/2026 — Primeira implementação
